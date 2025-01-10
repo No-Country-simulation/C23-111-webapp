@@ -5,5 +5,7 @@ dotenv.config();
 const PORT = process.env.PORT;
 const HOST = process.env.HOST;
 const CORS_ORIGIN = process.env.CORS_ORIGIN;
+const BD = process.env.BD;
 
-export { PORT, HOST, CORS_ORIGIN };
+
+export { PORT, HOST, CORS_ORIGIN, BD };
