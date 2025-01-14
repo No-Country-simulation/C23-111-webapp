@@ -3,6 +3,9 @@ import recipeService from "./recipes.service";
 
 const createRecipe = async (req: Request, res: Response): Promise<void> => {
   try {
+    
+    console.log('>> createRecipe')
+    
     const { body } = req;
 
     if (!req.file) {

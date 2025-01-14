@@ -9,6 +9,7 @@ cloudinary.config({
 
 const uploadToCloudinary = (buffer: Buffer, folder: string): Promise<{ secure_url: string, resource_type: string }> => {
   return new Promise((resolve, reject) => {
+    console.log('>> uploadToCloudinary')
     const uploadStream = cloudinary.uploader.upload_stream(
       { 
         resource_type: 'auto',

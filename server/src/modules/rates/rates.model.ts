@@ -13,6 +13,7 @@ const RateSchema = new Schema({
     maxlength: [100, 'El comentario no puede superar los 100 caracteres'] 
 },
   reviewer: { type: Schema.Types.ObjectId, ref: 'Users', required: true },
+  recipe: { type: Schema.Types.ObjectId, ref: 'Recipe', required: true }
 
 },
 {
