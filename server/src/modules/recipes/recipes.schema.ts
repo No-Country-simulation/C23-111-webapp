@@ -13,7 +13,7 @@ export const recipeSchema = z.object({
     required_error: "El campo 'description' es requerido."
   })
     .min(10, { message: "La descripción debe tener al menos 10 caracteres." })
-    .max(500, { message: "La descripción no puede tener más de 500 caracteres." }),
+    .max(100, { message: "La descripción no puede tener más de 100 caracteres." }),
 
   category: z
     .array(
@@ -22,7 +22,7 @@ export const recipeSchema = z.object({
         invalid_type_error: "Cada categoría debe ser texto.",
       })
         .min(3, { message: "Cada categoría debe tener al menos 3 caracteres." })
-        .max(50, { message: "Cada categoría no puede tener más de 50 caracteres." })
+        .max(15, { message: "Cada categoría no puede tener más de 15 caracteres." })
     )
     .min(1, { message: "Debe haber al menos una categoría." })
     .max(5, { message: "No se pueden tener más de 5 categorías." }),
@@ -32,7 +32,7 @@ export const recipeSchema = z.object({
       invalid_type_error: "Cada ingrediente debe ser texto."
     })
       .min(3, { message: "Cada ingrediente debe tener al menos 3 caracteres." })
-      .max(50, { message: "Cada ingrediente no puede tener más de 50 caracteres." })
+      .max(15, { message: "Cada ingrediente no puede tener más de 15 caracteres." })
   )
     .min(1, { message: "Debe haber al menos un ingrediente." })
     .max(50, { message: "No se pueden tener más de 50 ingredientes." }),
@@ -42,7 +42,7 @@ export const recipeSchema = z.object({
       invalid_type_error: "Cada paso debe ser texto."
     })
       .min(5, { message: "Cada paso debe tener al menos 5 caracteres." })
-      .max(100, { message: "Cada paso no puede tener más de 100 caracteres." })
+      .max(250, { message: "Cada paso no puede tener más de 250 caracteres." })
   )
     .min(1, { message: "Debe haber al menos un paso." })
     .max(30, { message: "No se pueden tener más de 30 pasos." })
