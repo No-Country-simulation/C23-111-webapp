@@ -7,4 +7,6 @@ export const serverRoutes = Router();
 
 serverRoutes.use("/auth", authRoutes);
 serverRoutes.use("/recipes", recipesRoutes);
+serverRoutes.use("/user", recipesRoutes);
 serverRoutes.use("/rates", ratesRoutes);
+

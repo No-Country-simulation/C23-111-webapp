@@ -1,10 +1,10 @@
 import { v2 as cloudinary } from "cloudinary";
-import { CLOUD_NAME, API_KEY, API_SECRET } from "./dotenv.config";
+import { CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET, CLOUDINARY_CLOUD_NAME } from "./dotenv.config";
 
 cloudinary.config({
-  cloud_name: CLOUD_NAME,
-  api_key: API_KEY, 
-  api_secret: API_SECRET,
+  cloud_name: CLOUDINARY_CLOUD_NAME,
+  api_key: CLOUDINARY_API_KEY, 
+  api_secret: CLOUDINARY_API_SECRET,
 });
 
 const uploadToCloudinary = (buffer: Buffer, folder: string): Promise<{ secure_url: string, resource_type: string }> => {

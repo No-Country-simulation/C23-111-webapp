@@ -1,10 +1,11 @@
 import express from "express";
 import recipesController from "./recipes.controller";
-import multer from 'multer';
+import { uploader } from '../../config/multer.config';
+import { validateSchema } from "../../middleware/validateSchema";
+import { recipeSchema } from "./recipes.schema";
 
 const recipesRoutes = express.Router();
-const upload = multer();
 
-recipesRoutes.post("/", upload.single('file'), recipesController.createRecipe);
+recipesRoutes.post("/", uploader('file'), validateSchema(recipeSchema), recipesController.createRecipe);
 
 export default recipesRoutes;
