@@ -16,8 +16,6 @@ app.use(cors());
 app.use(express.json());
 app.use(serverRoutes);
 
-
-
 app.use((req, res) => {
   res.status(404).send('Ruta no encontrada :/')
 })
@@ -28,7 +26,6 @@ mongoose.connect(MONGO_URI,{
   console.log('Error al conectar a MongoDB', error.message);
   process.exit(1);
 })
-
 
 app.listen(PORT || 3003, () => {
   console.log(`server on port ${PORT || 3003}`);
