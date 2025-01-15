@@ -9,7 +9,7 @@ const RateSchema = new Schema({
   },
   comment: { 
     type: String, 
-    required: [true, 'Es obligatorio comentar la receta'], 
+    // required: [true, 'Es obligatorio comentar la receta'], 
     maxlength: [100, 'El comentario no puede superar los 100 caracteres'] 
 },
   reviewer: { type: Schema.Types.ObjectId, ref: 'Users', required: true },
