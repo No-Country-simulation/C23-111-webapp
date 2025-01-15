@@ -4,8 +4,8 @@ import RateModel from "./rates.model";
 const createRate = async (req: Request, res: Response): Promise<void> => {
   try {
     const newRate = new RateModel(req.body);
-    const cretedRate = await newRate.save();
-    res.status(201).json(cretedRate);
+    const createdRate = await newRate.save();
+    res.status(201).json(createdRate);
   } catch (error) {    
     // Compureba si el error devuelve es una instancia de Error
     if (error instanceof Error) {
@@ -17,4 +17,19 @@ const createRate = async (req: Request, res: Response): Promise<void> => {
   }
 }
 
-export default {createRate};
+const deleteRate = async (req: Request, res: Response): Promise<void> => {  
+  try {
+    
+    const deletedRate = await RateModel.findByIdAndDelete(req.params.id);
+
+    if (!deletedRate) {
+      res.status(404).json({ message: "Reseña no encontrada" });      
+    }
+
+    res.status(200).json(deletedRate);
+  } catch (error) {
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+}
+
+export default {createRate, deleteRate};
