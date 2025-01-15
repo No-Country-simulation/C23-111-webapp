@@ -31,7 +31,20 @@ const getAll = async () => {
   try {
     const recipes = await RecipeModel.find(); 
 
-    return recipes;
+    const formattedRecipes = recipes.map(recipe => ({
+      id: recipe._id, 
+      name: recipe.name,
+      description: recipe.description,
+      category: recipe.category,
+      ingredients: recipe.ingredients,
+      totalSteps: recipe.steps.length,
+      image: recipe.image, 
+      rateAverage: recipe.rateAverage,
+      totalRates: recipe.totalRates,
+      createdAt: recipe.createdAt,
+    }));
+
+    return formattedRecipes;
   } catch (error) {
     throw new Error(`Error al obtener las recetas.`);
   }
