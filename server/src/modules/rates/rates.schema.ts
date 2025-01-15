@@ -11,10 +11,12 @@ export const rateSchema = z.object({
     .max(5, { message: "El valor no puede ser mayor a 5." }),
 
     comment: z.string({
-        invalid_type_error: "El campo comment debe ser texto.",
-        required_error: "El obligatorio comentar la receta."
+        invalid_type_error: "El campo comment debe ser texto."
+        //required_error: "El obligatorio comentar la receta."
     })
-    .max(100, { message: "El comentario no puede tener más de 100 caracteres." }),
+    .max(100, { message: "El comentario no puede tener más de 100 caracteres." })
+    .optional(),  // Comentario opcional
+    
 
     reviewer: z.string({
         invalid_type_error: "El campo reviewer debe ser un ObjectId válido.",
