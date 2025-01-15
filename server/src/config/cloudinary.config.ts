@@ -32,5 +32,31 @@ const uploadToCloudinary = (buffer: Buffer, folder: string): Promise<{ secure_ur
   });
 };
 
-export { cloudinary, uploadToCloudinary };
+const deleteToCloudinary = async (url: string): Promise<boolean> => {
+  try {
+    const regex = /upload\/(?:v\d+\/)?(.+)\./;
+    const match = url.match(regex);
+
+    if (!match || !match[1]) {
+      console.error("No se pudo extraer el public_id del URL proporcionado.");
+      return false;
+    }
+
+    const publicId = match[1];
+
+    const imgDeleted = await cloudinary.uploader.destroy(publicId);
+
+    if (imgDeleted.result !== "ok") {
+      console.error(`Error al eliminar la imagen: ${imgDeleted.result}`);
+      return false;
+    }
+
+    return true;
+  } catch (error) {
+    console.error("Ocurrió un error al intentar eliminar la imagen de Cloudinary:", error);
+    return false;
+  }
+};
+
+export { cloudinary, uploadToCloudinary, deleteToCloudinary };
 
