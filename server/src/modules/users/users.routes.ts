@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { addFavoriteRecipe, getUserProfile } from "./users.controller";
+import { favouriteRecipe, getUserProfile } from "./users.controller";
 
 export const usersRoutes = Router();
 
-usersRoutes.use("/profile", getUserProfile);
-usersRoutes.use("/new-favourite", addFavoriteRecipe);
+usersRoutes.get("/profile/:id", getUserProfile);
+usersRoutes.put("/favourites", favouriteRecipe);

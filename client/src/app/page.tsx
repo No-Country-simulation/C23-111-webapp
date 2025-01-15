@@ -1,5 +1,5 @@
 'use client'
-import { TestComponent } from "@/Components";
+import { TestComponent } from "@/components";
 import {Container, styled} from '@mui/material'
 
 
