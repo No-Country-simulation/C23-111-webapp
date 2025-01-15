@@ -1,5 +1,14 @@
 import { Schema, model } from "mongoose";
-import { RecipeSchema } from "../recipes/recipes.model";
+import { IRecipeSchema, RecipeSchema } from "../recipes/recipes.model";
+
+export interface User {
+  name: string;
+  email: string;
+  password: string;
+  image?: string;
+  favouritesRecipes: IRecipeSchema[];
+  myRecipes: IRecipeSchema[];
+}
 
 const UserSchema = new Schema({
   name: { type: String, required: true },

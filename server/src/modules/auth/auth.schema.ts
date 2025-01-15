@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const authSchema = z.object({
+export const registerSchema = z.object({
   name: z.string({
     invalid_type_error: "El campo 'name' debe ser texto.",
     required_error: "El campo 'name' es requerido."
@@ -17,5 +17,7 @@ export const authSchema = z.object({
   })
     .regex(/[a-zA-Z]/, { message: "La contraseña debe contener al menos una letra." })
     .regex(/[0-9]/, { message: "La contraseña debe contener al menos un número." })
-    .regex(/[@$!%*?&]/, { message: "La contraseña debe contener al menos un carácter especial." })
+    .regex(/[@$!%*?&]/, { message: "La contraseña debe contener al menos un carácter especial. (@$!%*?&)" })
 }).strict();
+
+export const loginSchema = registerSchema.omit({ name: true }).strict();

@@ -1,8 +1,8 @@
-import {Button} from '@mui/material'
+import { Typography} from '@mui/material'
 
 
 export const TestComponent = () => {
     return (
-        <Button>Boton</Button>
+        <Typography variant='h1'>Hola este es el titulo del recetario</Typography>
     )
 }
