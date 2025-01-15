@@ -25,7 +25,8 @@ export const recipeSchema = z.object({
         .max(15, { message: "Cada categoría no puede tener más de 15 caracteres." })
     )
     .min(1, { message: "Debe haber al menos una categoría." })
-    .max(5, { message: "No se pueden tener más de 5 categorías." }),
+    .max(5, { message: "No se pueden tener más de 5 categorías." })
+    .optional(),
 
   ingredients: z.array(
     z.string({

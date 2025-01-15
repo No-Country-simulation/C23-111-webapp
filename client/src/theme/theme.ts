@@ -1,6 +1,6 @@
 'use client'
 import { createTheme } from "@mui/material";
-import montserrat from "@/fonts/montserrat"
+import montserrat from '@/fonts/montserrat'
 
 const pxToRem = (value: number) => {
     return `${value / 16}rem`
@@ -87,3 +87,4 @@ if (theme?.components?.MuiTypography) {
 }
 
 export default theme;
+
