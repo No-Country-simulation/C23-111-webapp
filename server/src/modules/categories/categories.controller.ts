@@ -36,4 +36,27 @@ const updateCategory = async (req: Request, res: Response): Promise<void> => {
   }
 }
 
-export default {createCategory, getAllCategories, updateCategory};
+const deleteAllCategories = async (req: Request, res: Response): Promise<void> => {
+  try {
+    await CategoryModel.deleteMany();
+    res.status(200).json({ message: "All categories deleted" });
+  } catch (error) {
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+}
+
+const loadCategories = async (req: Request, res: Response, next: any): Promise<void> => {
+  try {
+
+    const insertedCategories = await CategoryModel.insertMany(req.body);
+
+    if (insertedCategories) {
+      res.status(201).json(insertedCategories);
+    }
+    
+  } catch (error) {
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+}
+
+export default {createCategory, getAllCategories, updateCategory, deleteAllCategories, loadCategories};
