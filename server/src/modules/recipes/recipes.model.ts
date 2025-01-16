@@ -21,7 +21,7 @@ export const RecipeSchema = new Schema({
   ingredients: { type: [String], required: true },
   steps: { type: [String], required: true },
   image: { type: String, required: true },
-  status: { type: String, enum: ['pending', 'approved', 'rejected'], default: 'Pending' },
+  status: { type: String, enum: ['pending', 'approved', 'rejected'], default: 'pending' },
   rateAverage: { type: Number, default: 0, min: 0, max: 5 },
   totalRates: { type: Number, default: 0 },
   userId: { type: String },
