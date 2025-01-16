@@ -27,20 +27,13 @@ const getAllCategories = async (req: Request, res: Response): Promise<void> => {
 
 }
 
-// const deleteRate = async (req: Request, res: Response): Promise<void> => {  
-//   try {
-    
-//     const deletedRate = await CategoryModel.findByIdAndDelete(req.params.id);
+const updateCategory = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const category = await CategoryModel.findByIdAndUpdate(req.params.id, req.body, { new: true })  
+    res.status(200).json(category); 
+  } catch (error) { 
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+}
 
-//     if (!deletedRate) {
-//       res.status(404).json({ message: "Reseña no encontrada" });      
-//     }
-
-//     res.status(200).json(deletedRate);
-//   } catch (error) {
-//     res.status(500).json({ message: "Internal Server Error" });
-//   }
-// }
-
-// export default {createRate, deleteRate};
-export default {createCategory, getAllCategories};
+export default {createCategory, getAllCategories, updateCategory};
