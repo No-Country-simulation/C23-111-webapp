@@ -1,6 +1,8 @@
 import RecipeModel from "./recipes.model";
 import { uploadToCloudinary, deleteToCloudinary } from "../../config/cloudinary.config";
-import { IRecipeSchema } from "./recipes.model";
+import { IRecipeSchema } from "./recipes.model"
+import RateModel from "../rates/rates.model";
+import CategoryModel from "../categories/categories.model";
 
 
 const createRecipe = async (data: Partial<IRecipeSchema>, fileBuffer: Buffer) => {
@@ -10,28 +12,59 @@ const createRecipe = async (data: Partial<IRecipeSchema>, fileBuffer: Buffer) =>
 
     const img = await uploadToCloudinary(fileBuffer, folder);
 
-    if(!img) {
-      throw new Error(`Error al guardar la imagen en cloudinary.`);
+    if (!img) {
+      return { cloudinaryError: true }
     }
+
+    const categories = await CategoryModel.find({
+      name: { $in: data.category },
+    });
+
+    if (!categories || categories.length !== (data.category?.length || 0)) {
+      return { categoriesNotFound: true }    
+    }
+    
 
     const newRecipe = new RecipeModel({
       ...data,
       image: img.secure_url,
     });
 
-    await newRecipe.save(); 
+    const savedRecipe = await newRecipe.save();
 
-    return newRecipe;
+    if (!savedRecipe) {
+      return { mongodbError: true }
+    }
+
+    return { savedRecipe };
   } catch (error) {
-    throw new Error(`Error al registrar la receta.`);
+    throw new Error(`Error al crear la receta.`);
   }
 };
 
 const getAll = async () => {
   try {
-    const recipes = await RecipeModel.find(); 
+    const recipes = await RecipeModel.find();
 
-    return recipes;
+    if (!recipes) {
+      return null;
+    }
+
+    const formattedRecipes = recipes.map(recipe => ({
+      id: recipe._id,
+      name: recipe.name,
+      description: recipe.description,
+      category: recipe.category,
+      ingredients: recipe.ingredients,
+      totalSteps: recipe.steps.length,
+      image: recipe.image,
+      rateAverage: recipe.rateAverage,
+      totalRates: recipe.totalRates,
+      createdAt: recipe.createdAt,
+      userId: recipe.userId
+    }));
+
+    return formattedRecipes;
   } catch (error) {
     throw new Error(`Error al obtener las recetas.`);
   }
@@ -39,9 +72,20 @@ const getAll = async () => {
 
 const getById = async (id: string) => {
   try {
-    const recipe = await RecipeModel.findById(id); 
+    const recipe = await RecipeModel.findById(id);
 
-    return recipe;
+    if (!recipe) {
+      return { recipeNotFound: true };
+    }
+
+    const rates = await RateModel.find({ recipe: recipe.id }).exec();
+
+    const recipeWithRates = {
+      ...recipe.toObject(),
+      rates: rates.length > 0 ? rates : []
+    };
+
+    return { recipeWithRates };
   } catch (error) {
     throw new Error(`Error al obtener la receta.`);
   }
@@ -49,25 +93,23 @@ const getById = async (id: string) => {
 
 const deleteById = async (id: string) => {
   try {
-    const recipeDeleted = await RecipeModel.findByIdAndDelete(id); 
+    const recipeDeleted = await RecipeModel.findByIdAndDelete(id);
 
     if (!recipeDeleted) {
-      throw new Error(`Error al eliminar la receta de MongoDB.`);
+      return { mongodbError: true }
     }
 
     const imgDeleted = await deleteToCloudinary(recipeDeleted.image);
 
-    if (!imgDeleted){
-      throw new Error(`Error al eliminar la imagen de Cloudinary.`);
+    if (!imgDeleted) {
+      return { cloudinaryError: true }
     }
 
-    return recipeDeleted;
+    return { recipeDeleted };
   } catch (error) {
-    throw new Error(`Error al obtener la receta.`);
+    throw new Error(`Error al eliminar la receta.`);
   }
 };
-
-
 
 const recipeService = {
   createRecipe,

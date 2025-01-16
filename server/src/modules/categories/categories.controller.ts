@@ -17,6 +17,16 @@ const createCategory = async (req: Request, res: Response): Promise<void> => {
   }
 }
 
+const getAllCategories = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const categories = await CategoryModel.find();
+    res.status(200).json(categories);
+  } catch (error) {
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+
+}
+
 // const deleteRate = async (req: Request, res: Response): Promise<void> => {  
 //   try {
     
@@ -33,4 +43,4 @@ const createCategory = async (req: Request, res: Response): Promise<void> => {
 // }
 
 // export default {createRate, deleteRate};
-export default {createCategory};
+export default {createCategory, getAllCategories};

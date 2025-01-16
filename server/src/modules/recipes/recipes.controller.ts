@@ -3,9 +3,6 @@ import recipeService from "./recipes.service";
 
 const createRecipe = async (req: Request, res: Response): Promise<void> => {
   try {
-    
-    console.log('>> createRecipe')
-    
     const { body } = req;
 
     if (!req.file) {
@@ -14,34 +11,55 @@ const createRecipe = async (req: Request, res: Response): Promise<void> => {
     }
 
     const fileBuffer = req.file.buffer;
-  
-    const recipe = await recipeService.createRecipe(body, fileBuffer);
+
+    const result = await recipeService.createRecipe(body, fileBuffer);
+
+    if (!result) {
+      res.status(404).json({ message: `Error al crear la receta.` });
+      return
+    }
+
+    if (result.categoriesNotFound) {
+      res.status(404).json({ message: `Una o más categorías no son validas.` });
+      return
+    }
+
+    if (result.cloudinaryError) {
+      res.status(404).json({ message: `Error al guardar la imagen en cloudinary.` });
+      return
+    }
+
+    if (result.mongodbError) {
+      res.status(404).json({ message: `Error al guardar la receta en MongoDB.` });
+      return
+    }
 
     res.status(201).json({
       message: "Receta creada exitosamente",
-      recipe,
+      result,
     });
   } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : "Error desconocido";
-    res.status(500).json({
-      message: errorMessage,
-    });
+    res.status(500).json({ message: "Error interno del servidor." });
+    return
   }
 };
 
 const getAll = async (req: Request, res: Response): Promise<void> => {
   try {
-    const recipes = await recipeService.getAll();
+    const result = await recipeService.getAll();
 
-    res.status(201).json({
+    if (!result) {
+      res.status(400).json({ message: `Error al obtener las recetas.` });
+      return
+    }
+
+    res.status(200).json({
       message: "Recetas obtenidas exitosamente",
-      recipes,
+      result,
     });
   } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : "Error desconocido";
-    res.status(500).json({
-      message: errorMessage,
-    });
+    res.status(500).json({ message: "Error interno del servidor." });
+    return
   }
 }
 
@@ -54,17 +72,25 @@ const getById = async (req: Request, res: Response): Promise<void> => {
       return
     }
 
-    const recipe = await recipeService.getById(id);
+    const result = await recipeService.getById(id);
+
+    if (!result) {
+      res.status(400).json({ message: `Error al obtener la receta con el id ${id}.` });
+      return
+    }
+
+    if (result.recipeNotFound) {
+      res.status(404).json({ message: `No se encontró la receta con el ID: ${id}` });
+      return;
+    }
 
     res.status(201).json({
       message: "Receta obtenida exitosamente",
-      recipe,
+      result,
     });
   } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : "Error desconocido";
-    res.status(500).json({
-      message: errorMessage,
-    });
+    res.status(500).json({ message: "Error interno del servidor." });
+    return
   }
 }
 
@@ -79,18 +105,25 @@ const deleteById = async (req: Request, res: Response): Promise<void> => {
 
     const result = await recipeService.deleteById(id);
 
+    if (result.cloudinaryError) {
+      res.status(404).json({ message: `Error al eliminar la imagen en cloudinary.` });
+      return
+    }
+
+    if (result.mongodbError) {
+      res.status(404).json({ message: `Error al eliminar la receta en MongoDB.` });
+      return
+    }
+
     res.status(201).json({
       message: "Receta eliminada exitosamente",
       result,
     });
   } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : "Error desconocido";
-    res.status(500).json({
-      message: errorMessage,
-    });
+    res.status(500).json({ message: "Error interno del servidor." });
+    return
   }
 }
-
 
 const recipesController = {
   createRecipe,

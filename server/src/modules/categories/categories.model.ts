@@ -1,4 +1,3 @@
-import { kMaxLength } from "buffer";
 import { Schema, model } from "mongoose";
 
 const CategorySchema = new Schema({

@@ -1,20 +1,28 @@
 import express from "express";
 import cors from 'cors';
 import { serverRoutes } from "./mainRoutes";
-import { PORT } from "./config/dotenv.config";
-import { MONGO_URI } from "./config/dotenv.config";
+import { optionCors } from "./config/cors.config";
+import { HOST, PORT, MONGO_URI } from "./config/dotenv.config";
 import mongoose from "mongoose";
+import logger from "morgan";
 
 // Si no está definid BD, lanzar error. Mongoose no admite undefined como valor de conexión
 if (!MONGO_URI) {
-  throw new Error("URI de conexion a BD no definida");
+  throw new Error("URI de conexion a MongoBD no definida");
 }
 
 const app = express();
 
-app.use(cors());
+app.use(cors(optionCors)); // Config de cors
 app.use(express.json());
+app.disable("x-powered-by"); // Evita un tipo de cyberataque 
+app.use(logger("dev")); // Logger de solicitudes HTTP
+
 app.use(serverRoutes);
+
+app.get('/', (req, res) => {
+  res.send('Servidor funcionando correctamente')
+})
 
 app.use((req, res) => {
   res.status(404).send('Ruta no encontrada :/')
@@ -27,6 +35,6 @@ mongoose.connect(MONGO_URI,{
   process.exit(1);
 })
 
-app.listen(PORT || 3003, () => {
-  console.log(`server on port ${PORT || 3003}`);
-});
+app.listen(PORT, HOST, () => {
+  console.log(`Servidor corriendo en http://${HOST}:${PORT}`)
+})

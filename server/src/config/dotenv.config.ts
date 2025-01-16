@@ -2,8 +2,8 @@ import * as dotenv from "dotenv";
 
 dotenv.config();
 
-export const PORT = process.env.PORT;
-export const HOST = process.env.HOST;
+export const PORT = parseInt(process.env.PORT ?? '3003', 10); // El 10 es el formato de conversión (Decimal)
+export const HOST = process.env.HOST ?? 'localhost';
 export const CORS_ORIGIN = process.env.CORS_ORIGIN;
 export const MONGO_URI = process.env.MONGO_URI;
 export const CLOUDINARY_CLOUD_NAME = process.env.CLOUDINARY_CLOUD_NAME;
