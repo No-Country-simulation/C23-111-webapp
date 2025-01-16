@@ -1,11 +1,13 @@
 import { z } from 'zod';
 
+const objectIdRegex = /^[0-9a-fA-F]{24}$/;
+
 export const recipeSchema = z.object({
   name: z.string({
     invalid_type_error: "El campo 'name' debe ser texto.",
     required_error: "El campo 'name' es requerido."
   })
-    .min(10, { message: "El nombre debe tener al menos 10 caracteres." })
+    .min(5, { message: "El nombre debe tener al menos 5 caracteres." })
     .max(50, { message: "El nombre no puede tener más de 50 caracteres." }),
 
   description: z.string({
@@ -46,5 +48,12 @@ export const recipeSchema = z.object({
       .max(250, { message: "Cada paso no puede tener más de 250 caracteres." })
   )
     .min(1, { message: "Debe haber al menos un paso." })
-    .max(30, { message: "No se pueden tener más de 30 pasos." })
+    .max(30, { message: "No se pueden tener más de 30 pasos." }),
+
+    userId: z.string({
+      invalid_type_error: "El campo 'userId' debe ser de tipo string.",
+      required_error: "El campo 'userId' es requerido.",
+    })
+      .nonempty({ message: "El userId no debe estar vacío." })
+      .regex(objectIdRegex, { message: "El userId debe ser un ObjectId válido."})  
 }).strict();
