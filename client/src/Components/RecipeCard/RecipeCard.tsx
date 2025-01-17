@@ -58,7 +58,7 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
-          maxWidth: "700px",
+          width:"700px"
         }}
       >
         <StyledCardContent>

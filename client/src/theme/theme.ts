@@ -36,13 +36,6 @@ const theme = createTheme({
 
   components: {
     MuiTypography: {},
-    MuiContainer: {
-        styleOverrides: {
-            root: {
-
-}
-        }
-    }
   },
 });
 
@@ -95,6 +88,14 @@ const customTypography = {
       fontSize: pxToRem(20),
     },
   },
+  caption:{
+    fontSize: pxToRem(11),
+    color: "#000",
+    fontWeight: 500,
+    [theme.breakpoints.up("md")]: {
+      fontSize: pxToRem(11),
+    },
+  }
 };
 
 if (theme?.components?.MuiTypography) {
