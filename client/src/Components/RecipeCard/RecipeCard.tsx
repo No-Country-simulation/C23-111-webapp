@@ -99,10 +99,9 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({
                     },
                 }}
             >
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ut,
-                blanditiis quos placeat, minima eveniet, facere doloribus eaque
-                unde dolorem voluptatibus perferendis consequuntur cupiditate
-                vitae laboriosam. At laudantium et earum quaerat.
+                <button className="px-4 py-2 font-semibold text-sm bg-white text-slate-700 dark:bg-slate-700 dark:text-white rounded-md shadow-sm ring-1 ring-slate-900/5 border-indigo-500 dark:border-sky-500 border-2 border-solid">
+                    Button A
+                </button>
             </Drawer>
         </>
     );
