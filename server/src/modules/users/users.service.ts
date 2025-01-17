@@ -3,9 +3,10 @@ import UserModel from "./users.model";
 
 export const getUserById = async (id: string) => {
   try {
+    const userRecipes = await RecipeModel.find({ userId: id });
     const user = await UserModel.findById(id); 
     
-    return user;
+    return { ...user?.toObject(), myRecipes: userRecipes };
   } catch (error) {
     throw new Error(`Error al obtener el usuario: ${error}`);
   }
