@@ -22,7 +22,7 @@ export const SidebarRecipeContent = () => {
                 />
 
                 <main className="px-8 flex flex-col gap-y-6">
-                    <section className="flex justify-between items-center">
+                    <Box className="flex justify-between items-center">
                         <Box>
                             <h2 className="font-bold text-2xl text-primary">
                                 Pollo barato
@@ -38,7 +38,7 @@ export const SidebarRecipeContent = () => {
                             {rating}{" "}
                             <StarRoundedIcon sx={{ color: "#faaf00" }} />
                         </p>
-                    </section>
+                    </Box>
                     <Divider />
                     <Box>
                         <Typography className="font-semibold">
@@ -105,7 +105,7 @@ export const SidebarRecipeContent = () => {
                         <Typography className="font-semibold text-center">
                             ¿Qué opinas de esta receta?
                         </Typography>
-                        <div className="flex justify-center">
+                        <div className="flex justify-center mb-3">
                             <Rating
                                 sx={{}}
                                 name="simple-controlled"
