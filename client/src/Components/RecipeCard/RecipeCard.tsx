@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import { FormEvent, useState } from "react";
+import { SidebarRecipeContent } from "./SidebarRecipeContent";
 
 type RecipeCardProps = {
     title: string;
@@ -46,13 +47,11 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({
     steps,
     ingredients,
 }) => {
-    const [open, setOpen] = useState(true);
-    const [rating, setRating] = useState(2);
+    const [open, setOpen] = useState(false);
+
     const openDrawer = () => setOpen(true);
-    const closeDrawer = () => setOpen(true);
-    const saveReview = (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-    };
+    const closeDrawer = () => setOpen(false);
+
     return (
         <>
             <StyledCard onClick={openDrawer}>
@@ -95,89 +94,16 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({
                 onClose={closeDrawer}
                 anchor="right"
                 sx={{
-                    width: 370,
+                    width: 500,
                     flexShrink: 0,
                     my: 2,
                     "& .MuiDrawer-paper": {
-                        width: 370,
+                        width: 500,
                         boxSizing: "border-box",
                     },
                 }}
             >
-                <div className="grid grid-cols-1 gap-y-3 p-0">
-                    <div>
-                        <img
-                            src="https://picsum.photos/360"
-                            alt=""
-                            className="aspect-video"
-                            width="353px"
-                            height="198px"
-                        />
-                    </div>
-                    <main className="px-2 flex flex-col gap-y-2">
-                        <section className="flex justify-between items-center">
-                            <h2 className="font-bold text-xl">Pollo barato</h2>
-                            <p>
-                                {rating} <StarIcon color="warning" />
-                            </p>
-                        </section>
-                        <section>
-                            <p className="font-semibold">Description</p>
-                            <span className="text-gray-500 text-sm">
-                                Lorem ipsum dolor sit amet consectetur
-                                adipisicing elit. Quia neque delectus sed
-                                ratione veniam veritatis odit assumenda
-                                praesentium
-                            </span>
-                        </section>
-                        <section>
-                            <p className="font-semibold">Ingredientes</p>
-
-                            <ul className="list-disc">
-                                <li>&#9679; Ingrediente 1</li>
-                                <li>&#9679; Ingrediente 2</li>
-                                <li>&#9679; Ingrediente 3</li>
-                                <li>&#9679; Ingrediente 4</li>
-                                <li>&#9679; Ingrediente 5</li>
-                            </ul>
-                        </section>
-                        <section>
-                            <p className="font-semibold">Pasos a seguir</p>
-                            <div className="">
-                                <p className="text-sm">Paso 1</p>
-                                <span className="text-gray-500 text-sm">
-                                    Lorem ipsum dolor sit, amet consectetur
-                                    adipisicing elit. Placeat quisquam dolorem
-                                    ipsum!
-                                </span>
-                            </div>
-                        </section>
-                        <form
-                            className="flex flex-col gap-y-2"
-                            onSubmit={saveReview}
-                        >
-                            <p className="font-semibold text-center">
-                                Que opinas
-                            </p>
-                            <Rating
-                                name="simple-controlled"
-                                value={rating}
-                                onChange={(event, newValue) => {
-                                    setRating(Number(newValue));
-                                }}
-                            />
-                            <textarea
-                                name=""
-                                id=""
-                                className="border border-gray-500 rounded p-1"
-                                placeholder="ta riko"
-                            ></textarea>
-                            <button className="bg-orange-400 my-2 text-white rounded p-2">
-                                Enviar
-                            </button>
-                        </form>
-                    </main>
-                </div>
+                <SidebarRecipeContent />
             </Drawer>
         </>
     );
