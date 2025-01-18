@@ -7,15 +7,9 @@ import {
   Rating,
   styled
 } from "@mui/material";
+import { recipe } from "@/types/recipes";
 
-type RecipeCardProps = {
-  title: string;
-  description: string;
-  rate: number;
-  totalRate: number;
-  steps: number;
-  ingredients: number;
-};
+type RecipeCardProps = recipe
 
 const StyledCardContent = styled(CardContent) ({
   display: "flex",
@@ -37,19 +31,20 @@ const StyledCard = styled(Card)({
 
 
 export const RecipeCard: React.FC<RecipeCardProps> = ({
-  title,
+  name,
   description,
-  rate,
-  totalRate,
-  steps,
+  rateAverage,
+  totalRates,
+  totalSteps,
   ingredients,
+  image
 }) => {
   return (
     <StyledCard>
       <CardMedia
         sx={{ width: "300px", height: "auto" }}
         component="img"
-        image="/arroz-pollo.jpg"
+        image={image}
         alt="foto ilustrativa de arroz con pollo"
       />
 
@@ -62,13 +57,13 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({
         }}
       >
         <StyledCardContent>
-          <Typography variant="h4">{title}</Typography>
-          <Rating readOnly value={rate} precision={0.5} /> ({totalRate})
+          <Typography variant="h4">{name}</Typography>
+          <Rating readOnly value={rateAverage} precision={0.5} /> ({totalRates})
         </StyledCardContent>
 
         <StyledCardContent>
-          <Typography variant="body2">📋 {steps} pasos</Typography>
-          <Typography variant="body2">🍴 {ingredients} ingredientes</Typography>
+          <Typography variant="body2">📋 {totalSteps} pasos</Typography>
+          <Typography variant="body2">🍴 {ingredients.length} ingredientes</Typography>
         </StyledCardContent>
         <CardContent sx={{ padding: "10px 12px" }}>
           <Typography variant="body1">{description}</Typography>
