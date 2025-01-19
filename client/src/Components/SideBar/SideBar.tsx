@@ -55,7 +55,7 @@ export function SideBar () {
                 <SearchBar />
                 <FilterBox
                     title="Ingredientes"
-                    subtitle="0/10 ingredientes"
+                    subtitle= {ingredients.length}
                     items={ingredients} // Pasamos los ingredientes aquí
                     Icon={RestaurantRoundedIcon}
                 />

@@ -1,10 +1,9 @@
 "use client";
-import { EmptyRecipesContainer, RecipeCard, SearchBar } from "@/components";
+import { SearchBar, RecipeList } from "@/components";
 import { styled, Typography } from "@mui/material";
 import { getAllRecipes } from "@/services/recipes";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useRecipeContext } from "@/context/recipeContext";
-import { recipe } from "@/types/recipes";
 
 const PageContainer = styled("main")({
   display: "flex",
@@ -18,14 +17,12 @@ const PageContainer = styled("main")({
 
 export default function Home() {
   const { loadRecipes } = useRecipeContext();
-  const [recipes, setRecipes] = useState([]);
 
   useEffect(() => {
     const fetchRecipes = async () => {
       try {
         const response = await getAllRecipes();
         const data = await response.data.result;
-        setRecipes(data);
         loadRecipes(data);
       } catch (error) {
         console.log(error);
@@ -50,22 +47,7 @@ export default function Home() {
       </Typography>
 
       <SearchBar sx={{ width: "65%", margin: "20px" }} />
-      {recipes && recipes.length > 0 ? (
-        recipes.map((recipe: recipe) => (
-          <RecipeCard
-            key={recipe.id}
-            name={recipe.name}
-            description={recipe.description}
-            totalRates={recipe.totalRates}
-            rateAverage={recipe.rateAverage}
-            ingredients={recipe.ingredients}
-            totalSteps={recipe.totalSteps}
-            image={recipe.image}
-          />
-        ))
-      ) : (
-        <EmptyRecipesContainer />
-      )}
+      <RecipeList />
     </PageContainer>
   );
 }
