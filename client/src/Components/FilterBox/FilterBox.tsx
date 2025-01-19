@@ -30,7 +30,7 @@ const StyledTextHeader = styled(Box)`
 type FilterBoxProps = {
     title: string;
     subtitle: string;
-    items: { id: number; name: string }[];
+    items: string[];
     Icon: React.ElementType; // Componente del ícono que usará la tarjeta
 };
 
@@ -71,12 +71,12 @@ export const FilterBox: React.FC<FilterBoxProps> = ({
                 </StyledCardHeader>
 
                 <TagsStyle>
-                    {items.map(({ id, name }) => (
+                    {items.map((item) => (
                         <ChipStyle
-                            key={id}
+                            key={item}
                             className="mt-5"
                             variant="outlined"
-                            label={name}
+                            label={item}
                             onClick={() => {}}
                         ></ChipStyle>
                     ))}

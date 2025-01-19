@@ -3,6 +3,7 @@ import { EmptyRecipesContainer, RecipeCard, SearchBar } from "@/components";
 import { styled, Typography } from "@mui/material";
 import { getAllRecipes } from "@/services/recipes";
 import { useEffect, useState } from "react";
+import { useRecipeContext } from "@/context/recipeContext";
 import { recipe } from "@/types/recipes";
 
 const PageContainer = styled("main")({
@@ -16,23 +17,22 @@ const PageContainer = styled("main")({
 });
 
 export default function Home() {
+  const { loadRecipes } = useRecipeContext();
   const [recipes, setRecipes] = useState([]);
 
   useEffect(() => {
     const fetchRecipes = async () => {
       try {
         const response = await getAllRecipes();
-        setRecipes(response.data.result);
+        const data = await response.data.result;
+        setRecipes(data);
+        loadRecipes(data);
       } catch (error) {
         console.log(error);
       }
     };
     fetchRecipes();
-  }, []);
-
-  useEffect(() => {
-    console.log(recipes);
-  }, [recipes]);
+  }, [loadRecipes]);
 
   return (
     <PageContainer>
