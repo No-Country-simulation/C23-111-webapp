@@ -11,8 +11,18 @@ import {
 import StarRoundedIcon from "@mui/icons-material/StarRounded";
 import { FormEvent, useState } from "react";
 import Image from "next/image";
+import { RecipeCardProps } from "./../RecipeCard/RecipeCard";
+// interface SidebarRecipeContentProps extends RecipeCardProps {
 
-export const SidebarRecipeContent = () => {
+// }
+
+export const SidebarRecipeContent: React.FC<RecipeCardProps> = ({
+    title,
+    description,
+    steps,
+    ingredients,
+    rate,
+}) => {
     const [rating, setRating] = useState(2.5);
 
     const saveReview = (e: FormEvent<HTMLFormElement>) => {
@@ -34,18 +44,17 @@ export const SidebarRecipeContent = () => {
                     <Box className="flex justify-between items-center">
                         <Box>
                             <Typography className="font-bold text-2xl text-primary">
-                                Pollo barato
+                                {title}
                             </Typography>
                             <Typography variant="caption" className="mr-3">
-                                📋 7 pasos
+                                📋 {steps} pasos
                             </Typography>
                             <Typography variant="caption">
-                                🍴 5 ingredientes
+                                🍴 {ingredients} ingredientes
                             </Typography>
                         </Box>
                         <Typography className="text-gray-500 text-sm font-semibold">
-                            {rating}{" "}
-                            <StarRoundedIcon sx={{ color: "#faaf00" }} />
+                            {rate} <StarRoundedIcon sx={{ color: "#faaf00" }} />
                         </Typography>
                     </Box>
                     <Divider />
@@ -54,9 +63,7 @@ export const SidebarRecipeContent = () => {
                             Descripción
                         </Typography>
                         <Typography className="text-gray-500 text-sm">
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Quia neque delectus sed ratione veniam
-                            veritatis odit assumenda praesentium
+                            {description}
                         </Typography>
                     </Box>
                     <Box>

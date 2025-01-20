@@ -12,14 +12,14 @@ import StarIcon from "@mui/icons-material/Star";
 import { FormEvent, useState } from "react";
 import { SidebarRecipeContent } from "./SidebarRecipeContent";
 
-type RecipeCardProps = {
+export interface RecipeCardProps {
     title: string;
     description: string;
     rate: number;
-    totalRate: number;
+    totalRate?: number;
     steps: number;
     ingredients: number;
-};
+}
 
 const StyledCardContent = styled(CardContent)({
     display: "flex",
@@ -103,7 +103,13 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({
                     },
                 }}
             >
-                <SidebarRecipeContent />
+                <SidebarRecipeContent
+                    title={title}
+                    description={description}
+                    steps={steps}
+                    ingredients={ingredients}
+                    rate={rate}
+                />
             </Drawer>
         </>
     );
