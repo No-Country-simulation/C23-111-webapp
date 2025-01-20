@@ -1,5 +1,5 @@
 "use client";
-import { SearchBar, RecipeList } from "@/components";
+import { RecipeList } from "@/components";
 import { styled, Typography } from "@mui/material";
 import { getAllRecipes } from "@/services/recipes";
 import { useEffect } from "react";
@@ -45,8 +45,6 @@ export default function Home() {
       <Typography variant="h3" sx={{ textAlign: "center" }}>
         Usa las etiquetas o el buscador para encontrar lo que necesitas.
       </Typography>
-
-      <SearchBar sx={{ width: "65%", margin: "20px" }} />
       <RecipeList />
     </PageContainer>
   );

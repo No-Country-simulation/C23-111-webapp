@@ -3,10 +3,32 @@ import RestaurantRoundedIcon from "@mui/icons-material/RestaurantRounded";
 import { FilterBox, SearchBar } from "@/components";
 import { CategoryRounded } from "@mui/icons-material";
 import { useRecipeContext } from "@/context/recipeContext";
+import { useState } from "react";
 
 export function SideBar() {
-  const { ingredients, categories } = useRecipeContext();
+  const {
+    ingredients,
+    categories,
+    selectedIngredients,
+    setSelectedIngredients,
+  } = useRecipeContext();
+  const [searchValue, setSearchValue] = useState("");
 
+  const handleSearch = () => {
+    // if (!searchValue.trim()) return;
+      const ingredient = searchValue.trim();
+      if (selectedIngredients.includes(ingredient)) {
+        setSelectedIngredients(
+          selectedIngredients.filter((item) => item !== ingredient)
+        );
+      } else if (!selectedIngredients.includes(ingredient)) {
+        return
+      }
+       else {
+        setSelectedIngredients([...selectedIngredients, ingredient]);
+      }
+      setSearchValue('')
+    } 
   return (
     <Drawer
       sx={{
@@ -31,7 +53,8 @@ export function SideBar() {
           gap: "10px",
         }}
       >
-        <SearchBar />
+        {/* @ts-expect-error no error */}
+        <SearchBar searchValue={searchValue} onChange={(e) => setSearchValue(e.target.value)} onClick={handleSearch} placeholder="Agregar Ingredientes" />
         <FilterBox
           title="Ingredientes"
           subtitle={ingredients.length}

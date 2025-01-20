@@ -18,9 +18,9 @@ type RecipeContextType = {
   selectedCategories: string[];
   setSelectedCategories: Dispatch<SetStateAction<string[]>>;
   setSelectedIngredients: Dispatch<SetStateAction<string[]>>;
-  showAll: string | null ;
+  showAll: string | null;
   setShowAll: Dispatch<SetStateAction<string | null>>;
-  filterName: string[]
+  filterName: string[];
 };
 
 type RecipeProviderProps = {
@@ -36,7 +36,7 @@ export const RecipeProvider: React.FC<RecipeProviderProps> = ({ children }) => {
   const [categories, setCategories] = useState<string[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [showAll, setShowAll] = useState<string | null>(null);
-  const filterName = ['ingredients', 'categories']
+  const filterName = ["ingredients", "categories"];
 
   const loadRecipes = useCallback((data: recipe[]) => {
     setRecipes(data);
@@ -51,6 +51,7 @@ export const RecipeProvider: React.FC<RecipeProviderProps> = ({ children }) => {
     setIngredients(uniqueIngredients);
   }, []);
 
+
   return (
     <RecipeContext.Provider
       value={{
@@ -64,7 +65,7 @@ export const RecipeProvider: React.FC<RecipeProviderProps> = ({ children }) => {
         setSelectedIngredients,
         showAll,
         setShowAll,
-        filterName
+        filterName,
       }}
     >
       {children}
