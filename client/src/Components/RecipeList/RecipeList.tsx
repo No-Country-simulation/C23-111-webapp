@@ -5,13 +5,14 @@ import { RecipeCard } from "../RecipeCard/RecipeCard";
 import { EmptyRecipesContainer } from "../EmptyRecipesContainer/EmptyRecipesContainer";
 
 export const RecipeList = () => {
-  const { recipes, selectedIngredients } = useRecipeContext();
+  const { recipes, selectedIngredients, } = useRecipeContext();
 
   const filteredRecipes =
     selectedIngredients.length > 0
       ? recipes.filter((recipe) =>
-          selectedIngredients.every((ingredient) =>
-            recipe.ingredients.includes(ingredient)
+          selectedIngredients.every(
+            (ingredient) =>
+              recipe.ingredients.includes(ingredient)
           )
         )
       : [];

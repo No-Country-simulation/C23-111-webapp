@@ -41,7 +41,19 @@ export const FilterBox: React.FC<FilterBoxProps> = ({
   items,
   Icon,
 }) => {
-  const { selectedIngredients, setSelectedIngredients } = useRecipeContext();
+  const {
+    categories,
+    selectedIngredients,
+    setSelectedIngredients,
+    selectedCategories,
+    setSelectedCategories,
+    showAll,
+    setShowAll
+  } = useRecipeContext();
+
+  const maxVisible = 10;
+  const isExpanded = showAll === title
+  const visibleItems = isExpanded ? items : items.slice(0, maxVisible)
 
   const handleIngredientsToggle = (ingredient: string) => {
     if (selectedIngredients.includes(ingredient)) {
@@ -50,6 +62,14 @@ export const FilterBox: React.FC<FilterBoxProps> = ({
       );
     } else {
       setSelectedIngredients([...selectedIngredients, ingredient]);
+    }
+  };
+
+  const handleCategoriesToggle = (category: string) => {
+    if (selectedCategories.includes(category)) {
+      setSelectedCategories(selectedCategories.filter((i) => i !== category));
+    } else {
+      setSelectedCategories([...selectedCategories, category]);
     }
   };
   return (
@@ -77,23 +97,43 @@ export const FilterBox: React.FC<FilterBoxProps> = ({
           <StyledTextHeader>
             <Typography variant="body1">{title}</Typography>
             <Typography variant="caption" sx={{ color: "gray" }}>
-              {selectedIngredients.length} / {subtitle} Ingredientes
+              {title === "Ingredientes"
+                ? `${selectedIngredients.length} / ${subtitle} Ingredientes`
+                : `${selectedCategories.length} / ${subtitle} Categorias`}
             </Typography>
           </StyledTextHeader>
         </StyledCardHeader>
 
         <TagsStyle>
-          {items.map((item) => (
+          {visibleItems.map((item) => (
             <ChipStyle
               key={item}
               className="mt-5"
-              variant={selectedIngredients.includes(item) ? 'filled' : 'outlined'}
+              variant={
+                selectedIngredients.includes(item) ||
+                selectedCategories.includes(item)
+                  ? "filled"
+                  : "outlined"
+              }
               label={item}
               onClick={() => {
-                handleIngredientsToggle(item);
+                if (categories.includes(item)) {
+                  handleCategoriesToggle(item);
+                } else {
+                  handleIngredientsToggle(item);
+                }
               }}
             />
           ))}
+
+          {!isExpanded && items.length > maxVisible && (
+            <ChipStyle
+            className="mt-5"
+            variant="outlined"
+            label='+ ver más'
+            onClick={() => setShowAll(title)}
+            />
+          )}
         </TagsStyle>
       </Card>
       <Divider />
