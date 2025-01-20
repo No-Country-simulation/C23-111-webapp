@@ -58,7 +58,7 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({
       >
         <StyledCardContent>
           <Typography variant="h4">{name}</Typography>
-          <Rating readOnly value={rateAverage} precision={0.5} /> ({totalRates})
+          {rateAverage} <Rating readOnly value={rateAverage} precision={0.5} /> ({totalRates})
         </StyledCardContent>
 
         <StyledCardContent>
