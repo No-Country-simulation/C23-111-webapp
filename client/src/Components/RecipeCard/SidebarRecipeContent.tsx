@@ -1,4 +1,13 @@
-import { Box, Divider, Rating, Typography } from "@mui/material";
+import {
+    Box,
+    Button,
+    Divider,
+    List,
+    ListItem,
+    Rating,
+    TextField,
+    Typography,
+} from "@mui/material";
 import StarRoundedIcon from "@mui/icons-material/StarRounded";
 import { FormEvent, useState } from "react";
 import Image from "next/image";
@@ -21,12 +30,12 @@ export const SidebarRecipeContent = () => {
                     height={480}
                 />
 
-                <main className="px-8 flex flex-col gap-y-6">
+                <Box className="px-8 flex flex-col gap-y-6">
                     <Box className="flex justify-between items-center">
                         <Box>
-                            <h2 className="font-bold text-2xl text-primary">
+                            <Typography className="font-bold text-2xl text-primary">
                                 Pollo barato
-                            </h2>
+                            </Typography>
                             <Typography variant="caption" className="mr-3">
                                 📋 7 pasos
                             </Typography>
@@ -34,78 +43,62 @@ export const SidebarRecipeContent = () => {
                                 🍴 5 ingredientes
                             </Typography>
                         </Box>
-                        <p className="text-gray-500 text-sm font-semibold">
+                        <Typography className="text-gray-500 text-sm font-semibold">
                             {rating}{" "}
                             <StarRoundedIcon sx={{ color: "#faaf00" }} />
-                        </p>
+                        </Typography>
                     </Box>
                     <Divider />
                     <Box>
                         <Typography className="font-semibold">
                             Descripción
                         </Typography>
-                        <span className="text-gray-500 text-sm">
+                        <Typography className="text-gray-500 text-sm">
                             Lorem ipsum dolor sit amet consectetur adipisicing
                             elit. Quia neque delectus sed ratione veniam
                             veritatis odit assumenda praesentium
-                        </span>
+                        </Typography>
                     </Box>
                     <Box>
                         <Typography className="font-semibold">
                             Ingredientes
                         </Typography>
 
-                        <ul className="flex flex-col gap-y-1 ">
-                            <li>
-                                <div className="bg-primary h-3 w-1 mr-2 inline-block"></div>
-                                <p className="text-gray-500 text-sm inline">
+                        <List className="flex flex-col gap-y-1 ">
+                            <ListItem>
+                                <Box className="bg-primary h-3 w-1 mr-2 inline-block"></Box>
+                                <Typography className="text-gray-500 text-sm inline">
                                     Ingrediente
-                                </p>
-                            </li>
-                            <li>
-                                <div className="bg-primary h-3 w-1 mr-2 inline-block"></div>
-                                <p className="text-gray-500 text-sm inline">
-                                    Ingrediente
-                                </p>
-                            </li>
-                            <li>
-                                <div className="bg-primary h-3 w-1 mr-2 inline-block"></div>
-                                <p className="text-gray-500 text-sm inline">
-                                    Ingrediente
-                                </p>
-                            </li>
-                        </ul>
+                                </Typography>
+                            </ListItem>
+                        </List>
                     </Box>
                     <Box>
                         <Typography className="font-semibold">
                             ¡Manos a la obra!
                         </Typography>
                         <Box>
-                            <p className="font-semibold text-primary">Paso 1</p>
-                            <span className="text-gray-500 text-sm">
+                            <Typography className="font-semibold text-primary mt-3">
+                                Paso 1
+                            </Typography>
+                            <Typography className="text-gray-500 text-sm">
                                 Compra un pollo del supermercado mas cercano que
                                 tengas a tu casa, procura que sea barato o no
                                 funcionara
-                            </span>
-                        </Box>
-                        <Box>
-                            <p className="font-semibold text-primary">Paso 2</p>
-                            <span className="text-gray-500 text-sm">
-                                Compra un pollo del supermercado mas cercano que
-                                tengas a tu casa, procura que sea barato o no
-                                funcionara
-                            </span>
+                            </Typography>
                         </Box>
                     </Box>
                     <Divider />
-                    <form
+                    {/* formulario */}
+                    <Box
+                        component="form"
                         className="flex flex-col gap-y-2"
                         onSubmit={saveReview}
                     >
                         <Typography className="font-semibold text-center">
                             ¿Qué opinas de esta receta?
                         </Typography>
-                        <div className="flex justify-center mb-3">
+                        <Box className="flex justify-center mb-3">
                             <Rating
                                 sx={{}}
                                 name="simple-controlled"
@@ -114,18 +107,20 @@ export const SidebarRecipeContent = () => {
                                     setRating(Number(newValue));
                                 }}
                             />
-                        </div>
-                        <textarea
-                            name=""
-                            id=""
-                            className="border border-gray-500 rounded p-1 resize-none focus:border-primary focus:outline-none"
+                        </Box>
+                        <TextField
+                            multiline
+                            rows={4} // Número de líneas iniciales
+                            variant="outlined"
                             placeholder="Queremos saber más detalles..."
-                        ></textarea>
-                        <button className="bg-primary font-bold my-2 text-white rounded p-2">
+                            fullWidth
+                            className="border border-gray-500 rounded p-1 resize-none focus:border-primary focus:outline-none"
+                        ></TextField>
+                        <Button className="bg-primary font-bold my-2 text-white rounded p-2">
                             Enviar
-                        </button>
-                    </form>
-                </main>
+                        </Button>
+                    </Box>
+                </Box>
             </Box>
         </>
     );
