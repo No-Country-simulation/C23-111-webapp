@@ -48,12 +48,12 @@ export const FilterBox: React.FC<FilterBoxProps> = ({
     selectedCategories,
     setSelectedCategories,
     showAll,
-    setShowAll
+    setShowAll,
   } = useRecipeContext();
 
   const maxVisible = 10;
-  const isExpanded = showAll === title
-  const visibleItems = isExpanded ? items : items.slice(0, maxVisible)
+  const isExpanded = showAll === title;
+  const visibleItems = isExpanded ? items : items.slice(0, maxVisible);
 
   const handleIngredientsToggle = (ingredient: string) => {
     if (selectedIngredients.includes(ingredient)) {
@@ -128,10 +128,10 @@ export const FilterBox: React.FC<FilterBoxProps> = ({
 
           {!isExpanded && items.length > maxVisible && (
             <ChipStyle
-            className="mt-5"
-            variant="outlined"
-            label='+ ver más'
-            onClick={() => setShowAll(title)}
+              className="mt-5"
+              variant="outlined"
+              label="+ ver más"
+              onClick={() => setShowAll(title)}
             />
           )}
         </TagsStyle>
