@@ -5,18 +5,20 @@ import {
   CardMedia,
   Typography,
   Rating,
-  styled
+  styled,
+  Drawer,
 } from "@mui/material";
 import { recipe } from "@/types/recipes";
+type RecipeCardProps = recipe;
+import { useState } from "react";
+import { SidebarRecipeContent } from "./SidebarRecipeContent";
 
-type RecipeCardProps = recipe
-
-const StyledCardContent = styled(CardContent) ({
+const StyledCardContent = styled(CardContent)({
   display: "flex",
   alignItems: "center",
   gap: "20px",
   padding: "10px 12px",
-})
+});
 
 const StyledCard = styled(Card)({
   display: "flex",
@@ -29,7 +31,6 @@ const StyledCard = styled(Card)({
   },
 });
 
-
 export const RecipeCard: React.FC<RecipeCardProps> = ({
   name,
   description,
@@ -37,38 +38,64 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({
   totalRates,
   totalSteps,
   ingredients,
-  image
+  image,
 }) => {
-  return (
-    <StyledCard>
-      <CardMedia
-        sx={{ width: "300px", height: "auto" }}
-        component="img"
-        image={image}
-        alt="foto ilustrativa de arroz con pollo"
-      />
+  const [open, setOpen] = useState(false);
 
-      <Box
+  const openDrawer = () => setOpen(true);
+  const closeDrawer = () => setOpen(false);
+
+  return (
+    <>
+      <StyledCard onClick={openDrawer}>
+        <CardMedia
+          sx={{ width: "300px", height: "auto" }}
+          component="img"
+          image={image}
+          alt="imagen ilustrativa"
+        />
+
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            width: "700px",
+          }}
+        >
+          <StyledCardContent>
+            <Typography variant="h4">{name}</Typography>
+            <Rating readOnly value={rateAverage} precision={0.5} /> (
+            {totalRates})
+          </StyledCardContent>
+
+          <StyledCardContent>
+            <Typography variant="body2">📋 {totalSteps} pasos</Typography>
+            <Typography variant="body2">
+              🍴 {ingredients} ingredientes
+            </Typography>
+          </StyledCardContent>
+          <CardContent sx={{ padding: "10px 12px" }}>
+            <Typography variant="body1">{description}</Typography>
+          </CardContent>
+        </Box>
+      </StyledCard>
+      <Drawer
+        open={open}
+        onClose={closeDrawer}
+        anchor="right"
         sx={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          width:"700px"
+          width: 500,
+          flexShrink: 0,
+          my: 2,
+          "& .MuiDrawer-paper": {
+            width: 500,
+            boxSizing: "border-box",
+          },
         }}
       >
-        <StyledCardContent>
-          <Typography variant="h4">{name}</Typography>
-          {rateAverage} <Rating readOnly value={rateAverage} precision={0.5} /> ({totalRates})
-        </StyledCardContent>
-
-        <StyledCardContent>
-          <Typography variant="body2">📋 {totalSteps} pasos</Typography>
-          <Typography variant="body2">🍴 {ingredients.length} ingredientes</Typography>
-        </StyledCardContent>
-        <CardContent sx={{ padding: "10px 12px" }}>
-          <Typography variant="body1">{description}</Typography>
-        </CardContent>
-      </Box>
-    </StyledCard>
+        <SidebarRecipeContent />
+      </Drawer>
+    </>
   );
 };
