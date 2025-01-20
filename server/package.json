@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "nodemon --exec ts-node src/server.ts",
     "build": "tsc",
-    "start": "nodemon dist/server.js"
+    "start": "nodemon dist/server.js",
+    "seed": "ts-node src/seed/seedDatabase.ts"
   },
   "keywords": [],
   "author": "",

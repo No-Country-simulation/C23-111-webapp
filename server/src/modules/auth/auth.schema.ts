@@ -17,7 +17,9 @@ export const registerSchema = z.object({
   })
     .regex(/[a-zA-Z]/, { message: "La contraseña debe contener al menos una letra." })
     .regex(/[0-9]/, { message: "La contraseña debe contener al menos un número." })
-    .regex(/[@$!%*?&]/, { message: "La contraseña debe contener al menos un carácter especial. (@$!%*?&)" })
+    .regex(/[@$!%*?&]/, { message: "La contraseña debe contener al menos un carácter especial. (@$!%*?&)" }),
+  rol: z.optional(z.enum(['admin', 'user'])),
+  
 }).strict();
 
 export const loginSchema = registerSchema.omit({ name: true }).strict();
