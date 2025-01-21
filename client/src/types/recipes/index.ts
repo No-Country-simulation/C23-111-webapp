@@ -15,7 +15,7 @@ export type recipesResponseData = {
 }
 
 export type recipe = {
-    'id'?: string,
+    'id': string,
     'name': string,
     'description': string,
     'category'?: string[],
@@ -25,6 +25,32 @@ export type recipe = {
     'rateAverage': number,
     'totalRates': number,
     'createdAt'?: string
+}
+
+type rates = {
+    _id: string,
+    rating: number,
+    comment: string,
+    reviewer: string,
+    recipe: string,
+    createdAt: string,
+    updatedAt: string
+}
+
+export type recipeWithRates = {
+    status: string,
+    userId: string,
+    totalRates: number,
+    _id: string,
+    name: string,
+    description: string,
+    category: string[],
+    ingredients: string[],
+    steps: string[],
+    image: string,
+    rateAverage: number,
+    createdAt: string,
+    rates: rates[]
 }
 
 
