@@ -51,7 +51,7 @@ export const FilterBox: React.FC<FilterBoxProps> = ({
     setShowAll,
   } = useRecipeContext();
 
-  const maxVisible = 10;
+  const maxVisible = 7;
   const isExpanded = showAll === title;
   const visibleItems = isExpanded ? items : items.slice(0, maxVisible);
 
@@ -128,10 +128,26 @@ export const FilterBox: React.FC<FilterBoxProps> = ({
 
           {!isExpanded && items.length > maxVisible && (
             <ChipStyle
+              sx={{
+                backgroundColor: theme.palette.primary.main,
+                color: "#ffff",
+              }}
               className="mt-5"
               variant="outlined"
               label="+ ver más"
               onClick={() => setShowAll(title)}
+            />
+          )}
+          {isExpanded && (
+            <ChipStyle
+              sx={{
+                backgroundColor: theme.palette.primary.main,
+                color: "#ffff",
+              }}
+              className="mt-5"
+              variant="outlined"
+              label="ver menos"
+              onClick={() => setShowAll(null)}
             />
           )}
         </TagsStyle>
