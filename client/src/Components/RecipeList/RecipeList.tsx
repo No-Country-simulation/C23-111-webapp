@@ -3,6 +3,8 @@
 import { useRecipeContext } from "@/context/recipeContext";
 import { RecipeCard } from "../RecipeCard/RecipeCard";
 import { EmptyRecipesContainer } from "../EmptyRecipesContainer/EmptyRecipesContainer";
+import { Typography } from "@mui/material";
+import theme from "@/theme/theme";
 
 export const RecipeList = () => {
   const { recipes, selectedIngredients, selectedCategories } =
@@ -25,6 +27,12 @@ export const RecipeList = () => {
 
   return (
     <>
+      {filteredRecipes.length > 0 && (
+        <Typography sx={{marginTop: '5%'}} variant="h3">
+          {/* @ts-expect-error no error */}
+          Puedes cocinar <span style={{color: [theme.palette.primary.main]}}>{filteredRecipes.length}</span> recetas!
+        </Typography>
+      )}
       {filteredRecipes.length > 0 ? (
         filteredRecipes.map((recipe) => (
           <RecipeCard

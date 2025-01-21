@@ -4,7 +4,7 @@ import Image from "next/image";
 const StyledContainer = styled(Container)({
   display: "flex",
   flexDirection: "column",
-  margin: "10%",
+  margin: "10% 0",
   alignItems: "center",
 });
 export const EmptyRecipesContainer = () => {
