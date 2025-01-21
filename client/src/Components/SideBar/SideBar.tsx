@@ -2,68 +2,73 @@ import { Box, Drawer } from "@mui/material";
 import RestaurantRoundedIcon from "@mui/icons-material/RestaurantRounded";
 import { FilterBox, SearchBar } from "@/components";
 import { CategoryRounded } from "@mui/icons-material";
-const ingredientes = [
-    { id: 1, name: "Maíz" },
-    { id: 2, name: "Chile" },
-    { id: 3, name: "Frijol" },
-    { id: 4, name: "Aguacate" },
-    { id: 5, name: "Aceitunas" },
-    { id: 6, name: "Jitomate" },
-    { id: 7, name: "Cebolla" },
-    { id: 8, name: "Ajo" },
-    { id: 9, name: "Cilantro" },
-    { id: 10, name: "Limón" },
-];
+import { useRecipeContext } from "@/context/recipeContext";
+import { useState } from "react";
 
-const categorias = [
-    { id: 1, name: "vegetariana" },
-    { id: 2, name: "vegana" },
-    { id: 3, name: "sin gluten" },
-    { id: 4, name: "bebidas" },
-    { id: 5, name: "saludable" },
-    { id: 6, name: "comida rapida" },
-];
+export function SideBar() {
+  const {
+    ingredients,
+    categories,
+    selectedIngredients,
+    setSelectedIngredients,
+  } = useRecipeContext();
+  const [searchValue, setSearchValue] = useState("");
 
-export function SideBar () {
-    return (
-        <Drawer
-            sx={{   
-                width: 370,
-                flexShrink: 0,
-                my: 2,
-                "& .MuiDrawer-paper": {
-                    width: 370,
-                    boxSizing: "border-box",
-                },
-            }}
-            variant="permanent"
-            anchor="left"
-        >
-            <Box
-                sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    height: '100%',
-                    m: 2,
-                    marginTop: '40px',
-                    gap: '10px'
-                }}
-            >
-                <SearchBar />
-                <FilterBox
-                    title="Ingredientes"
-                    subtitle="0/10 ingredientes"
-                    items={ingredientes} // Pasamos los ingredientes aquí
-                    Icon={RestaurantRoundedIcon}
-                />
+  const handleSearch = () => {
+    // if (!searchValue.trim()) return;
+      const ingredient = searchValue.trim();
+      if (selectedIngredients.includes(ingredient)) {
+        setSelectedIngredients(
+          selectedIngredients.filter((item) => item !== ingredient)
+        );
+      } else if (!selectedIngredients.includes(ingredient)) {
+        return
+      }
+       else {
+        setSelectedIngredients([...selectedIngredients, ingredient]);
+      }
+      setSearchValue('')
+    } 
+  return (
+    <Drawer
+      sx={{
+        width: 370,
+        flexShrink: 0,
+        my: 2,
+        "& .MuiDrawer-paper": {
+          width: 370,
+          boxSizing: "border-box",
+        },
+      }}
+      variant="permanent"
+      anchor="left"
+    >
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          height: "100%",
+          m: 2,
+          marginTop: "40px",
+          gap: "10px",
+        }}
+      >
+        {/* @ts-expect-error no error */}
+        <SearchBar searchValue={searchValue} onChange={(e) => setSearchValue(e.target.value)} onClick={handleSearch} placeholder="Agregar Ingredientes" />
+        <FilterBox
+          title="Ingredientes"
+          subtitle={ingredients.length}
+          items={ingredients} // Pasamos los ingredientes aquí
+          Icon={RestaurantRoundedIcon}
+        />
 
-                <FilterBox
-                    title="Categorías"
-                    subtitle="0/6 categorías"
-                    items={categorias} // Pasamos las categorías aquí
-                    Icon={CategoryRounded}
-                />
-            </Box>
-        </Drawer>
-    );
+        <FilterBox
+          title="Categorías"
+          subtitle={categories.length}
+          items={categories} // Pasamos las categorías aquí
+          Icon={CategoryRounded}
+        />
+      </Box>
+    </Drawer>
+  );
 }
