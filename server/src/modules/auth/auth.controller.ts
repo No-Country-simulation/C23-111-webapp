@@ -5,13 +5,13 @@ import { compare, hash } from "bcrypt";
 import { generateToken } from "../../middleware/generateToken";
 
 export const authRegister = async (req: Request, res: Response) => {
-  const { name, email, password, rol } = req.body;
+  const { name, email, password } = req.body;
   try {
     const isUserRegistered = await findUserByEmail(email);
     if (isUserRegistered) res.status(400).json({message: "Este usuario ya esta registrado"});
 
     const encryptPassword = await hash(password, 10);
-    const newUser = await createdUser({name, email, password: encryptPassword, rol});
+    const newUser = await createdUser({name, email, password: encryptPassword });
     
     const payload = {name, email, password};
     const token = generateToken(payload, JWT_SECRET || "");
