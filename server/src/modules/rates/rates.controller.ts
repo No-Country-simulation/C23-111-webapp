@@ -1,48 +1,67 @@
 import { Request, Response } from "express";
 import RateModel from "./rates.model";
 import RecipeModel from "../recipes/recipes.model";
+import mongoose from "mongoose";
+
+// Comprueba si el usuario ya a reseñado la receta
+const checkifReviewerExists = async (reviewerId: mongoose.Types.ObjectId, recipeId: mongoose.Types.ObjectId ) => {
+  
+  try {
+    
+    const reviewerExist = await RateModel.findOne({ reviewer: reviewerId, recipe: recipeId });
+    // El operador !! convierte a booleano el valor de reviewerExist
+    return { status: 'OK', reviewerExist: !!reviewerExist };
+  } catch (error) {
+    return { status: 'failed', error };
+  }  
+  
+
+  
+    
+}
 
 
 const createRate = async (req: Request, res: Response): Promise<void> => {
   try {
     
-    console.log('>> createRate ')
-
-    
+        
     const newRate = new RateModel(req.body);
-
-    console.log('>> newRate ', newRate)
+   
     
     // Busco la receta a la que se le quiere agregar la reseña
     const recipe = await RecipeModel.findById(newRate.recipe);
 
-    console.log('>> recipe ', recipe)
 
     if (!recipe) {
       res.status(404).json({ message: "Receta no encontrada" });
       return;
     }
+
     
-    // Busco todas las reseñas de la receta
-    const ratings = await RateModel.find({ recipe: newRate.recipe })
+    newRate.recipe = new mongoose.Types.ObjectId(newRate.recipe);
+
+    const reviewerID = new mongoose.Types.ObjectId(newRate.reviewer);
+    const recipeID = new mongoose.Types.ObjectId(newRate.recipe);
+
+    const reviewerExist = await checkifReviewerExists(reviewerID, recipeID);    
+
+    if (reviewerExist.status === 'failed') {
+      res.status(500).json({ error: reviewerExist.error });
+    }
+
+    if (reviewerExist.reviewerExist) {
+      res.status(400).json({ message: "El usuario ya ha valorado la receta" });
+      return;        
+    }
     
-    // Agrego la nueva reseña a la lista
-    const totalRates = recipe.totalRates + 1;
     
-    const totalRatins = ratings.reduce((acc, rate) => acc + rate.rating, 0)
-
-    console.log('>> totalRates', totalRates);
-
-    const rateAverage = (totalRatins + newRate.rating) / totalRates ;
+    // Suma la nueva reseña a las reseñas totales
+    const totalRates = recipe.totalRates + 1;    
+    const newRateAverage = ((recipe.rateAverage * recipe.totalRates) + newRate.rating) / totalRates;
 
 
+    const updatedRecipe = await RecipeModel.findByIdAndUpdate(newRate.recipe, { totalRates, rateAverage: newRateAverage }, { new: true })
 
-    console.log('>> ratings', ratings);
-    console.log('>> rateAverage', rateAverage);
-
-    const updatedRecipe = await RecipeModel.findByIdAndUpdate(newRate.recipe, { totalRates, rateAverage }, { new: true })
-
-    console.log('>> updatedRecipe', updatedRecipe);
 
     if (!updatedRecipe) {
       res.status(404).json({ message: "Error al actualizar la receta" });
@@ -121,6 +140,14 @@ const deleteRatesByRecipeID = async (req: Request, res: Response): Promise<void>
     
     if (!deletedRates) {
       res.status(404).json({ message: `Reseñas no encontradas para la receta con id = ${id}` });
+      return
+    }
+    
+      // Si se borran las reseñas se ponen a cero los contadores de total de reseñas y promedio de reseñas
+    const updateRecipeRates = await RecipeModel.findByIdAndUpdate(id, { totalRates: 0, rateAverage: 0 }, { new: true });
+
+    if (!updateRecipeRates) {
+      res.status(404).json({ message: `Error al actualizar la receta con id = ${id}` });
       return
     }
 
