@@ -25,7 +25,7 @@ const StyledCard = styled(Card)({
     display: "flex",
     backgroundColor: "#fff",
     minHeight: '200px',
-    margin: '4% 0',
+    margin: '1% 0',
     cursor: "pointer",
     "&:hover": {
         transform: "scale(1.1)",
