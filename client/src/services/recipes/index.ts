@@ -10,3 +10,12 @@ export const getAllRecipes = async () =>  {
         throw error
     }
 }
+
+export const getRecipeById = async (id: string) => {
+    try {
+        const response = await publicInstance.get(`/recipes/${id}`)
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}

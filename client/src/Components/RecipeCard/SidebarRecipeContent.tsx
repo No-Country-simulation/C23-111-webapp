@@ -11,20 +11,13 @@ import {
 import StarRoundedIcon from "@mui/icons-material/StarRounded";
 import { FormEvent, useState } from "react";
 import Image from "next/image";
-import { RecipeCardProps } from "./../RecipeCard/RecipeCard";
-// interface SidebarRecipeContentProps extends RecipeCardProps {
+import { recipeWithRates } from "@/types/recipes";
 
-// }
+type RecipeCardProps = recipeWithRates
 
-export const SidebarRecipeContent: React.FC<RecipeCardProps> = ({
-    title,
-    description,
-    steps,
-    ingredients,
-    rate,
-    image,
-}) => {
-    const [rating, setRating] = useState(2.5);
+export const SidebarRecipeContent: React.FC<{prop: RecipeCardProps}> = ({prop}) => {
+    const {name, steps, ingredients, description, image, rates, rateAverage} = prop
+    const [rating, setRating] = useState(rateAverage);
 
     const saveReview = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -45,7 +38,7 @@ export const SidebarRecipeContent: React.FC<RecipeCardProps> = ({
                     <Box className="flex justify-between items-center">
                         <Box>
                             <Typography className="font-bold text-2xl text-primary">
-                                {title}
+                                {name}
                             </Typography>
                             <Typography variant="caption" className="mr-3">
                                 📋 {steps.length} pasos
@@ -55,7 +48,7 @@ export const SidebarRecipeContent: React.FC<RecipeCardProps> = ({
                             </Typography>
                         </Box>
                         <Typography className="text-gray-500 text-sm font-semibold">
-                            {rate} <StarRoundedIcon sx={{ color: "#faaf00" }} />
+                            {rates.length} <StarRoundedIcon sx={{ color: "#faaf00" }} />
                         </Typography>
                     </Box>
                     <Divider />
@@ -73,12 +66,12 @@ export const SidebarRecipeContent: React.FC<RecipeCardProps> = ({
                         </Typography>
 
                         <List className="flex flex-col gap-y-1 ">
-                            {ingredients.map((ingrediente, index) => {
+                            {ingredients.map((ingredient: string, index: number) => {
                                 return (
-                                    <ListItem key={ingrediente}>
+                                    <ListItem key={index}>
                                         <Box className="bg-primary h-3 w-1 mr-2 inline-block"></Box>
                                         <Typography className="text-gray-500 text-sm inline">
-                                            {index + 1}. {ingrediente}
+                                            {index + 1}. {ingredient}
                                         </Typography>
                                     </ListItem>
                                 );
@@ -89,9 +82,9 @@ export const SidebarRecipeContent: React.FC<RecipeCardProps> = ({
                         <Typography className="font-semibold">
                             ¡Manos a la obra!
                         </Typography>
-                        {steps.map((step, index) => {
+                        {steps.map((step: string, index: number) => {
                             return (
-                                <Box key={step}>
+                                <Box key={index}>
                                     <Typography className="font-semibold text-primary mt-3">
                                         Paso {index + 1}
                                     </Typography>

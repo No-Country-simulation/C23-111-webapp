@@ -8,10 +8,11 @@ import {
     styled,
     Drawer,
 } from "@mui/material";
-import { recipe } from "@/types/recipes";
+import { recipe, recipeWithRates } from "@/types/recipes";
 type RecipeCardProps = recipe;
 import { useState } from "react";
 import { SidebarRecipeContent } from "./SidebarRecipeContent";
+import { getRecipeById } from "@/services/recipes";
 
 const StyledCardContent = styled(CardContent)({
     display: "flex",
@@ -32,6 +33,7 @@ const StyledCard = styled(Card)({
 });
 
 export const RecipeCard: React.FC<RecipeCardProps> = ({
+    id,
     name,
     description,
     rateAverage,
@@ -41,13 +43,26 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({
     image,
 }) => {
     const [open, setOpen] = useState(false);
-
+    const [recipeData, setRecipeData] = useState<recipeWithRates>()
     const openDrawer = () => setOpen(true);
     const closeDrawer = () => setOpen(false);
 
+    const handleClick = async (id: string) => {
+        try {
+            const response = await getRecipeById(id)
+            const data = response.data.result.recipeWithRates
+            setRecipeData(data)
+            openDrawer();
+            console.log(data)
+        } catch(error) {
+            alert(error)
+        }
+    }
+
+
     return (
         <>
-            <StyledCard onClick={openDrawer}>
+            <StyledCard onClick={() => handleClick(id)}>
                 <CardMedia
                     sx={{ width: "300px", height: "auto" }}
                     component="img"
@@ -100,7 +115,8 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({
                     },
                 }}
             >
-                <SidebarRecipeContent />
+                {recipeData && <SidebarRecipeContent prop ={recipeData} />}
+                {/* <SidebarRecipeContent props={recipeData} /> */}
             </Drawer>
         </>
     );

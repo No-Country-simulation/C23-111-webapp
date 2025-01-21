@@ -29,6 +29,7 @@ export const RecipeList = () => {
         filteredRecipes.map((recipe) => (
           <RecipeCard
             key={recipe.id}
+            id={recipe.id}
             description={recipe.description}
             name={recipe.name}
             totalRates={recipe.totalRates}
