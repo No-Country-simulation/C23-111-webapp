@@ -12,7 +12,8 @@ const createRate = async (req: Request, res: Response): Promise<void> => {
     const newRate = new RateModel(req.body);
 
     console.log('>> newRate ', newRate)
-
+    
+    // Busco la receta a la que se le quiere agregar la reseña
     const recipe = await RecipeModel.findById(newRate.recipe);
 
     console.log('>> recipe ', recipe)
@@ -30,11 +31,18 @@ const createRate = async (req: Request, res: Response): Promise<void> => {
     
     const totalRatins = ratings.reduce((acc, rate) => acc + rate.rating, 0)
 
+    console.log('>> totalRates', totalRates);
+
     const rateAverage = (totalRatins + newRate.rating) / totalRates ;
 
-    console.log('>> ratings', ratings);
 
-    const updatedRecipe = RecipeModel.findByIdAndUpdate(newRate.recipe, { totalRates, rateAverage }, { new: true })
+
+    console.log('>> ratings', ratings);
+    console.log('>> rateAverage', rateAverage);
+
+    const updatedRecipe = await RecipeModel.findByIdAndUpdate(newRate.recipe, { totalRates, rateAverage }, { new: true })
+
+    console.log('>> updatedRecipe', updatedRecipe);
 
     if (!updatedRecipe) {
       res.status(404).json({ message: "Error al actualizar la receta" });

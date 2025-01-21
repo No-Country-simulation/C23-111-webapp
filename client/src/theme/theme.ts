@@ -52,7 +52,7 @@ const customTypography = {
     fontSize: pxToRem(48),
     color: "#000",
     fontWeight: 500,
-    [theme.breakpoints.up("md")]: {
+    [theme.breakpoints.down("md")]: {
       fontSize: pxToRem(40),
     },
   },
@@ -60,7 +60,7 @@ const customTypography = {
     fontSize: pxToRem(36),
     color: "#000",
     fontWeight: 700,
-    [theme.breakpoints.up("md")]: {
+    [theme.breakpoints.down("md")]: {
       fontSize: pxToRem(26),
     },
   },
@@ -68,7 +68,7 @@ const customTypography = {
     fontSize: pxToRem(26),
     color: "#000000",
     fontWeight: 700,
-    [theme.breakpoints.up("md")]: {
+    [theme.breakpoints.down("md")]: {
       fontsize: pxToRem(16),
     },
   },
@@ -76,7 +76,7 @@ const customTypography = {
     fontSize: pxToRem(18),
     color: "#000",
     fontWeight: 500,
-    [theme.breakpoints.up("md")]: {
+    [theme.breakpoints.down("md")]: {
       fontSize: pxToRem(20),
     },
   },
@@ -84,13 +84,13 @@ const customTypography = {
     fontSize: pxToRem(13),
     color: "#000",
     fontWeight: 400,
-    [theme.breakpoints.up("md")]: {
+    [theme.breakpoints.down("md")]: {
       fontSize: pxToRem(20),
     },
   },
   caption:{
     fontSize: pxToRem(11),
-    color: "#000",
+    color: "gray",
     fontWeight: 500,
     [theme.breakpoints.up("md")]: {
       fontSize: pxToRem(11),

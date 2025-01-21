@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { createdUser, findUserByEmail } from "./auth.service";
 import { JWT_SECRET } from "../../config/dotenv.config";
 import { compare, hash } from "bcrypt";
-import { generateToken } from "../../middleware/generateToken";
+import { generateToken } from "../../middleware/authToken";
 
 export const authRegister = async (req: Request, res: Response) => {
   const { name, email, password, rol } = req.body;
@@ -14,7 +14,7 @@ export const authRegister = async (req: Request, res: Response) => {
     const newUser = await createdUser({name, email, password: encryptPassword, rol});
     
     const payload = {name, email, password};
-    const token = generateToken(payload, JWT_SECRET || "");
+    const token = generateToken(payload, JWT_SECRET);
 
     res.status(201).json({
       message: "usuario registrado",
@@ -41,7 +41,7 @@ export const authLogin = async (req: Request, res: Response) => {
       if (!isValidPassword) res.status(400).json({message: "Las contraseñas no coinciden"});
 
       const payload = body;
-      const token = generateToken(payload, JWT_SECRET || "");
+      const token = generateToken(payload, JWT_SECRET);
 
       res.status(201).json({
         message: "usuario logueado",
