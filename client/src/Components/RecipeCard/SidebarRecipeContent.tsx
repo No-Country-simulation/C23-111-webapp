@@ -11,8 +11,19 @@ import {
 import StarRoundedIcon from "@mui/icons-material/StarRounded";
 import { FormEvent, useState } from "react";
 import Image from "next/image";
+import { RecipeCardProps } from "./../RecipeCard/RecipeCard";
+// interface SidebarRecipeContentProps extends RecipeCardProps {
 
-export const SidebarRecipeContent = () => {
+// }
+
+export const SidebarRecipeContent: React.FC<RecipeCardProps> = ({
+    title,
+    description,
+    steps,
+    ingredients,
+    rate,
+    image,
+}) => {
     const [rating, setRating] = useState(2.5);
 
     const saveReview = (e: FormEvent<HTMLFormElement>) => {
@@ -23,7 +34,7 @@ export const SidebarRecipeContent = () => {
         <>
             <Box className="grid grid-cols-1 gap-y-4 p-0">
                 <Image
-                    src="https://picsum.photos/360"
+                    src={image}
                     alt=""
                     className="aspect-video"
                     width={480}
@@ -34,18 +45,17 @@ export const SidebarRecipeContent = () => {
                     <Box className="flex justify-between items-center">
                         <Box>
                             <Typography className="font-bold text-2xl text-primary">
-                                Pollo barato
+                                {title}
                             </Typography>
                             <Typography variant="caption" className="mr-3">
-                                📋 7 pasos
+                                📋 {steps.length} pasos
                             </Typography>
                             <Typography variant="caption">
-                                🍴 5 ingredientes
+                                🍴 {ingredients.length} ingredientes
                             </Typography>
                         </Box>
                         <Typography className="text-gray-500 text-sm font-semibold">
-                            {rating}{" "}
-                            <StarRoundedIcon sx={{ color: "#faaf00" }} />
+                            {rate} <StarRoundedIcon sx={{ color: "#faaf00" }} />
                         </Typography>
                     </Box>
                     <Divider />
@@ -54,9 +64,7 @@ export const SidebarRecipeContent = () => {
                             Descripción
                         </Typography>
                         <Typography className="text-gray-500 text-sm">
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Quia neque delectus sed ratione veniam
-                            veritatis odit assumenda praesentium
+                            {description}
                         </Typography>
                     </Box>
                     <Box>
@@ -65,28 +73,34 @@ export const SidebarRecipeContent = () => {
                         </Typography>
 
                         <List className="flex flex-col gap-y-1 ">
-                            <ListItem>
-                                <Box className="bg-primary h-3 w-1 mr-2 inline-block"></Box>
-                                <Typography className="text-gray-500 text-sm inline">
-                                    Ingrediente
-                                </Typography>
-                            </ListItem>
+                            {ingredients.map((ingrediente, index) => {
+                                return (
+                                    <ListItem key={ingrediente}>
+                                        <Box className="bg-primary h-3 w-1 mr-2 inline-block"></Box>
+                                        <Typography className="text-gray-500 text-sm inline">
+                                            {index + 1}. {ingrediente}
+                                        </Typography>
+                                    </ListItem>
+                                );
+                            })}
                         </List>
                     </Box>
                     <Box>
                         <Typography className="font-semibold">
                             ¡Manos a la obra!
                         </Typography>
-                        <Box>
-                            <Typography className="font-semibold text-primary mt-3">
-                                Paso 1
-                            </Typography>
-                            <Typography className="text-gray-500 text-sm">
-                                Compra un pollo del supermercado mas cercano que
-                                tengas a tu casa, procura que sea barato o no
-                                funcionara
-                            </Typography>
-                        </Box>
+                        {steps.map((step, index) => {
+                            return (
+                                <Box key={step}>
+                                    <Typography className="font-semibold text-primary mt-3">
+                                        Paso {index + 1}
+                                    </Typography>
+                                    <Typography className="text-gray-500 text-sm">
+                                        {step}
+                                    </Typography>
+                                </Box>
+                            );
+                        })}
                     </Box>
                     <Divider />
                     {/* formulario */}
