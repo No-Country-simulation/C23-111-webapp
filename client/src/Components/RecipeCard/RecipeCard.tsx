@@ -8,19 +8,10 @@ import {
     styled,
     Drawer,
 } from "@mui/material";
-import StarIcon from "@mui/icons-material/Star";
-import { FormEvent, useState } from "react";
+import { recipe } from "@/types/recipes";
+type RecipeCardProps = recipe;
+import { useState } from "react";
 import { SidebarRecipeContent } from "./SidebarRecipeContent";
-
-export interface RecipeCardProps {
-    title: string;
-    description: string;
-    rate: number;
-    totalRate?: number;
-    steps: string[];
-    ingredients: string[];
-    image: string;
-}
 
 const StyledCardContent = styled(CardContent)({
     display: "flex",
@@ -41,11 +32,11 @@ const StyledCard = styled(Card)({
 });
 
 export const RecipeCard: React.FC<RecipeCardProps> = ({
-    title,
+    name,
     description,
-    rate,
-    totalRate,
-    steps,
+    rateAverage,
+    totalRates,
+    totalSteps,
     ingredients,
     image,
 }) => {
@@ -61,7 +52,7 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({
                     sx={{ width: "300px", height: "auto" }}
                     component="img"
                     image={image}
-                    alt="foto ilustrativa de arroz con pollo"
+                    alt="imagen ilustrativa"
                 />
 
                 <Box
@@ -73,17 +64,21 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({
                     }}
                 >
                     <StyledCardContent>
-                        <Typography variant="h4">{title}</Typography>
-                        <Rating readOnly value={rate} precision={0.5} /> (
-                        {totalRate})
+                        <Typography variant="h4">{name}</Typography>
+                        <Rating
+                            readOnly
+                            value={rateAverage}
+                            precision={0.5}
+                        />{" "}
+                        ({totalRates})
                     </StyledCardContent>
 
                     <StyledCardContent>
                         <Typography variant="body2">
-                            📋 {steps.length} pasos
+                            📋 {totalSteps} pasos
                         </Typography>
                         <Typography variant="body2">
-                            🍴 {ingredients.length} ingredientes
+                            🍴 {ingredients} ingredientes
                         </Typography>
                     </StyledCardContent>
                     <CardContent sx={{ padding: "10px 12px" }}>
@@ -105,14 +100,7 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({
                     },
                 }}
             >
-                <SidebarRecipeContent
-                    title={title}
-                    description={description}
-                    steps={steps}
-                    ingredients={ingredients}
-                    rate={rate}
-                    image={image}
-                />
+                <SidebarRecipeContent />
             </Drawer>
         </>
     );
