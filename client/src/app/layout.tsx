@@ -1,12 +1,9 @@
-'use client'
+"use client";
 import { ThemeProvider } from "@mui/material/styles";
 import { RecipeProvider } from "@/context/recipeContext";
 import { CssBaseline } from "@mui/material";
-import { SideBar } from "@/components";
 import theme from "@/theme/theme";
-import '@/styles/globals.css'
-
-
+import "@/styles/globals.css";
 
 export default function RootLayout({
   children,
@@ -15,14 +12,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es">
-    <title>Recetario</title>
+      <head>
+        <title>Recetario</title>
+      </head>
       <ThemeProvider theme={theme}>
         <RecipeProvider>
-        <CssBaseline />
-        <body>
-          <SideBar />
-          {children}
-        </body>
+          <CssBaseline />
+          <body>{children}</body>
         </RecipeProvider>
       </ThemeProvider>
     </html>
