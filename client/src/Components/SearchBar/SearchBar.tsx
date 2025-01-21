@@ -1,42 +1,44 @@
-import { Box, styled, InputBase, IconButton, Divider } from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
+import { Autocomplete, TextField, Chip, Stack } from "@mui/material";
+import { useRecipeContext } from "@/context/recipeContext";
 import theme from "@/theme/theme";
 
+export const SearchBar = () => {
+  const { ingredients, setSelectedIngredients } = useRecipeContext();
 
-const StyledBox = styled(Box)({
-  display: "flex",
-  alignItems: "center",
-  padding: 10,
-  borderRadius: "10px",
-  boxShadow: "0px 0px 17px 0px rgba(0,0,0, 0.15)",
-});
-
-interface SearchBarProps {
-  sx?: object;
-  placeholder: string;
-  onClick: React.MouseEventHandler
-  searchValue: string;
-  onChange: React.ChangeEventHandler
-}
-
-export const SearchBar: React.FC<SearchBarProps> = ({ sx, placeholder, onClick, searchValue, onChange }) => {
   return (
-    <StyledBox sx={{ ...sx }}>
-      <InputBase
-        fullWidth
-        sx={{ ml: 1, flex: 1 }}
-        placeholder={placeholder}
-        value={searchValue}
-        onChange={onChange}
+    <Stack spacing={3} sx={{ width: 300 }}>
+      <Autocomplete
+        multiple
+        options={ingredients}
+        onChange={(event,value) => setSelectedIngredients(value)}
+        getOptionLabel={(option) => option}
+        defaultValue={[]}
+        filterSelectedOptions
+        renderTags={(value: readonly string[], getTagsProps) =>
+          value.map((option: string, index: number) => {
+            const { key, ...tagsProps } = getTagsProps({ index });
+            return (
+              <Chip
+                sx={{
+                  backgroundColor: theme.palette.primary.main,
+                  color: "white",
+                }}
+                variant="outlined"
+                label={option}
+                key={key}
+                {...tagsProps}
+              />
+            );
+          })
+        }
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            label="Ingresar ingredientes"
+            placeholder="Busca tus ingredientes"
+          />
+        )}
       />
-      <Divider sx={{ height: 38, m: 0.5 }} orientation="vertical" />
-      <IconButton
-        type="button"
-        sx={{ p: "10px", color: [theme.palette.primary.main] }}
-        onClick={onClick}
-      >
-        <SearchIcon sx={{ fontSize: 30 }} />
-      </IconButton>
-    </StyledBox>
+    </Stack>
   );
 };
