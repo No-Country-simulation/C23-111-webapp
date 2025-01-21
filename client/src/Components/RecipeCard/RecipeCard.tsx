@@ -17,8 +17,9 @@ export interface RecipeCardProps {
     description: string;
     rate: number;
     totalRate?: number;
-    steps: number;
-    ingredients: number;
+    steps: string[];
+    ingredients: string[];
+    image: string;
 }
 
 const StyledCardContent = styled(CardContent)({
@@ -46,6 +47,7 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({
     totalRate,
     steps,
     ingredients,
+    image,
 }) => {
     const [open, setOpen] = useState(false);
 
@@ -58,7 +60,7 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({
                 <CardMedia
                     sx={{ width: "300px", height: "auto" }}
                     component="img"
-                    image="/arroz-pollo.jpg"
+                    image={image}
                     alt="foto ilustrativa de arroz con pollo"
                 />
 
@@ -78,10 +80,10 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({
 
                     <StyledCardContent>
                         <Typography variant="body2">
-                            📋 {steps} pasos
+                            📋 {steps.length} pasos
                         </Typography>
                         <Typography variant="body2">
-                            🍴 {ingredients} ingredientes
+                            🍴 {ingredients.length} ingredientes
                         </Typography>
                     </StyledCardContent>
                     <CardContent sx={{ padding: "10px 12px" }}>
@@ -109,6 +111,7 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({
                     steps={steps}
                     ingredients={ingredients}
                     rate={rate}
+                    image={image}
                 />
             </Drawer>
         </>
