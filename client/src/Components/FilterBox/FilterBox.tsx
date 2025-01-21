@@ -51,7 +51,7 @@ export const FilterBox: React.FC<FilterBoxProps> = ({
     setShowAll,
   } = useRecipeContext();
 
-  const maxVisible = 10;
+  const maxVisible = 7;
   const isExpanded = showAll === title;
   const visibleItems = isExpanded ? items : items.slice(0, maxVisible);
 

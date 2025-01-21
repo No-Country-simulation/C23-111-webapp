@@ -24,7 +24,8 @@ const StyledCardContent = styled(CardContent)({
 const StyledCard = styled(Card)({
     display: "flex",
     backgroundColor: "#fff",
-    margin: "10px 0",
+    minHeight: '200px',
+    margin: '4% 0',
     cursor: "pointer",
     "&:hover": {
         transform: "scale(1.1)",
@@ -93,7 +94,7 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({
                             📋 {totalSteps} pasos
                         </Typography>
                         <Typography variant="body2">
-                            🍴 {ingredients} ingredientes
+                            🍴 {ingredients.length} ingredientes
                         </Typography>
                     </StyledCardContent>
                     <CardContent sx={{ padding: "10px 12px" }}>
