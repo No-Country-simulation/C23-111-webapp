@@ -86,7 +86,7 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({
                             value={rateAverage}
                             precision={0.5}
                         />{" "}
-                        ({totalRates})
+                        ({totalRates === 0 ? 'sin calificar' : ''})
                     </StyledCardContent>
 
                     <StyledCardContent>

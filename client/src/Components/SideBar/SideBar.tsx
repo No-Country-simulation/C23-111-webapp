@@ -28,6 +28,7 @@ export function SideBar() {
         sx={{
           display: "flex",
           flexDirection: "column",
+          position: 'absolute',
           alignItems: 'center',
           height: "100%",
           m: 2,

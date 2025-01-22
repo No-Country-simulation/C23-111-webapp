@@ -1,10 +1,15 @@
-export default function AuthLayout ({children}: {children: React.ReactNode}) {
+'use client'
+import {styled} from '@mui/material'
+
+
+export default function AuthLayout({children,} : {children: React.ReactNode}) {
+    const StyledDiv = styled('div') ({
+        backgroundImage: `url('/authBack.png')`
+    })
+    
     return (
-        <html lang="es">
-            <title>Registrate</title>
-            <body>
-                {children}
-            </body>
-        </html>
+        <StyledDiv>
+        {children}
+        </StyledDiv>
     )
 }
