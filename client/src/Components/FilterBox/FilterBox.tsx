@@ -74,6 +74,22 @@ export const FilterBox: React.FC<FilterBoxProps> = ({
             setSelectedCategories([...selectedCategories, category]);
         }
     };
+    const isIngredient = title.toLocaleLowerCase().includes("ingredient");
+    const clear = () => {
+        console.log("clear", title);
+        if (isIngredient) {
+            setSelectedIngredients([]);
+        } else {
+            setSelectedCategories([]);
+        }
+    };
+    const hasSelectedItems = () => {
+        if (isIngredient) {
+            return selectedIngredients.length > 0;
+        } else {
+            return selectedCategories.length > 0;
+        }
+    };
     return (
         <>
             <Card
@@ -128,6 +144,21 @@ export const FilterBox: React.FC<FilterBoxProps> = ({
                         />
                     ))}
 
+                    {/* Boton limpiar */}
+                    <ChipStyle
+                        disabled={!hasSelectedItems()}
+                        sx={{
+                            backgroundColor: theme.palette.primary.main,
+                            color: "#ffff",
+                            "&:hover": {
+                                color: theme.palette.primary.main, // Cambia el color del texto al hover
+                            },
+                        }}
+                        className="mt-5"
+                        variant="outlined"
+                        label="Limpiar"
+                        onClick={clear}
+                    />
                     {!isExpanded && items.length > maxVisible && (
                         <ChipStyle
                             sx={{

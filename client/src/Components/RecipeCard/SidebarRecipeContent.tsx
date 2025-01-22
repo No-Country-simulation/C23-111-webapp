@@ -138,13 +138,53 @@ export const SidebarRecipeContent: React.FC<{ prop: RecipeCardProps }> = ({
                         </Button>
                     </Box>
 
-                    <Box className="display flex pb-10">
+                    <Typography className="font-semibold">
+                        Comentarios
+                    </Typography>
+
+                    {rates.map((rate) => {
+                        return (
+                            <Box className="display flex pb-5" key={rate._id}>
+                                <Avatar
+                                    alt={rate.reviewer}
+                                    src="/static/images/avatar/1.jpg"
+                                />
+                                <Box className="flex flex-col gap-y-2 ml-3">
+                                    <Box>
+                                        <div className="flex justify-between items-center">
+                                            <Typography className="font-xl font-normal">
+                                                {rate.reviewer}
+                                            </Typography>
+                                            <Typography
+                                                variant="caption"
+                                                className="text-primary font-semibold"
+                                            >
+                                                {rate.createdAt}
+                                            </Typography>
+                                        </div>
+                                        <Rating
+                                            name="read-only"
+                                            value={rate.rating}
+                                            readOnly
+                                            size="small"
+                                        />
+                                    </Box>
+
+                                    <Typography className="text-gray-500 text-sm">
+                                        {rate.comment}
+                                    </Typography>
+                                </Box>
+                            </Box>
+                        );
+                    })}
+
+                    {/* <Box className="display flex pb-5">
                         <Avatar className="bg-lime-500">NS</Avatar>
                         <Box className="flex flex-col gap-y-2 ml-3">
                             <Box>
                                 <div className="flex justify-between items-center">
-                                    <Typography className="font-xl font-semibold ">
-                                        Natalia Sánchez
+                                    <Typography className="font-xl font-normal">
+                                        Nubia Sánchez
                                     </Typography>
                                     <Typography
                                         variant="caption"
@@ -167,8 +207,7 @@ export const SidebarRecipeContent: React.FC<{ prop: RecipeCardProps }> = ({
                                 dolorem, aliquid expedita hic.
                             </Typography>
                         </Box>
-                    </Box>
-                    {/* <Divider /> */}
+                    </Box> */}
                 </Box>
             </Box>
         </>
