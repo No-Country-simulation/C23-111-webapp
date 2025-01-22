@@ -43,14 +43,17 @@ export const RecipeProvider: React.FC<RecipeProviderProps> = ({ children }) => {
     const uniqueIngredients = Array.from(
       new Set(data.flatMap((recipe) => recipe.ingredients))
     );
-    const uniqueCategories = Array.from(
-      new Set(data.flatMap((recipe) => recipe.category))
-    );
-    //@ts-expect-error no error
-    setCategories(uniqueCategories);
+    const category = [
+      "vegetariana",
+      "vegana",
+      "sin gluten",
+      "bebidas",
+      "saludable",
+      "comida rápida",
+    ];
+    setCategories(category);
     setIngredients(uniqueIngredients);
   }, []);
-
 
   return (
     <RecipeContext.Provider
