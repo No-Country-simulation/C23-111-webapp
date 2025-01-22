@@ -138,23 +138,29 @@ export const SidebarRecipeContent: React.FC<{ prop: RecipeCardProps }> = ({
                         </Button>
                     </Box>
 
-                    <Box className="display flex">
+                    <Box className="display flex pb-10">
                         <Avatar className="bg-lime-500">NS</Avatar>
                         <Box className="flex flex-col gap-y-2 ml-3">
-                            <Box className="flex justify-between items-center">
-                                <Typography className="font-xl">
-                                    Natalia Sánchez
-                                </Typography>
-                                <Typography variant="caption">
-                                    10 Sep 2021
-                                </Typography>
+                            <Box>
+                                <div className="flex justify-between items-center">
+                                    <Typography className="font-xl font-semibold ">
+                                        Natalia Sánchez
+                                    </Typography>
+                                    <Typography
+                                        variant="caption"
+                                        className="text-primary font-semibold"
+                                    >
+                                        10 Sep 2021
+                                    </Typography>
+                                </div>
+                                <Rating
+                                    name="read-only"
+                                    value={4}
+                                    readOnly
+                                    size="small"
+                                />
                             </Box>
-                            <Rating
-                                name="read-only"
-                                value={4}
-                                readOnly
-                                size="small"
-                            />
+
                             <Typography className="text-gray-500 text-sm">
                                 Lorem ipsum dolor sit amet consectetur
                                 adipisicing elit. Sapiente corporis cupiditate
@@ -162,7 +168,7 @@ export const SidebarRecipeContent: React.FC<{ prop: RecipeCardProps }> = ({
                             </Typography>
                         </Box>
                     </Box>
-                    <Divider />
+                    {/* <Divider /> */}
                 </Box>
             </Box>
         </>
