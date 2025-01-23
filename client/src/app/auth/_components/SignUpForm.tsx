@@ -1,6 +1,6 @@
 import { styled, Typography, Button, Box, Divider } from "@mui/material";
 import Grid from "@mui/material/Grid2";
-import { Form } from "@/components";
+import { Form } from "@/Components";
 import { useFormik } from "formik";
 import { Field } from "@/types/form";
 import Image from "next/image";

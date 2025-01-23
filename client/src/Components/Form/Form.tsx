@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
 import { Field } from "@/types/form";
 import Grid from "@mui/material/Grid2";
-import { BasicInput } from "@/components";
+import { BasicInput } from "@/Components";
 
 type FormProps = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
