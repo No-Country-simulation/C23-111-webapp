@@ -5,6 +5,7 @@ import { EmptyRecipesContainer } from "./EmptyRecipesContainer/EmptyRecipesConta
 import { RecipeList } from "./RecipeList/RecipeList";
 import {SearchBar} from './SearchBar/SearchBar';
 import { BasicInput } from "./BasicInput/BasicInput";
+import {Form} from './Form/Form'
 import { ScreenSizeWarning } from "./ScreenSizeWarning/ScreenSizeWarning";
 
 export { 
@@ -15,5 +16,6 @@ export {
     RecipeList,
     SearchBar,
     BasicInput,
+    Form,
     ScreenSizeWarning
 }

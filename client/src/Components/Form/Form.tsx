@@ -1,28 +1,12 @@
 import React, { ReactNode } from "react";
-// import { Fields } from "./_utils/types";
-import { Box } from "@mui/material";
+import { Field } from "@/types/form";
 import Grid from "@mui/material/Grid2";
 import { BasicInput } from "@/components";
 
-type Option = {
-  value: string;
-  label: string;
-};
-
-export type Fields = {
-  name: string;
-  type: string;
-  label: string;
-  placeholder?: string;
-  multiline?: boolean;
-  options?: Option[];
-  columns?: number;
-  isMultipleSelect?: boolean;
-};
-
 type FormProps = {
-  formik: unknown;
-  fields: Fields[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  formik: any;
+  fields: Field[];
   children: ReactNode;
   sx?: object;
 };
@@ -33,9 +17,10 @@ export const Form: React.FC<FormProps> = ({ formik, fields, children, sx }) => {
       style={
         sx ? Object.assign({ minHeight: "100%" }, sx) : { minHeight: "100%" }
       }
+      onSubmit={formik.handleSubmit}
     >
-      <Grid sx={{ placeContent: "center" }} container spacing={2}>
-        {fields.map((field: Fields) => (
+      <Grid sx={{ placeContent: "center" }} container spacing={3}>
+        {fields.map((field: Field) => (
           <Grid
             sx={{ minWidth: "100%", display: "flex", justifyContent: "center" }}
             component={"div"}
@@ -54,8 +39,8 @@ export const Form: React.FC<FormProps> = ({ formik, fields, children, sx }) => {
         ))}
         {children && (
           <Grid
-            sx={{ display: "flex", justifyContent: "flex-end" }}
-            component={Box}
+          sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}
+            component={'div'}
             size={12}
           >
             {children}
