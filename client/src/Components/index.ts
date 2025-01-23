@@ -5,6 +5,7 @@ import { EmptyRecipesContainer } from "./EmptyRecipesContainer/EmptyRecipesConta
 import { RecipeList } from "./RecipeList/RecipeList";
 import {SearchBar} from './SearchBar/SearchBar';
 import { BasicInput } from "./BasicInput/BasicInput";
+import {Form} from './Form/Form'
 
 export { 
     SideBar, 
@@ -13,5 +14,6 @@ export {
     EmptyRecipesContainer,
     RecipeList,
     SearchBar,
-    BasicInput
+    BasicInput,
+    Form
 }
