@@ -29,7 +29,15 @@ export const SidebarRecipeContent: React.FC<{ prop: RecipeCardProps }> = ({
     const saveReview = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
     };
-
+    const convertToDate = (isoString: string) => {
+        const date = new Date(isoString);
+        console.log(date);
+        const day = String(date.getUTCDate()).padStart(2, "0"); // Día con 2 dígitos
+        const month = String(date.getUTCMonth() + 1).padStart(2, "0"); // Mes con 2 dígitos
+        const year = date.getUTCFullYear(); // Año
+        return `${day}-${month}-${year}`;
+    };
+    console.log(rates);
     return (
         <>
             <Box className="grid grid-cols-1 gap-y-4 p-0">
@@ -126,6 +134,7 @@ export const SidebarRecipeContent: React.FC<{ prop: RecipeCardProps }> = ({
                             />
                         </Box>
                         <TextField
+                            aria-hidden={false}
                             multiline
                             rows={3} // Número de líneas iniciales
                             variant="outlined"
@@ -146,20 +155,21 @@ export const SidebarRecipeContent: React.FC<{ prop: RecipeCardProps }> = ({
                         return (
                             <Box className="display flex pb-5" key={rate._id}>
                                 <Avatar
-                                    alt={rate.reviewer}
+                                    alt={rate.reviewer?.name}
                                     src="/static/images/avatar/1.jpg"
                                 />
-                                <Box className="flex flex-col gap-y-2 ml-3">
+                                <Box className="flex flex-col gap-y-2 ml-3 w-full">
                                     <Box>
                                         <div className="flex justify-between items-center">
                                             <Typography className="font-xl font-normal">
-                                                {rate.reviewer}
+                                                {rate.reviewer?.name ||
+                                                    "Anónimo "}
                                             </Typography>
                                             <Typography
                                                 variant="caption"
                                                 className="text-primary font-semibold"
                                             >
-                                                {rate.createdAt}
+                                                {convertToDate(rate.createdAt)}
                                             </Typography>
                                         </div>
                                         <Rating

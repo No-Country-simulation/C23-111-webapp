@@ -2,7 +2,7 @@
 import { ThemeProvider } from "@mui/material/styles";
 import { RecipeProvider } from "@/context/recipeContext";
 import { CssBaseline } from "@mui/material";
-import { ScreenSizeWarning } from "../Components/ScreenSizeWarning/ScreenSizeWarning";
+import { ScreenSizeWarning } from "../components/ScreenSizeWarning/ScreenSizeWarning";
 import theme from "@/theme/theme";
 import "@/styles/globals.css";
 
@@ -19,10 +19,12 @@ export default function RootLayout({
             <ThemeProvider theme={theme}>
                 <RecipeProvider>
                     <CssBaseline />
-                    <body>{children}</body>
+                    <body>
+                        {children}
+                        <ScreenSizeWarning />
+                    </body>
                 </RecipeProvider>
             </ThemeProvider>
-            <ScreenSizeWarning />
         </html>
     );
 }
