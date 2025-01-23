@@ -1,5 +1,5 @@
 "use client";
-import { RecipeList, SideBar } from "@/Components";
+import { RecipeList, SideBar } from "@/components";
 import { styled, Typography, Box } from "@mui/material";
 import { getAllRecipes } from "@/services/recipes";
 import { useEffect } from "react";
