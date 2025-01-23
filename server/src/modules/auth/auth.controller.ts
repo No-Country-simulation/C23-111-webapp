@@ -14,6 +14,7 @@ export const authRegister = async (req: Request, res: Response) => {
     const newUser = await createdUser({name, email, password: encryptPassword });
     
     const payload = {name, email, password};
+    if (!JWT_SECRET) throw new Error("No se ha definido un JWT_SECRET");
     const token = generateToken(payload, JWT_SECRET);
 
     res.status(201).json({
@@ -41,6 +42,7 @@ export const authLogin = async (req: Request, res: Response) => {
       if (!isValidPassword) res.status(400).json({message: "Las contraseñas no coinciden"});
 
       const payload = body;
+      if (!JWT_SECRET) throw new Error("No se ha definido un JWT_SECRET");
       const token = generateToken(payload, JWT_SECRET);
 
       res.status(201).json({
