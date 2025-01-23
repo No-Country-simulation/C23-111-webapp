@@ -7,22 +7,24 @@ import theme from "@/theme/theme";
 import "@/styles/globals.css";
 
 export default function RootLayout({
-    children,
+  children,
 }: {
-    children: React.ReactNode;
+  children: React.ReactNode;
 }) {
-    return (
-        <html lang="es">
-            <head>
-                <title>Recetario</title>
-            </head>
-            <ThemeProvider theme={theme}>
-                <RecipeProvider>
-                    <CssBaseline />
-                    <body>{children}</body>
-                </RecipeProvider>
-            </ThemeProvider>
+  return (
+    <html lang="es">
+      <head>
+        <title>Recetario</title>
+      </head>
+      <ThemeProvider theme={theme}>
+        <RecipeProvider>
+          <CssBaseline />
+          <body>
+            {children}
             <ScreenSizeWarning />
-        </html>
-    );
+          </body>
+        </RecipeProvider>
+      </ThemeProvider>
+    </html>
+  );
 }
