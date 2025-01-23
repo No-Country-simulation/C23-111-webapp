@@ -17,19 +17,22 @@ import { getRecipeById } from "@/services/recipes";
 const StyledCardContent = styled(CardContent)({
     display: "flex",
     alignItems: "center",
-    gap: "20px",
-    padding: "10px 12px",
+    gap: "15px",
+    padding: "5px 12px",
 });
 
 const StyledCard = styled(Card)({
     display: "flex",
-    backgroundColor: "#fff",
-    minHeight: '200px',
-    margin: '1% 0',
+    alignItems: "space-between",
+    backgroundColor: "#ffffff",
+    minHeight: "200px",
+    margin: "1% 0",
     cursor: "pointer",
+    transition:
+        "transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1)",
     "&:hover": {
-        transform: "scale(1.1)",
-        transition: "transform 0.2s ease",
+        transform: "translateY(-5px)",
+        boxShadow: "0 10px 10px rgba(0, 0, 0, 0.15)",
     },
 });
 
@@ -44,26 +47,30 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({
     image,
 }) => {
     const [open, setOpen] = useState(false);
-    const [recipeData, setRecipeData] = useState<recipeWithRates>()
+    const [recipeData, setRecipeData] = useState<recipeWithRates>();
     const openDrawer = () => setOpen(true);
     const closeDrawer = () => setOpen(false);
 
     const handleClick = async (id: string) => {
         try {
-            const response = await getRecipeById(id)
-            const data = response.data.result.recipeWithRates
-            setRecipeData(data)
+            const response = await getRecipeById(id);
+            const data = response.data.result.recipeWithRates;
+            setRecipeData(data);
             openDrawer();
-            console.log(data)
-        } catch(error) {
-            alert(error)
+            console.log(data);
+        } catch (error) {
+            alert(error);
         }
-    }
-
+    };
 
     return (
         <>
-            <StyledCard onClick={() => handleClick(id)}>
+            <StyledCard
+                onClick={() => handleClick(id)}
+                sx={{
+                    maxWidth: "100%",
+                }}
+            >
                 <CardMedia
                     sx={{ width: "300px", height: "auto" }}
                     component="img"
@@ -79,21 +86,23 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({
                         width: "700px",
                     }}
                 >
-                    <StyledCardContent>
+                    <StyledCardContent className="flex justify-between">
                         <Typography variant="h4">{name}</Typography>
-                        <Rating
-                            readOnly
-                            value={rateAverage}
-                            precision={0.5}
-                        />{" "}
-                        ({totalRates === 0 ? 'sin calificar' : ''})
+                        <Box className="flex gap-2">
+                            <Rating
+                                readOnly
+                                value={rateAverage}
+                                precision={0.5}
+                            />{" "}
+                            ({totalRates === 0 ? "0" : ""})
+                        </Box>
                     </StyledCardContent>
 
                     <StyledCardContent>
-                        <Typography variant="body2">
+                        <Typography variant="caption">
                             📋 {totalSteps} pasos
                         </Typography>
-                        <Typography variant="body2">
+                        <Typography variant="caption">
                             🍴 {ingredients.length} ingredientes
                         </Typography>
                     </StyledCardContent>
@@ -116,7 +125,7 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({
                     },
                 }}
             >
-                {recipeData && <SidebarRecipeContent prop ={recipeData} />}
+                {recipeData && <SidebarRecipeContent prop={recipeData} />}
                 {/* <SidebarRecipeContent props={recipeData} /> */}
             </Drawer>
         </>
