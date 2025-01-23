@@ -2,7 +2,7 @@
 import { ThemeProvider } from "@mui/material/styles";
 import { RecipeProvider } from "@/context/recipeContext";
 import { CssBaseline } from "@mui/material";
-import { ScreenSizeWarning } from "../Components/ScreenSizeWarning/ScreenSizeWarning";
+import { ScreenSizeWarning } from "@/components";
 import theme from "@/theme/theme";
 import "@/styles/globals.css";
 
