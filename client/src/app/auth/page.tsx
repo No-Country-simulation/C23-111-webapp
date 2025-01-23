@@ -22,7 +22,7 @@ const TabsContainer = styled("ul")({
   display: "flex",
   backgroundColor: "whitesmoke",
   borderRadius: "5px",
-  boxShadow: '9px 9px 20px -9px rgba(0,0,0,0.39)'
+  boxShadow: "9px 9px 20px -9px rgba(0,0,0,0.39)",
 });
 
 const tabStyle: React.CSSProperties = {
@@ -37,12 +37,10 @@ const underline: React.CSSProperties = {
   marginTop: "5px",
 };
 
-const formContainer: React.CSSProperties = {
-  display: "flex",
-};
-
 const AuthPage: React.FC = () => {
-  const [selectedForm, setSelectedForm] = useState<"Iniciar sesión" | "Crear cuenta">("Iniciar sesión");
+  const [selectedForm, setSelectedForm] = useState<
+    "Iniciar sesión" | "Crear cuenta"
+  >("Iniciar sesión");
 
   return (
     <PageContainer>
@@ -54,10 +52,13 @@ const AuthPage: React.FC = () => {
               key={tab}
               initial={false}
               animate={{
-                backgroundColor: tab === selectedForm ? [theme.palette.primary.main] : "#eee0",
+                backgroundColor:
+                  tab === selectedForm ? [theme.palette.primary.main] : "#eee0",
               }}
-              transition={{duration: 0.4}}
-              onClick={() => setSelectedForm(tab as "Iniciar sesión" | "Crear cuenta")}
+              transition={{ duration: 0.4 }}
+              onClick={() =>
+                setSelectedForm(tab as "Iniciar sesión" | "Crear cuenta")
+              }
             >
               {tab}
               {tab === selectedForm ? (
@@ -72,11 +73,13 @@ const AuthPage: React.FC = () => {
           {selectedForm === "Iniciar sesión" && (
             <motion.div
               key="logIn"
-              initial={{ x: 600, opacity: 0 }}
+              initial={{ x: 600, opacity: 0, display: 'flex' }}
               animate={{ x: 0, opacity: 1 }}
-              exit={{ x: -600, opacity: 0 }}
+              exit={{
+                x: -600,
+                opacity: 0,
+              }}
               transition={{ duration: 0.4 }}
-              style={formContainer}
             >
               <LogInForm />
             </motion.div>
@@ -88,7 +91,6 @@ const AuthPage: React.FC = () => {
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: 600, opacity: 0 }}
               transition={{ duration: 0.5 }}
-              style={formContainer}
             >
               <SignUpForm />
             </motion.div>

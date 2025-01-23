@@ -8,10 +8,9 @@ import Image from "next/image";
 const FormBox = styled(Grid)({
   display: "flex",
   alignItems: "center",
-  margin: "0",
-  padding: "0",
+  justifyContent: 'space-around',
   height: "600px",
-  backgroundColor: "#f5f5f5",
+  backgroundColor: "#ffff",
   borderRadius: "10px",
   boxShadow: "14px 11px 14px -3px rgba(0,0,0,0.62)",
   width: "1150px",
