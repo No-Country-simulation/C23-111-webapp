@@ -1,7 +1,11 @@
 import {
+    Avatar,
     Box,
     Button,
+    Card,
+    CardHeader,
     Divider,
+    IconButton,
     List,
     ListItem,
     Rating,
@@ -13,10 +17,13 @@ import { FormEvent, useState } from "react";
 import Image from "next/image";
 import { recipeWithRates } from "@/types/recipes";
 
-type RecipeCardProps = recipeWithRates
+type RecipeCardProps = recipeWithRates;
 
-export const SidebarRecipeContent: React.FC<{prop: RecipeCardProps}> = ({prop}) => {
-    const {name, steps, ingredients, description, image, rates, rateAverage} = prop
+export const SidebarRecipeContent: React.FC<{ prop: RecipeCardProps }> = ({
+    prop,
+}) => {
+    const { name, steps, ingredients, description, image, rates, rateAverage } =
+        prop;
     const [rating, setRating] = useState(rateAverage);
 
     const saveReview = (e: FormEvent<HTMLFormElement>) => {
@@ -48,7 +55,8 @@ export const SidebarRecipeContent: React.FC<{prop: RecipeCardProps}> = ({prop}) 
                             </Typography>
                         </Box>
                         <Typography className="text-gray-500 text-sm font-semibold">
-                            {rates.length} <StarRoundedIcon sx={{ color: "#faaf00" }} />
+                            {rates.length}{" "}
+                            <StarRoundedIcon sx={{ color: "#faaf00" }} />
                         </Typography>
                     </Box>
                     <Divider />
@@ -66,16 +74,18 @@ export const SidebarRecipeContent: React.FC<{prop: RecipeCardProps}> = ({prop}) 
                         </Typography>
 
                         <List className="flex flex-col gap-y-1 ">
-                            {ingredients.map((ingredient: string, index: number) => {
-                                return (
-                                    <ListItem key={index}>
-                                        <Box className="bg-primary h-3 w-1 mr-2 inline-block"></Box>
-                                        <Typography className="text-gray-500 text-sm inline">
-                                            {index + 1}. {ingredient}
-                                        </Typography>
-                                    </ListItem>
-                                );
-                            })}
+                            {ingredients.map(
+                                (ingredient: string, index: number) => {
+                                    return (
+                                        <ListItem key={index}>
+                                            <Box className="bg-primary h-3 w-1 mr-2 inline-block"></Box>
+                                            <Typography className="text-gray-500 text-sm inline">
+                                                {ingredient}
+                                            </Typography>
+                                        </ListItem>
+                                    );
+                                }
+                            )}
                         </List>
                     </Box>
                     <Box>
@@ -117,7 +127,7 @@ export const SidebarRecipeContent: React.FC<{prop: RecipeCardProps}> = ({prop}) 
                         </Box>
                         <TextField
                             multiline
-                            rows={4} // Número de líneas iniciales
+                            rows={3} // Número de líneas iniciales
                             variant="outlined"
                             placeholder="Queremos saber más detalles..."
                             fullWidth
@@ -127,6 +137,77 @@ export const SidebarRecipeContent: React.FC<{prop: RecipeCardProps}> = ({prop}) 
                             Enviar
                         </Button>
                     </Box>
+
+                    <Typography className="font-semibold">
+                        Comentarios
+                    </Typography>
+
+                    {rates.map((rate) => {
+                        return (
+                            <Box className="display flex pb-5" key={rate._id}>
+                                <Avatar
+                                    alt={rate.reviewer}
+                                    src="/static/images/avatar/1.jpg"
+                                />
+                                <Box className="flex flex-col gap-y-2 ml-3">
+                                    <Box>
+                                        <div className="flex justify-between items-center">
+                                            <Typography className="font-xl font-normal">
+                                                {rate.reviewer}
+                                            </Typography>
+                                            <Typography
+                                                variant="caption"
+                                                className="text-primary font-semibold"
+                                            >
+                                                {rate.createdAt}
+                                            </Typography>
+                                        </div>
+                                        <Rating
+                                            name="read-only"
+                                            value={rate.rating}
+                                            readOnly
+                                            size="small"
+                                        />
+                                    </Box>
+
+                                    <Typography className="text-gray-500 text-sm">
+                                        {rate.comment}
+                                    </Typography>
+                                </Box>
+                            </Box>
+                        );
+                    })}
+
+                    {/* <Box className="display flex pb-5">
+                        <Avatar className="bg-lime-500">NS</Avatar>
+                        <Box className="flex flex-col gap-y-2 ml-3">
+                            <Box>
+                                <div className="flex justify-between items-center">
+                                    <Typography className="font-xl font-normal">
+                                        Nubia Sánchez
+                                    </Typography>
+                                    <Typography
+                                        variant="caption"
+                                        className="text-primary font-semibold"
+                                    >
+                                        10 Sep 2021
+                                    </Typography>
+                                </div>
+                                <Rating
+                                    name="read-only"
+                                    value={4}
+                                    readOnly
+                                    size="small"
+                                />
+                            </Box>
+
+                            <Typography className="text-gray-500 text-sm">
+                                Lorem ipsum dolor sit amet consectetur
+                                adipisicing elit. Sapiente corporis cupiditate
+                                dolorem, aliquid expedita hic.
+                            </Typography>
+                        </Box>
+                    </Box> */}
                 </Box>
             </Box>
         </>
