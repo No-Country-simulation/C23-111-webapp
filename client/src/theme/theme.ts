@@ -41,23 +41,23 @@ const theme = createTheme({
 
 const customTypography = {
   h1: {
-    fontSize: pxToRem(95),
+    fontSize: pxToRem(45),
     color: theme.palette.primary.main,
     fontWeight: 700,
-    [theme.breakpoints.up("md")]: {
-      fontSize: pxToRem(48),
-    },
-  },
-  h2: {
-    fontSize: pxToRem(48),
-    color: "#000",
-    fontWeight: 500,
     [theme.breakpoints.down("md")]: {
       fontSize: pxToRem(40),
     },
   },
+  h2: {
+    fontSize: pxToRem(30),
+    color: "#000",
+    fontWeight: 500,
+    [theme.breakpoints.down("md")]: {
+      fontSize: pxToRem(30),
+    },
+  },
   h3: {
-    fontSize: pxToRem(36),
+    fontSize: pxToRem(25),
     color: "#000",
     fontWeight: 700,
     [theme.breakpoints.down("md")]: {
@@ -65,19 +65,19 @@ const customTypography = {
     },
   },
   h4: {
-    fontSize: pxToRem(26),
+    fontSize: pxToRem(20),
     color: "#000000",
     fontWeight: 700,
     [theme.breakpoints.down("md")]: {
-      fontsize: pxToRem(16),
+      fontsize: pxToRem(20),
     },
   },
   body1: {
-    fontSize: pxToRem(18),
+    fontSize: pxToRem(15),
     color: "#000",
-    fontWeight: 500,
+    fontWeight: 400,
     [theme.breakpoints.down("md")]: {
-      fontSize: pxToRem(20),
+      fontSize: pxToRem(10),
     },
   },
   body2: {
