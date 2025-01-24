@@ -27,7 +27,7 @@ const StyledCard = styled(Card)({
     alignItems: "space-between",
     backgroundColor: "#ffffff",
     minHeight: "200px",
-    margin: "1% 0",
+    margin: "5% 0",
     cursor: "pointer",
     transition:
         "transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1)",
