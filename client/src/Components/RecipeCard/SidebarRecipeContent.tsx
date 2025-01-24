@@ -16,28 +16,66 @@ import StarRoundedIcon from "@mui/icons-material/StarRounded";
 import { FormEvent, useState } from "react";
 import Image from "next/image";
 import { recipeWithRates } from "@/types/recipes";
+import { addRateById, getRatesById } from "@/services/rates";
 
 type RecipeCardProps = recipeWithRates;
 
-export const SidebarRecipeContent: React.FC<{ prop: RecipeCardProps }> = ({
-    prop,
-}) => {
-    const { name, steps, ingredients, description, image, rates, rateAverage } =
-        prop;
+export const SidebarRecipeContent: React.FC<{
+    prop: RecipeCardProps & { updateRates: (id: string) => void };
+}> = ({ prop }) => {
+    const {
+        name,
+        steps,
+        ingredients,
+        description,
+        image,
+        rates,
+        rateAverage,
+        updateRates,
+    } = prop;
     const [rating, setRating] = useState(rateAverage);
+    const [comment, setComment] = useState("");
 
     const saveReview = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
     };
     const convertToDate = (isoString: string) => {
         const date = new Date(isoString);
-        console.log(date);
+
+        // console.log(date);
         const day = String(date.getUTCDate()).padStart(2, "0"); // Día con 2 dígitos
         const month = String(date.getUTCMonth() + 1).padStart(2, "0"); // Mes con 2 dígitos
         const year = date.getUTCFullYear(); // Año
         return `${day}-${month}-${year}`;
     };
-    console.log(rates);
+    const addRate = async () => {
+        try {
+            console.log({
+                comment: comment,
+                rating: rating,
+                reviewer: prop.userId || "678723786f7706dac0c7ebf0",
+                recipe: prop._id,
+            });
+            const response = await addRateById(prop._id, {
+                comment: comment,
+                rating: rating,
+                reviewer: prop.userId || "678723786f7706dac0c7ebf0",
+                recipe: prop._id,
+            });
+            const data = response.data.result;
+
+            console.log("addRate", data);
+
+            await updateRates(prop._id);
+
+            alert("Gracias por tu opinión");
+        } catch (error) {
+            console.log(error);
+            alert(
+                "Error al enviar tu opinión, posiblemente ya enviaste tu comentario"
+            );
+        }
+    };
     return (
         <>
             <Box className="grid grid-cols-1 gap-y-4 p-0">
@@ -140,9 +178,19 @@ export const SidebarRecipeContent: React.FC<{ prop: RecipeCardProps }> = ({
                             variant="outlined"
                             placeholder="Queremos saber más detalles..."
                             fullWidth
+                            required
+                            onChange={(
+                                event: React.ChangeEvent<HTMLInputElement>
+                            ) => {
+                                setComment(event.target.value);
+                            }}
+                            value={comment}
                             className="border border-gray-500 rounded p-1 resize-none focus:border-primary focus:outline-none"
                         ></TextField>
-                        <Button className="bg-primary font-bold my-2 text-white rounded p-2">
+                        <Button
+                            className="bg-primary font-bold my-2 text-white rounded p-2"
+                            onClick={addRate}
+                        >
                             Enviar
                         </Button>
                     </Box>

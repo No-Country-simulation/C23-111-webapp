@@ -13,6 +13,7 @@ type RecipeCardProps = recipe;
 import { useState } from "react";
 import { SidebarRecipeContent } from "./SidebarRecipeContent";
 import { getRatesById, getRecipeById } from "@/services/recipes";
+import { addRateById } from "@/services/rates";
 
 const StyledCardContent = styled(CardContent)({
     display: "flex",
@@ -64,9 +65,11 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({
         setRatesData(data);
         console.log(data);
     };
+
     const handleClick = async (id: string) => {
         try {
             await getRecipeData(id);
+            // await addRate(id);
             await getRatesData(id);
             openDrawer();
         } catch (error) {
@@ -138,7 +141,11 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({
             >
                 {recipeData && (
                     <SidebarRecipeContent
-                        prop={{ ...recipeData, rates: ratesData }}
+                        prop={{
+                            ...recipeData,
+                            rates: ratesData,
+                            updateRates: getRatesData,
+                        }}
                     />
                 )}
                 {/* <SidebarRecipeContent props={recipeData} /> */}
