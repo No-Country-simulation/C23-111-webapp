@@ -13,7 +13,10 @@ import StarRoundedIcon from "@mui/icons-material/StarRounded";
 import { FormEvent, useState } from "react";
 import Image from "next/image";
 import { recipeWithRates } from "@/types/recipes";
-import { addRateById, getRatesById } from "@/services/rates";
+import { addRateById } from "@/services/rates";
+// import { publicInstance } from "@/services/axios/index";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 type RecipeCardProps = recipeWithRates;
 
@@ -40,19 +43,13 @@ export const SidebarRecipeContent: React.FC<{
         const date = new Date(isoString);
 
         // console.log(date);
-        const day = String(date.getUTCDate()).padStart(2, "0"); // Día con 2 dígitos
-        const month = String(date.getUTCMonth() + 1).padStart(2, "0"); // Mes con 2 dígitos
+        const day = String(date.getUTCDate()).padStart(2, "0");
+        const month = String(date.getUTCMonth() + 1).padStart(2, "0");
         const year = date.getUTCFullYear(); // Año
         return `${day}-${month}-${year}`;
     };
     const addRate = async () => {
         try {
-            console.log({
-                comment: comment,
-                rating: rating,
-                reviewer: prop.userId || "678723786f7706dac0c7ebf0",
-                recipe: prop._id,
-            });
             const response = await addRateById(prop._id, {
                 comment: comment,
                 rating: rating,
@@ -65,11 +62,11 @@ export const SidebarRecipeContent: React.FC<{
 
             await updateRates(prop._id);
 
-            alert("Gracias por tu opinión");
+            toast.success("¡Gracias por tu opinión!");
         } catch (error) {
             console.log(error);
             if (error) {
-                alert(error);
+                toast.error(`${error}`);
             }
         }
     };
