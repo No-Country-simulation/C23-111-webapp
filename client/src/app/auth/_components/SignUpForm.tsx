@@ -1,6 +1,6 @@
-import { styled, Typography, Button, Box, Divider } from "@mui/material";
+import { styled, Typography, Box, Divider } from "@mui/material";
 import Grid from "@mui/material/Grid2";
-import { Form } from "@/components";
+import { Form, CommonButton } from "@/Components";
 import { useFormik } from "formik";
 import { Field } from "@/types/form";
 import Image from "next/image";
@@ -65,11 +65,12 @@ export const SignUpForm: React.FC = () => {
       >
         <Typography variant="h1">Registrate</Typography>
         <Form fields={signUpFields} formik={formik}>
-          <Button variant="contained" type="submit">
-            <Typography sx={{ color: "#fff" }} variant="body1">
-              Registrarse
-            </Typography>
-          </Button>
+        <CommonButton
+          text="Registrarse"
+          buttonSize='medium'
+          variant="contained"
+          fontWeight={600}
+          type="submit" />
         </Form>
       </Grid>
     </FormBox>

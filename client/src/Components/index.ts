@@ -3,19 +3,27 @@ import { RecipeCard } from "./RecipeCard/RecipeCard";
 import { SideBar } from "./SideBar/SideBar";
 import { EmptyRecipesContainer } from "./EmptyRecipesContainer/EmptyRecipesContainer";
 import { RecipeList } from "./RecipeList/RecipeList";
-import {SearchBar} from './SearchBar/SearchBar';
+import { SearchBar } from "./SearchBar/SearchBar";
 import { BasicInput } from "./BasicInput/BasicInput";
-import {Form} from './Form/Form'
+import { CommonButton } from "./CommonButton/CommonButton";
+import { Form } from "./Form/Form";
 import { ScreenSizeWarning } from "./ScreenSizeWarning/ScreenSizeWarning";
+import { Header } from "./Header/Header";
+import { Footer } from "./Footer/Footer";
 
-export { 
-    SideBar, 
-    RecipeCard,
-    FilterBox,
-    EmptyRecipesContainer,
-    RecipeList,
-    SearchBar,
-    BasicInput,
-    Form,
-    ScreenSizeWarning
-}
+
+
+export {
+  Header,
+  Footer,
+  SideBar,
+  RecipeCard,
+  FilterBox,
+  EmptyRecipesContainer,
+  RecipeList,
+  SearchBar,
+  BasicInput,
+  CommonButton,
+  Form,
+  ScreenSizeWarning,
+};

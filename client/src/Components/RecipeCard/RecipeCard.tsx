@@ -12,7 +12,7 @@ import { recipe, recipeWithRates } from "@/types/recipes";
 type RecipeCardProps = recipe;
 import { useState } from "react";
 import { SidebarRecipeContent } from "./SidebarRecipeContent";
-import { getRecipeById } from "@/services/recipes";
+import { getRatesById, getRecipeById } from "@/services/recipes";
 
 const StyledCardContent = styled(CardContent)({
     display: "flex",
@@ -26,7 +26,7 @@ const StyledCard = styled(Card)({
     alignItems: "space-between",
     backgroundColor: "#ffffff",
     minHeight: "200px",
-    margin: "1% 0",
+    margin: "5% 0",
     cursor: "pointer",
     transition:
         "transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1)",
@@ -48,16 +48,27 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({
 }) => {
     const [open, setOpen] = useState(false);
     const [recipeData, setRecipeData] = useState<recipeWithRates>();
+    const [ratesData, setRatesData] = useState([]);
     const openDrawer = () => setOpen(true);
     const closeDrawer = () => setOpen(false);
 
+    const getRecipeData = async (id: string) => {
+        const response = await getRecipeById(id);
+        const data = response.data.result.recipeWithRates;
+        setRecipeData(data);
+    };
+    const getRatesData = async (id: string) => {
+        const response = await getRatesById(id);
+        const data = response.data.result;
+
+        setRatesData(data);
+        console.log(data);
+    };
     const handleClick = async (id: string) => {
         try {
-            const response = await getRecipeById(id);
-            const data = response.data.result.recipeWithRates;
-            setRecipeData(data);
+            await getRecipeData(id);
+            await getRatesData(id);
             openDrawer();
-            console.log(data);
         } catch (error) {
             alert(error);
         }
@@ -125,7 +136,11 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({
                     },
                 }}
             >
-                {recipeData && <SidebarRecipeContent prop={recipeData} />}
+                {recipeData && (
+                    <SidebarRecipeContent
+                        prop={{ ...recipeData, rates: ratesData }}
+                    />
+                )}
                 {/* <SidebarRecipeContent props={recipeData} /> */}
             </Drawer>
         </>

@@ -31,12 +31,21 @@ type rates = {
     _id: string,
     rating: number,
     comment: string,
-    reviewer: string,
+    reviewer?: reviewer,
     recipe: string,
     createdAt: string,
     updatedAt: string
 }
-
+type reviewer= {
+     _id: string
+    name: string
+    email: string
+    password: string
+    rol: string
+    favouritesRecipes?: []
+    createdAt: string
+    __v: number
+}
 export type recipeWithRates = {
     status: string,
     userId: string,

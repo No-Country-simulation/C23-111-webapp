@@ -1,6 +1,6 @@
 import Grid from "@mui/material/Grid2";
-import { styled, Button, Typography, Box, Divider } from "@mui/material";
-import { Form } from "@/components";
+import { styled,Typography, Box, Divider } from "@mui/material";
+import { Form, CommonButton } from "@/Components";
 import { useFormik } from "formik";
 import { logInSchema, logInfields } from "../_utils";
 import Image from "next/image";
@@ -60,11 +60,12 @@ export const LogInForm: React.FC = () => {
           <Typography variant="body2">Nos alegra tenerte de vuelta.</Typography>
         </>
         <Form fields={logInfields} formik={formik}>
-          <Button variant="contained" type="submit">
-            <Typography sx={{ color: "#fff" }} variant="body1">
-              Iniciar sesión
-            </Typography>
-          </Button>
+          <CommonButton
+          text="Iniciar sesión"
+          buttonSize='medium'
+          variant="contained"
+          fontWeight={600}
+          type="submit" />
         </Form>
       </Grid>
 
