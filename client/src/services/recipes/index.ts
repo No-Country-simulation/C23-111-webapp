@@ -19,3 +19,11 @@ export const getRecipeById = async (id: string) => {
         throw error;
     }
 }
+export const getRatesById = async (id: string) => {
+    try {
+        const response = await publicInstance.get(`/rates/${id}`)
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
