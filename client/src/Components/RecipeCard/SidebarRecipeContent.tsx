@@ -68,9 +68,9 @@ export const SidebarRecipeContent: React.FC<{
             alert("Gracias por tu opinión");
         } catch (error) {
             console.log(error);
-            alert(
-                "Error al enviar tu opinión, posiblemente ya enviaste tu comentario"
-            );
+            if (error) {
+                alert(error);
+            }
         }
     };
     return (
