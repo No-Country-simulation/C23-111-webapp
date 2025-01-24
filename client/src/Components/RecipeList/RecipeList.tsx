@@ -26,7 +26,7 @@ export const RecipeList = () => {
             : [];
 
     return (
-        <>
+        <section style={{marginBottom: '5%'}}>
             {filteredRecipes.length > 0 && (
                 <Typography className="py-4" variant="h3">
                     Puedes cocinar{" "}
@@ -53,6 +53,6 @@ export const RecipeList = () => {
             ) : (
                 <EmptyRecipesContainer />
             )}
-        </>
+        </section>
     );
 };

@@ -2,7 +2,7 @@ import express from "express";
 import cors from 'cors';
 import { serverRoutes } from "./mainRoutes";
 import { optionCors } from "./config/cors.config";
-import { HOST, PORT, MONGO_URI } from "./config/dotenv.config";
+import { PORT, MONGO_URI, HOST } from "./config/dotenv.config";
 import mongoose from "mongoose";
 import logger from "morgan";
 
@@ -35,6 +35,6 @@ mongoose.connect(MONGO_URI,{
   process.exit(1);
 })
 
-app.listen(PORT, HOST, () => {
-  console.log(`Servidor corriendo en http://${HOST}:${PORT}`)
+app.listen(PORT,() => {
+  console.log(`Server on port ${PORT}`)
 })

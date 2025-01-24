@@ -6,7 +6,7 @@ export const SearchBar = () => {
   const { ingredients, setSelectedIngredients } = useRecipeContext();
 
   return (
-    <Stack spacing={3} sx={{ width: 300 }}>
+    <Stack spacing={3} sx={{ width: '75%' }}>
       <Autocomplete
         multiple
         options={ingredients}
