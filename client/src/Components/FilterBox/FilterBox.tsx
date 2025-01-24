@@ -94,10 +94,10 @@ export const FilterBox: React.FC<FilterBoxProps> = ({
         <>
             <Card
                 sx={{
-                    maxWidth: "330",
-
+                    display: 'flex',
+                    flexDirection: 'column',
+                    maxWidth: '90%',
                     py: 1,
-
                     borderRadius: 2,
                     boxShadow: "none",
                 }}

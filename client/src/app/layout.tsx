@@ -4,6 +4,7 @@ import { RecipeProvider } from "@/context/recipeContext";
 import { CssBaseline } from "@mui/material";
 import { ScreenSizeWarning } from "@/Components";
 import theme from "@/theme/theme";
+import NextNProgress from 'nextjs-progressbar';
 import "@/styles/globals.css";
 
 export default function RootLayout({
@@ -20,6 +21,7 @@ export default function RootLayout({
         <RecipeProvider>
           <CssBaseline />
           <body>
+          <NextNProgress color={theme.palette.primary.main} />
             {children}
             <ScreenSizeWarning />
           </body>
