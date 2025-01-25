@@ -1,10 +1,12 @@
-"use client"
+"use client";
 import React from "react";
-import { CommonButton } from "@/components";
-import { styled, Box } from "@mui/material";
+import { CommonButton, UserAvatar } from "@/components";
+import { styled, Box, Typography } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/authContext";
+import theme from "@/theme/theme";
 
 const StyledHeader = styled("header")({
   display: "flex",
@@ -36,6 +38,7 @@ const FrameBox = styled(Box)({
 
 export const Header: React.FC = () => {
   const router = useRouter();
+  const { isAuthenticated, user } = useAuth();
   return (
     <StyledHeader>
       <div></div>
@@ -44,12 +47,21 @@ export const Header: React.FC = () => {
           <Image src="/logo.png" width="70" height="70" alt="logo" />
         </Link>
       </FrameBox>
-      <CommonButton
-        text="Iniciar sesión"
-        buttonSize="small"
-        variant="contained"
-        clickHandler={() => router.push("/auth")}
-      />
+      {isAuthenticated ? (
+        <Box sx={{display: 'flex', alignItems: 'center'}}>
+          <Typography sx={{ color: [theme.palette.primary.main] }} variant="h4">
+            Bienvenido, {user?.name}!
+          </Typography>
+          <UserAvatar />
+        </Box>
+      ) : (
+        <CommonButton
+          text="Iniciar sesión"
+          buttonSize="small"
+          variant="contained"
+          clickHandler={() => router.push("/auth")}
+        />
+      )}
     </StyledHeader>
   );
 };

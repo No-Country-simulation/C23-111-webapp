@@ -10,6 +10,8 @@ import { Form } from "./Form/Form";
 import { ScreenSizeWarning } from "./ScreenSizeWarning/ScreenSizeWarning";
 import { Header } from "./Header/Header";
 import { Footer } from "./Footer/Footer";
+import { MainLoader } from "./MainLoader/MainLoader";
+import { UserAvatar } from "./UserAvatar/UserAvatar";
 
 
 
@@ -26,4 +28,6 @@ export {
   CommonButton,
   Form,
   ScreenSizeWarning,
+  MainLoader,
+  UserAvatar
 };
