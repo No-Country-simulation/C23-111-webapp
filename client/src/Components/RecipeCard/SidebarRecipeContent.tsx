@@ -15,8 +15,13 @@ import Image from "next/image";
 import { recipeWithRates } from "@/types/recipes";
 import { addRateById } from "@/services/rates";
 // import { publicInstance } from "@/services/axios/index";
+import { Form, CommonButton } from "@/components";
+import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { logInfields, signUpSchema } from "@/app/auth/_utils";
+import { rateSchema } from "@/app/auth/_utils/validation/validation";
+import { commentFields } from "@/app/auth/_utils/fields/fields";
 
 type RecipeCardProps = recipeWithRates;
 
@@ -34,11 +39,24 @@ export const SidebarRecipeContent: React.FC<{
         updateRates,
     } = prop;
     const [rating, setRating] = useState(rateAverage);
-    const [comment, setComment] = useState("");
+    const formik = useFormik({
+        initialValues: {
+            comment: "",
+        },
+        validationSchema: rateSchema,
+        onSubmit: async (values) => {
+            try {
+                console.log(values);
+                //  await register(values);
+                await addRate(values.comment);
+            } catch (error) {
+                throw error;
+            }
+        },
+    });
 
-    const saveReview = (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-    };
+    const [loading, setLoading] = useState(false);
+
     const convertToDate = (isoString: string) => {
         const date = new Date(isoString);
 
@@ -48,10 +66,11 @@ export const SidebarRecipeContent: React.FC<{
         const year = date.getUTCFullYear(); // Año
         return `${day}-${month}-${year}`;
     };
-    const addRate = async () => {
+    const addRate = async (comment: string) => {
         try {
+            setLoading(true);
             const response = await addRateById(prop._id, {
-                comment: comment,
+                comment,
                 rating: rating,
                 reviewer: prop.userId || "678723786f7706dac0c7ebf0",
                 recipe: prop._id,
@@ -68,6 +87,8 @@ export const SidebarRecipeContent: React.FC<{
             if (error) {
                 toast.error(`${error}`);
             }
+        } finally {
+            setLoading(false);
         }
     };
     return (
@@ -148,9 +169,9 @@ export const SidebarRecipeContent: React.FC<{
                     <Divider />
                     {/* formulario */}
                     <Box
-                        component="form"
+                        component="div"
                         className="flex flex-col gap-y-2"
-                        onSubmit={saveReview}
+                        // onSubmit={saveReview}
                     >
                         <Typography className="font-semibold text-center">
                             ¿Qué opinas de esta receta?
@@ -165,7 +186,19 @@ export const SidebarRecipeContent: React.FC<{
                                 }}
                             />
                         </Box>
-                        <TextField
+
+                        <Form fields={commentFields} formik={formik}>
+                            <CommonButton
+                                text="Enviar"
+                                buttonSize="medium"
+                                variant="contained"
+                                fontWeight={600}
+                                type="submit"
+                                loading={loading}
+                            />
+                        </Form>
+
+                        {/* <TextField
                             aria-hidden={false}
                             multiline
                             rows={3} // Número de líneas iniciales
@@ -186,7 +219,7 @@ export const SidebarRecipeContent: React.FC<{
                             onClick={addRate}
                         >
                             Enviar
-                        </Button>
+                        </Button> */}
                     </Box>
 
                     <Typography className="font-semibold">

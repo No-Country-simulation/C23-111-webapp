@@ -27,6 +27,7 @@ export default function RootLayout({
                             {children}
                             <ScreenSizeWarning />
                         </AuthProvider>
+                        <ToastContainer />
                     </body>
                 </RecipeProvider>
             </ThemeProvider>
