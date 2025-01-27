@@ -1,9 +1,11 @@
 import Grid from "@mui/material/Grid2";
 import { styled,Typography, Box, Divider } from "@mui/material";
-import { Form, CommonButton } from "@/Components";
+import { Form, CommonButton } from "@/components";
 import { useFormik } from "formik";
 import { logInSchema, logInfields } from "../_utils";
 import Image from "next/image";
+import {useAuth} from '@/context/authContext'
+
 
 const FormBox = styled(Grid)({
   display: "flex",
@@ -28,15 +30,17 @@ const FrameBox = styled(Box)({
 });
 
 export const LogInForm: React.FC = () => {
-  const initialValues = Object.fromEntries(
-    logInfields?.map((field) => [field?.name, ""])
-  );
+  const {signIn} = useAuth()
+
   const formik = useFormik({
-    initialValues,
-    validationSchema: logInSchema,
-    onSubmit: (values) => {
-      console.log(values);
+    initialValues: {
+      email: '',
+      password: ''
     },
+    validationSchema: logInSchema,
+    onSubmit: async (values) => {
+      await signIn(values)
+    }
   });
   return (
     <FormBox container spacing={2}>
