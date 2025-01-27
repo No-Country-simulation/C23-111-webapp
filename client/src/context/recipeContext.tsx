@@ -12,7 +12,9 @@ import { recipe } from "@/types/recipes";
 type RecipeContextType = {
   recipes: recipe[];
   ingredients: string[];
+  setIngredients: Dispatch<SetStateAction<string[]>>
   categories: string[];
+  setCategories: Dispatch<SetStateAction<string[]>>;
   loadRecipes: (data: recipe[]) => void;
   selectedIngredients: string[];
   selectedCategories: string[];
@@ -51,6 +53,9 @@ export const RecipeProvider: React.FC<RecipeProviderProps> = ({ children }) => {
       "saludable",
       "comida rápida",
     ];
+
+    localStorage.setItem('ingredients', JSON.stringify(uniqueIngredients));
+    localStorage.setItem('category', JSON.stringify(category))
     setCategories(category);
     setIngredients(uniqueIngredients);
   }, []);
@@ -60,7 +65,9 @@ export const RecipeProvider: React.FC<RecipeProviderProps> = ({ children }) => {
       value={{
         recipes,
         ingredients,
+        setIngredients,
         categories,
+        setCategories,
         loadRecipes,
         selectedIngredients,
         selectedCategories,

@@ -14,12 +14,23 @@ const PageContainer = styled(Grid)({
 });
 
 export default function Home() {
-  const { loadRecipes, selectedIngredients, selectedCategories } =
-    useRecipeContext();
+  const {
+    loadRecipes,
+    setIngredients,
+    setCategories,
+  } = useRecipeContext();
 
   useEffect(() => {
     const fetchRecipes = async () => {
       try {
+        const cachedIngredients = localStorage.getItem("ingredients");
+        const cachedCategory = localStorage.getItem("category");
+
+        if (cachedIngredients && cachedCategory) {
+          setIngredients(JSON.parse(cachedIngredients));
+          setCategories(JSON.parse(cachedCategory));
+          return;
+        }
         const response = await getAllRecipes();
         const data = await response.data.result;
         loadRecipes(data);
@@ -28,19 +39,19 @@ export default function Home() {
       }
     };
     fetchRecipes();
-  }, [loadRecipes]);
+  }, [loadRecipes, setIngredients, setCategories]);
 
   return (
     <>
       <PageContainer container spacing={2}>
-        <Grid component="aside" size={{md:4, lg: 3}}>
+        <Grid component="aside" size={{ md: 4, lg: 3 }}>
           <SideBar />
         </Grid>
 
         <Grid
           component="main"
-          sx={{ display: "flex", flexDirection: "column", maxWidth:'100%' }}
-          size={{md:8, lg: 9}}
+          sx={{ display: "flex", flexDirection: "column", maxWidth: "100%" }}
+          size={{ md: 8, lg: 9 }}
         >
           <Header />
           <Box className="flex flex-col items-center justify-center max-h-full mt-40">
@@ -56,15 +67,6 @@ export default function Home() {
             <Typography variant="h4" sx={{ textAlign: "center" }}>
               Usa las etiquetas o el buscador para encontrar lo que necesitas.
             </Typography>
-
-            <Box className="flex flex-col items-center min-w-screen justify-center gap-3 pt-4">
-              <Typography variant="caption" sx={{}}>
-                Tus ingredientes seleccionados: {selectedIngredients.join(", ")}{" "}
-              </Typography>
-              <Typography variant="caption">
-                Tus categorías seleccionadas: {selectedCategories.join(", ")}{" "}
-              </Typography>
-            </Box>
 
             <Box
               component="section"
