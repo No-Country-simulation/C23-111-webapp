@@ -1,11 +1,10 @@
 import { styled, Typography, Box, Divider } from "@mui/material";
 import Grid from "@mui/material/Grid2";
-import { Form, CommonButton } from "@/Components";
+import { Form, CommonButton } from "@/components";
 import { useFormik } from "formik";
-import { Field } from "@/types/form";
 import Image from "next/image";
-import { signUpSchema } from "../_utils/validation/validation";
-import { signUpFields } from "../_utils/fields/fields";
+import { signUpFields, signUpSchema } from "../_utils";
+import { useAuth } from "@/context/authContext";
 
 const FormBox = styled(Grid)({
   display: "flex",
@@ -29,14 +28,21 @@ const FrameBox = styled(Box)({
 });
 
 export const SignUpForm: React.FC = () => {
-  const initialValues = Object.fromEntries(
-    signUpFields?.map((field: Field) => [field?.name, ""])
-  );
+  const { register } = useAuth();
+
   const formik = useFormik({
-    initialValues,
+    initialValues: {
+      name: "",
+      email: "",
+      password: "",
+    },
     validationSchema: signUpSchema,
-    onSubmit: (values) => {
-      alert(values);
+    onSubmit: async (values) => {
+      try {
+        await register(values);
+      } catch (error) {
+        throw error;
+      }
     },
   });
   return (
@@ -65,12 +71,13 @@ export const SignUpForm: React.FC = () => {
       >
         <Typography variant="h1">Registrate</Typography>
         <Form fields={signUpFields} formik={formik}>
-        <CommonButton
-          text="Registrarse"
-          buttonSize='medium'
-          variant="contained"
-          fontWeight={600}
-          type="submit" />
+          <CommonButton
+            text="Registrarse"
+            buttonSize="medium"
+            variant="contained"
+            fontWeight={600}
+            type="submit"
+          />
         </Form>
       </Grid>
     </FormBox>

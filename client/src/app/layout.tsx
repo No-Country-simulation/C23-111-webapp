@@ -1,10 +1,11 @@
 "use client";
 import { ThemeProvider } from "@mui/material/styles";
 import { RecipeProvider } from "@/context/recipeContext";
+import { AuthProvider } from "@/context/authContext";
 import { CssBaseline } from "@mui/material";
-import { ScreenSizeWarning } from "@/Components";
+import { ScreenSizeWarning } from "@/components";
 import theme from "@/theme/theme";
-import NextNProgress from 'nextjs-progressbar';
+import NextNProgress from "nextjs-progressbar";
 import "@/styles/globals.css";
 
 export default function RootLayout({
@@ -21,9 +22,11 @@ export default function RootLayout({
         <RecipeProvider>
           <CssBaseline />
           <body>
-          <NextNProgress color={theme.palette.primary.main} />
-            {children}
-            <ScreenSizeWarning />
+            <AuthProvider>
+              <NextNProgress color={theme.palette.primary.main} />
+              {children}
+              <ScreenSizeWarning />
+            </AuthProvider>
           </body>
         </RecipeProvider>
       </ThemeProvider>
