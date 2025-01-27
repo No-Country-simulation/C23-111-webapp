@@ -8,6 +8,7 @@ import theme from "@/theme/theme";
 import NextNProgress from "nextjs-progressbar";
 import "@/styles/globals.css";
 import { ToastContainer } from "react-toastify";
+import { Suspense } from "react";
 export default function RootLayout({
     children,
 }: {
@@ -22,12 +23,16 @@ export default function RootLayout({
                 <RecipeProvider>
                     <CssBaseline />
                     <body>
-                        <AuthProvider>
-                            <NextNProgress color={theme.palette.primary.main} />
-                            {children}
-                            <ScreenSizeWarning />
-                        </AuthProvider>
-                        <ToastContainer />
+                        <Suspense fallback={<div>Loading...</div>}>
+                            <AuthProvider>
+                                <NextNProgress
+                                    color={theme.palette.primary.main}
+                                />
+                                {children}
+                                <ScreenSizeWarning />
+                            </AuthProvider>
+                            <ToastContainer />
+                        </Suspense>
                     </body>
                 </RecipeProvider>
             </ThemeProvider>
