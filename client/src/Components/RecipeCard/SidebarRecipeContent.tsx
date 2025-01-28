@@ -22,6 +22,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { logInfields, signUpSchema } from "@/app/auth/_utils";
 import { rateSchema } from "@/app/auth/_utils/validation/validation";
 import { commentFields } from "@/app/auth/_utils/fields/fields";
+import { useAuth } from "@/context/authContext";
 
 type RecipeCardProps = recipeWithRates;
 
@@ -38,6 +39,7 @@ export const SidebarRecipeContent: React.FC<{
         rateAverage,
         updateRates,
     } = prop;
+    const { isAuthenticated } = useAuth();
     const [rating, setRating] = useState(rateAverage);
     const formik = useFormik({
         initialValues: {
@@ -176,27 +178,41 @@ export const SidebarRecipeContent: React.FC<{
                         <Typography className="font-semibold text-center">
                             ¿Qué opinas de esta receta?
                         </Typography>
-                        <Box className="flex justify-center mb-3">
-                            <Rating
-                                sx={{}}
-                                name="simple-controlled"
-                                value={rating}
-                                onChange={(event, newValue) => {
-                                    setRating(Number(newValue));
-                                }}
-                            />
-                        </Box>
+                        {!isAuthenticated ? (
+                            <Typography className="font-semibold text-center text-red-500">
+                                Necesitas iniciar sesión para dejar tu opinión
+                            </Typography>
+                        ) : (
+                            <>
+                                <Box className="flex justify-center mb-3">
+                                    <Rating
+                                        sx={{}}
+                                        name="simple-controlled"
+                                        value={rating}
+                                        disabled={!isAuthenticated}
+                                        onChange={(event, newValue) => {
+                                            setRating(Number(newValue));
+                                        }}
+                                    />
+                                </Box>
 
-                        <Form fields={commentFields} formik={formik}>
-                            <CommonButton
-                                text="Enviar"
-                                buttonSize="medium"
-                                variant="contained"
-                                fontWeight={600}
-                                type="submit"
-                                loading={loading}
-                            />
-                        </Form>
+                                <Form
+                                    fields={commentFields}
+                                    formik={formik}
+                                    disabled={!isAuthenticated}
+                                >
+                                    <CommonButton
+                                        text="Enviar"
+                                        buttonSize="medium"
+                                        variant="contained"
+                                        fontWeight={600}
+                                        type="submit"
+                                        loading={loading}
+                                        disabled={!isAuthenticated}
+                                    />
+                                </Form>
+                            </>
+                        )}
 
                         {/* <TextField
                             aria-hidden={false}
