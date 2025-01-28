@@ -12,8 +12,9 @@ const publicInstance = axios.create({
 publicInstance.interceptors.response.use(
   (response) => response,
   (error) => {
+
     const { data } = error.response;
-    return Promise.reject(data.error);
+    return Promise.reject(data.error || data.message);
   }
 );
 

@@ -17,6 +17,17 @@ export const logInfields: Field[] = [
     }
 ]
 
+export const commentFields: Field[] = [
+    {
+        name: 'comment',
+        type: 'text',
+        label: 'Comentario',
+        placeholder: 'Deja tu comentario',
+        columns: 12,
+    },
+
+]
+
 export const signUpFields: Field[] = [
     {
         name: 'name',

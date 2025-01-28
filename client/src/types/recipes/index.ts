@@ -61,6 +61,7 @@ export type recipeWithRates = {
     rateAverage: number,
     createdAt: string,
     rates: rates[]
+    
 }
 
 

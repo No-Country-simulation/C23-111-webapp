@@ -13,28 +13,86 @@ import StarRoundedIcon from "@mui/icons-material/StarRounded";
 import { FormEvent, useState } from "react";
 import Image from "next/image";
 import { recipeWithRates } from "@/types/recipes";
+import { addRateById } from "@/services/rates";
+// import { publicInstance } from "@/services/axios/index";
+import { Form, CommonButton } from "@/components";
+import { useFormik } from "formik";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { logInfields, signUpSchema } from "@/app/auth/_utils";
+import { rateSchema } from "@/app/auth/_utils/validation/validation";
+import { commentFields } from "@/app/auth/_utils/fields/fields";
+import { useAuth } from "@/context/authContext";
 
 type RecipeCardProps = recipeWithRates;
 
-export const SidebarRecipeContent: React.FC<{ prop: RecipeCardProps }> = ({
-    prop,
-}) => {
-    const { name, steps, ingredients, description, image, rates, rateAverage } =
-        prop;
+export const SidebarRecipeContent: React.FC<{
+    prop: RecipeCardProps & { updateRates: (id: string) => void };
+}> = ({ prop }) => {
+    const {
+        name,
+        steps,
+        ingredients,
+        description,
+        image,
+        rates,
+        rateAverage,
+        updateRates,
+    } = prop;
+    const { isAuthenticated } = useAuth();
     const [rating, setRating] = useState(rateAverage);
+    const formik = useFormik({
+        initialValues: {
+            comment: "",
+        },
+        validationSchema: rateSchema,
+        onSubmit: async (values) => {
+            try {
+                console.log(values);
+                //  await register(values);
+                await addRate(values.comment);
+            } catch (error) {
+                throw error;
+            }
+        },
+    });
 
-    const saveReview = (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-    };
+    const [loading, setLoading] = useState(false);
+
     const convertToDate = (isoString: string) => {
         const date = new Date(isoString);
-        console.log(date);
-        const day = String(date.getUTCDate()).padStart(2, "0"); // Día con 2 dígitos
-        const month = String(date.getUTCMonth() + 1).padStart(2, "0"); // Mes con 2 dígitos
+
+        // console.log(date);
+        const day = String(date.getUTCDate()).padStart(2, "0");
+        const month = String(date.getUTCMonth() + 1).padStart(2, "0");
         const year = date.getUTCFullYear(); // Año
         return `${day}-${month}-${year}`;
     };
-    console.log(rates);
+    const addRate = async (comment: string) => {
+        try {
+            setLoading(true);
+            const response = await addRateById(prop._id, {
+                comment,
+                rating: rating,
+                reviewer: prop.userId || "678723786f7706dac0c7ebf0",
+                recipe: prop._id,
+            });
+            const data = response.data.result;
+
+            console.log("addRate", data);
+
+            await updateRates(prop._id);
+
+            toast.success("¡Gracias por tu opinión!");
+        } catch (error) {
+            console.log(error);
+            if (error) {
+                toast.error(`${error}`);
+            }
+        } finally {
+            setLoading(false);
+        }
+    };
     return (
         <>
             <Box className="grid grid-cols-1 gap-y-4 p-0">
@@ -113,35 +171,71 @@ export const SidebarRecipeContent: React.FC<{ prop: RecipeCardProps }> = ({
                     <Divider />
                     {/* formulario */}
                     <Box
-                        component="form"
+                        component="div"
                         className="flex flex-col gap-y-2"
-                        onSubmit={saveReview}
+                        // onSubmit={saveReview}
                     >
                         <Typography className="font-semibold text-center">
                             ¿Qué opinas de esta receta?
                         </Typography>
-                        <Box className="flex justify-center mb-3">
-                            <Rating
-                                sx={{}}
-                                name="simple-controlled"
-                                value={rating}
-                                onChange={(event, newValue) => {
-                                    setRating(Number(newValue));
-                                }}
-                            />
-                        </Box>
-                        <TextField
+                        {!isAuthenticated ? (
+                            <Typography className="font-semibold text-center text-red-500">
+                                Necesitas iniciar sesión para dejar tu opinión
+                            </Typography>
+                        ) : (
+                            <>
+                                <Box className="flex justify-center mb-3">
+                                    <Rating
+                                        sx={{}}
+                                        name="simple-controlled"
+                                        value={rating}
+                                        disabled={!isAuthenticated}
+                                        onChange={(event, newValue) => {
+                                            setRating(Number(newValue));
+                                        }}
+                                    />
+                                </Box>
+
+                                <Form
+                                    fields={commentFields}
+                                    formik={formik}
+                                    disabled={!isAuthenticated}
+                                >
+                                    <CommonButton
+                                        text="Enviar"
+                                        buttonSize="medium"
+                                        variant="contained"
+                                        fontWeight={600}
+                                        type="submit"
+                                        loading={loading}
+                                        disabled={!isAuthenticated}
+                                    />
+                                </Form>
+                            </>
+                        )}
+
+                        {/* <TextField
                             aria-hidden={false}
                             multiline
                             rows={3} // Número de líneas iniciales
                             variant="outlined"
                             placeholder="Queremos saber más detalles..."
                             fullWidth
+                            required
+                            onChange={(
+                                event: React.ChangeEvent<HTMLInputElement>
+                            ) => {
+                                setComment(event.target.value);
+                            }}
+                            value={comment}
                             className="border border-gray-500 rounded p-1 resize-none focus:border-primary focus:outline-none"
                         ></TextField>
-                        <Button className="bg-primary font-bold my-2 text-white rounded p-2">
+                        <Button
+                            className="bg-primary font-bold my-2 text-white rounded p-2"
+                            onClick={addRate}
+                        >
                             Enviar
-                        </Button>
+                        </Button> */}
                     </Box>
 
                     <Typography className="font-semibold">

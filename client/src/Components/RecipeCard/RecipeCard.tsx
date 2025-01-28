@@ -13,6 +13,7 @@ type RecipeCardProps = recipe;
 import { useState } from "react";
 import { SidebarRecipeContent } from "./SidebarRecipeContent";
 import { getRatesById, getRecipeById } from "@/services/recipes";
+import { addRateById } from "@/services/rates";
 
 const StyledCardContent = styled(CardContent)({
   display: "flex",
@@ -61,7 +62,6 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({
   const getRatesData = async (id: string) => {
     const response = await getRatesById(id);
     const data = response.data.result;
-
     setRatesData(data);
     console.log(data);
   };
@@ -107,42 +107,44 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({
                 </Typography>
               )}
             </>
+                    <StyledCardContent>
+                        <Typography variant="caption">
+                            📋 {totalSteps} pasos
+                        </Typography>
+                        <Typography variant="caption">
+                            🍴 {ingredients.length} ingredientes
+                        </Typography>
+                    </StyledCardContent>
+                    <CardContent sx={{ padding: "10px 12px" }}>
+                        <Typography variant="body1">{description}</Typography>
+                    </CardContent>
+                </Box>
+            </StyledCard>
+            <Drawer
+                open={open}
+                onClose={closeDrawer}
+                anchor="right"
+                sx={{
+                    width: 500,
+                    flexShrink: 0,
+                    my: 2,
+                    "& .MuiDrawer-paper": {
+                        width: 500,
+                        boxSizing: "border-box",
+                    },
+                }}
+            >
+                {recipeData && (
+                    <SidebarRecipeContent
+                        prop={{
+                            ...recipeData,
+                            rates: ratesData,
+                            updateRates: getRatesData,
+                        }}
+                    />
+                )}
+            </Drawer>
+        </>
+    );
 
-            <Box className="flex gap-2">
-              <Rating readOnly value={rateAverage} precision={0.5} /> (
-              {totalRates === 0 ? "0" : rateAverage})
-            </Box>
-          </StyledCardContent>
-
-          <StyledCardContent>
-            <Typography variant="caption">📋 {totalSteps} pasos</Typography>
-            <Typography variant="caption">
-              🍴 {ingredients.length} ingredientes
-            </Typography>
-          </StyledCardContent>
-          <CardContent sx={{ padding: "10px 12px" }}>
-            <Typography variant="body1">{description}</Typography>
-          </CardContent>
-        </Box>
-      </StyledCard>
-      <Drawer
-        open={open}
-        onClose={closeDrawer}
-        anchor="right"
-        sx={{
-          width: 500,
-          flexShrink: 0,
-          my: 2,
-          "& .MuiDrawer-paper": {
-            width: 500,
-            boxSizing: "border-box",
-          },
-        }}
-      >
-        {recipeData && (
-          <SidebarRecipeContent prop={{ ...recipeData, rates: ratesData }} />
-        )}
-      </Drawer>
-    </>
-  );
 };
