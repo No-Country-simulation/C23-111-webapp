@@ -6,6 +6,7 @@ import { EmptyRecipesContainer } from "../EmptyRecipesContainer/EmptyRecipesCont
 import { Typography } from "@mui/material";
 import theme from "@/theme/theme";
 import { recipe } from "@/types/recipes";
+import { motion } from "framer-motion";
 
 export const RecipeList = () => {
   const { recipes, selectedIngredients, selectedCategories } =
@@ -45,6 +46,12 @@ export const RecipeList = () => {
       partialMatchRecipes: [] as recipe[],
     }
   );
+  
+  const cardVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+    exit: { opacity: 0, y: -20, transition: { duration: 0.3 } },
+  };
 
   return (
     <section style={{ marginBottom: "5%" }}>
@@ -58,17 +65,24 @@ export const RecipeList = () => {
             recetas!
           </Typography>
           {fullMatchRecipes.map((recipe) => (
-            <RecipeCard
+            <motion.div
               key={recipe.id}
-              id={recipe.id}
-              description={recipe.description}
-              name={recipe.name}
-              totalRates={recipe.totalRates}
-              rateAverage={recipe.rateAverage}
-              ingredients={recipe.ingredients}
-              image={recipe.image}
-              totalSteps={recipe.totalSteps}
-            />
+              variants={cardVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+            >
+              <RecipeCard
+                id={recipe.id}
+                description={recipe.description}
+                name={recipe.name}
+                totalRates={recipe.totalRates}
+                rateAverage={recipe.rateAverage}
+                ingredients={recipe.ingredients}
+                image={recipe.image}
+                totalSteps={recipe.totalSteps}
+              />
+            </motion.div>
           ))}
         </>
       ) : (
@@ -82,25 +96,28 @@ export const RecipeList = () => {
             ingredientes):
           </Typography>
           {partialMatchRecipes.map((recipe) => (
-            <RecipeCard
+            <motion.div
               key={recipe.id}
-              id={recipe.id}
-              description={recipe.description}
-              name={recipe.name}
-              totalRates={recipe.totalRates}
-              rateAverage={recipe.rateAverage}
-              ingredients={recipe.ingredients}
-              image={recipe.image}
-              totalSteps={recipe.totalSteps}
-              missingIngredient={recipe.missingIngredient}
-            />
+              variants={cardVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+            >
+              <RecipeCard
+                id={recipe.id}
+                description={recipe.description}
+                name={recipe.name}
+                totalRates={recipe.totalRates}
+                rateAverage={recipe.rateAverage}
+                ingredients={recipe.ingredients}
+                image={recipe.image}
+                totalSteps={recipe.totalSteps}
+                missingIngredient={recipe.missingIngredient}
+              />
+            </motion.div>
           ))}
         </>
       )}
-
-      {fullMatchRecipes.length === 0 &&
-        partialMatchRecipes.length === 0 &&
-        null}
     </section>
   );
 };
