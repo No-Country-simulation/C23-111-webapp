@@ -18,6 +18,7 @@ export default function Home() {
     loadRecipes,
     setIngredients,
     setCategories,
+    setRecipes
   } = useRecipeContext();
 
   useEffect(() => {
@@ -25,10 +26,12 @@ export default function Home() {
       try {
         const cachedIngredients = localStorage.getItem("ingredients");
         const cachedCategory = localStorage.getItem("category");
+        const cachedRecipes = localStorage.getItem('recipes')
 
-        if (cachedIngredients && cachedCategory) {
+        if (cachedIngredients && cachedCategory && cachedRecipes) {
           setIngredients(JSON.parse(cachedIngredients));
           setCategories(JSON.parse(cachedCategory));
+          setRecipes(JSON.parse(cachedRecipes))
           return;
         }
         const response = await getAllRecipes();
@@ -39,7 +42,7 @@ export default function Home() {
       }
     };
     fetchRecipes();
-  }, [loadRecipes, setIngredients, setCategories]);
+  }, [loadRecipes, setIngredients, setCategories, setRecipes]);
 
   return (
     <>
