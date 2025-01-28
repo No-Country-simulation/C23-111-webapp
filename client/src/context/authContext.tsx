@@ -24,6 +24,7 @@ interface LogInCredentials {
 
 interface AuthContextProps {
   user: User | null;
+  role: string | undefined,
   isAuthenticated: boolean;
   signIn: (credentials: LogInCredentials) => Promise<void>;
   register: (credentials: signUpCredentials) => Promise<void>;
@@ -34,6 +35,7 @@ const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
+  const [role, setRole] = useState<'user' | 'admin'>()
   const router = useRouter();
   const [loading, setLoading] = useState(true)
 
@@ -46,6 +48,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setLoading(true);
         const parsedUser = JSON.parse(userData);
         setUser(parsedUser);
+        setRole(parsedUser.rol)
       } catch (error) {
         console.error('Error parsing user data from cookies:', error);
       }
@@ -101,6 +104,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     <AuthContext.Provider
       value={{
         user,
+        role,
         isAuthenticated: !!user,
         signIn,
         register,

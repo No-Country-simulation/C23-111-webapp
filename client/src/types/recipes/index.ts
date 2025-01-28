@@ -25,6 +25,7 @@ export type recipe = {
     'rateAverage': number,
     'totalRates': number,
     'createdAt'?: string
+    missingIngredient?:  string[]
 }
 
 type rates = {
