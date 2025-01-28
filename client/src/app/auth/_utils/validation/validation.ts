@@ -33,4 +33,10 @@ const signUpSchema = Yup.object().shape({
 
 })
 
-export { logInSchema, signUpSchema };
+const rateSchema = Yup.object().shape({
+  comment: Yup.string()
+  .min(5, 'Demasiado corto')
+  .required('Este campo es obligatorio'),
+})
+
+export { logInSchema, signUpSchema, rateSchema };
