@@ -16,8 +16,7 @@ import { getRatesById, getRecipeById } from "@/services/recipes";
 
 const StyledCardContent = styled(CardContent)({
   display: "flex",
-  alignItems: "center",
-  gap: "15px",
+  gap: "10px",
   padding: "5px 12px",
 });
 
@@ -97,8 +96,8 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({
             width: "700px",
           }}
         >
-          <StyledCardContent className="flex justify-between">
-            <>
+          <StyledCardContent className="flex-col">
+            <Box className='flex justify-between'>
               <Typography variant="h4">{name}</Typography>
               {missingIngredient?.length && missingIngredient.length > 0 && (
                 <Typography variant="body2" sx={{ color: "red" }}>
@@ -107,9 +106,9 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({
               )}
               <Box className="flex gap-2">
                 <Rating readOnly value={rateAverage} precision={0.5} /> (
-                {totalRates === 0 ? "0" : ""})
+                {totalRates === 0 ? "Sin calificar" : rateAverage})
               </Box>
-            </>
+            </Box>
             <StyledCardContent>
               <Typography variant="caption">📋 {totalSteps} pasos</Typography>
               <Typography variant="caption">
