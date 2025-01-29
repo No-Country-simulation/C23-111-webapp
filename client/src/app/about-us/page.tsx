@@ -1,9 +1,16 @@
+"use client";
 // import { img } from "framer-motion/client";
 import Image from "next/image";
 import juanImg from "../../../public/img/juan-ramirez.jpg";
 import leandroImg from "../../../public/img/leandro-schugurensky.jpg";
+import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import GitHubIcon from "@mui/icons-material/GitHub";
+import { useRouter } from "next/navigation";
+import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
+import { CommonButton } from "@/components";
 
 export default function AboutUs() {
+    const router = useRouter();
     const compañeros = [
         {
             nombre: "Antonio Navarro",
@@ -46,43 +53,157 @@ export default function AboutUs() {
 
     return (
         <>
-            <div className="flex items-center gap-5 w-full m-10">
-                <div className="w-1/2">
-                    <h1 className="font-bold text-3xl ">
-                        Sobre <br />
-                        nosotros
-                    </h1>
-                    <p>
-                        Somos un grupo de estudiantes de Henry que decidimos
-                        trabajar juntos en un proyecto de fin de módulo. Nos
-                        especializamos en desarrollo web full stack y estamos
-                        comprometidos con la calidad y la excelencia en nuestro
-                        trabajo.
-                    </p>
-                </div>
-                <div className="flex flex-wrap justify-center gap-5 w-2/5">
-                    {compañeros.map((compañero) => {
-                        return (
-                            <div
-                                key={compañero.nombre}
-                                className="bg-red-200 w-44"
-                            >
-                                <Image
-                                    src={compañero.img}
-                                    alt={compañero.nombre}
-                                    width={200}
-                                    height={200}
-                                    className="rounded-2xl"
-                                />
-                                <h2>{compañero.nombre}</h2>
-                                <p>{compañero.rol}</p>
-                                <div className="flex justify-between">
-                                    <a href={compañero.linkedin}>Linkedin</a>
-                                    <a href={compañero.github}>Github</a>
-                                </div>
-                            </div>
-                        );
-                    })}
+            <div className="w-full min-h-screen p-10 xl:p-15 bg-fondo bg-no-repeat bg-cover">
+                <CommonButton
+                    text="Inicio"
+                    buttonSize="small"
+                    variant="contained"
+                    startIcon={<ArrowBackRoundedIcon />}
+                    clickHandler={() => router.push("/")}
+                    sx={{
+                        mb: "12px",
+                    }}
+                />
+                <div className="h-full w-full bg-[#f5f5f5] p-10 rounded-2xl grid grid-cols-1 xl:grid-cols-[700px_1fr]  items-start relative">
+                    <div className="xl:sticky top-10 right-0">
+                        <h1 className="font-bold text-5xl text-primary">
+                            Sobre <br />
+                            Nosotros...
+                        </h1>
+                        <p className="my-5 text-lg">
+                            Hola! Somos un equipo de desarrolladores creado por
+                            la plataforma de{" "}
+                            <span className="text-primary font-semibold">
+                                NoCountry
+                            </span>{" "}
+                            unidos por la pasión de crear soluciones
+                            tecnológicas innovadoras. Provenientes de distintos
+                            países, nos unimos para dar vida a un proyecto
+                            único:{" "}
+                            <span className="text-primary font-semibold">
+                                un recetario interactivo.
+                            </span>{" "}
+                            Este proyecto permite a los usuarios encontrar
+                            recetas deliciosas y adaptadas a sus necesidades
+                            mediante filtros fáciles de usar. Nuestro equipo
+                            está compuesto por tres desarrolladores{" "}
+                            <span className="text-primary font-semibold">
+                                Backend
+                            </span>{" "}
+                            y dos{" "}
+                            <span className="text-primary font-semibold">
+                                Frontend
+                            </span>{" "}
+                            , trabajando de manera colaborativa para crear una
+                            plataforma intuitiva y dinámica. ¡Nos encanta
+                            compartir nuestra pasión por la programación y la
+                            cocina!
+                        </p>
+                    </div>
+                    <section>
+                        <div className="flex justify-center items-center flex-wrap">
+                            {compañeros
+                                .filter(
+                                    (companiero) => companiero.rol == "Backend"
+                                )
+                                .map((compañero) => {
+                                    return (
+                                        <div
+                                            key={compañero.nombre}
+                                            className="group bg-white w-44 h-64 flex flex-col justify-between items-center p-3 text-center m-3 rounded-xl hover:shadow-lg transition"
+                                        >
+                                            <div className="w-[140px] h-[140px] overflow-hidden rounded-full">
+                                                <Image
+                                                    src={compañero.img}
+                                                    alt={compañero.nombre}
+                                                    width={150}
+                                                    height={150}
+                                                    className="rounded-2xl w-full h-full object-cover group-hover:scale-110 transition"
+                                                />
+                                            </div>
+                                            <h2 className="font-semibold text-primary">
+                                                {compañero.nombre}
+                                            </h2>
+                                            <p>{compañero.rol}</p>
+                                            <div className="flex justify-between gap-3">
+                                                <a
+                                                    className="hover:text-primary transition-colors"
+                                                    href={compañero.github}
+                                                    target="_blank"
+                                                >
+                                                    <GitHubIcon
+                                                        href={compañero.github}
+                                                    />
+                                                </a>
+
+                                                <a
+                                                    className="hover:text-primary transition-colors"
+                                                    href={compañero.linkedin}
+                                                    target="_blank"
+                                                >
+                                                    <LinkedInIcon
+                                                        href={
+                                                            compañero.linkedin
+                                                        }
+                                                    />
+                                                </a>
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                        </div>
+                        <div className="flex justify-center items-center flex-wrap">
+                            {compañeros
+                                .filter(
+                                    (companiero) => companiero.rol == "Frontend"
+                                )
+                                .map((compañero) => {
+                                    return (
+                                        <div
+                                            key={compañero.nombre}
+                                            className="group bg-white w-44 h-64 flex flex-col justify-between items-center p-3 text-center m-3 rounded-xl hover:shadow-lg transition"
+                                        >
+                                            <div className="w-[140px] h-[140px] overflow-hidden rounded-full">
+                                                <Image
+                                                    src={compañero.img}
+                                                    alt={compañero.nombre}
+                                                    width={150}
+                                                    height={150}
+                                                    className="rounded-2xl w-full h-full object-cover group-hover:scale-110 transition"
+                                                />
+                                            </div>
+                                            <h2 className="font-semibold text-primary">
+                                                {compañero.nombre}
+                                            </h2>
+                                            <p>{compañero.rol}</p>
+                                            <div className="flex justify-between gap-3">
+                                                <a
+                                                    className="hover:text-primary transition-colors"
+                                                    href={compañero.github}
+                                                    target="_blank"
+                                                >
+                                                    <GitHubIcon
+                                                        href={compañero.github}
+                                                    />
+                                                </a>
+
+                                                <a
+                                                    className="hover:text-primary transition-colors"
+                                                    href={compañero.linkedin}
+                                                    target="_blank"
+                                                >
+                                                    <LinkedInIcon
+                                                        href={
+                                                            compañero.linkedin
+                                                        }
+                                                    />
+                                                </a>
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                        </div>
+                    </section>
                 </div>
             </div>
         </>

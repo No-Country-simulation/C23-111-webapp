@@ -12,6 +12,8 @@ type CommonButtonProps = {
     type?: "submit" | "reset" | undefined;
     sx?: object;
     loading?: boolean;
+    startIcon?: React.ReactNode;
+    endIcon?: React.ReactNode;
 };
 
 type ButtonSize = {
@@ -88,6 +90,8 @@ export const CommonButton: React.FC<CommonButtonProps> = ({
     disabled = false,
     sx,
     loading = false,
+    startIcon,
+    endIcon,
 }) => {
     return (
         <StyledButton
@@ -110,6 +114,8 @@ export const CommonButton: React.FC<CommonButtonProps> = ({
             disabled={disabled}
             type={type}
             loading={loading}
+            startIcon={startIcon}
+            endIcon={endIcon}
         >
             {text}
         </StyledButton>
