@@ -9,7 +9,7 @@ import { authentication } from "./middleware/authToken";
 export const serverRoutes = Router();
 
 serverRoutes.use("/auth", authRoutes);
-serverRoutes.use("/recipes", authentication, recipesRoutes);
+serverRoutes.use("/recipes", recipesRoutes);
 serverRoutes.use("/user", authentication, usersRoutes);
-serverRoutes.use("/rates", authentication, ratesRoutes);
-serverRoutes.use("/categories", authentication, categoriesRoutes);
+serverRoutes.use("/rates", ratesRoutes);
+serverRoutes.use("/categories", categoriesRoutes);
