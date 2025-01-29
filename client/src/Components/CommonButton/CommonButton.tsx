@@ -57,14 +57,14 @@ const StyledButton = styled(Button)<{
     box-shadow: none;
     text-transform: none;
     font-weight: ${({ fontWeight }) => fontWeight};
-    font-size: 18px;
+    font-size: 19px;
     //   font-style: normal;
     padding: 6px 12px;
     line-height: normal;
     border-radius: 15px;
     background: linear-gradient(#efab68, #f48e28);
-    width: 100%;
-    max-width: ${({ buttonsize }) => buttonSizes[buttonsize].width};
+    /* width: 100%; */
+    /* max-width: ${({ buttonsize }) => buttonSizes[buttonsize].width}; */
     height: ${({ buttonsize }) => buttonSizes[buttonsize].height};
     "&:hover": {
         box-shadow: none;
