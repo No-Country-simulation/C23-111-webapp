@@ -1,5 +1,5 @@
 "use client";
-import { RecipeList, SideBar, Header } from "@/components";
+import { RecipeList, SideBar, Header } from "@/Components";
 import { styled, Typography, Box } from "@mui/material";
 import { getAllRecipes } from "@/services/recipes";
 import { useEffect } from "react";
@@ -38,7 +38,7 @@ export default function Home() {
         const data = await response.data.result;
         loadRecipes(data);
       } catch (error) {
-        console.log(error);
+        alert(error);
       }
     };
     fetchRecipes();

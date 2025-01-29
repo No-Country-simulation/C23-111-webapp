@@ -12,7 +12,7 @@ import { Header } from "./Header/Header";
 import { Footer } from "./Footer/Footer";
 import { MainLoader } from "./MainLoader/MainLoader";
 import { UserAvatar } from "./UserAvatar/UserAvatar";
-
+import { SelectInput } from "./SelectInput/SelectInput";
 
 
 export {
@@ -29,5 +29,6 @@ export {
   Form,
   ScreenSizeWarning,
   MainLoader,
-  UserAvatar
+  UserAvatar,
+  SelectInput
 };

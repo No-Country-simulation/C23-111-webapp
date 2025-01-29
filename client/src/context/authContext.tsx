@@ -5,7 +5,6 @@ import { logIn } from '@/services/auth';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
 import { signUpCredentials } from '@/types/auth';
-import { MainLoader } from '@/components';
 import { signUp } from '@/services/auth';
 
 interface User {
@@ -37,7 +36,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [role, setRole] = useState<'user' | 'admin'>()
   const router = useRouter();
-  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const token = Cookies.get('token');
@@ -45,7 +43,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     if (token && userData) {
       try {
-        setLoading(true);
         const parsedUser = JSON.parse(userData);
         setUser(parsedUser);
         setRole(parsedUser.rol)
@@ -53,8 +50,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         console.error('Error parsing user data from cookies:', error);
       }
     }
-
-    setLoading(false)
 
   }, []);
 
@@ -97,8 +92,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       throw error;
     }
   }
-
-  if (loading) return <MainLoader isOpen={loading} />
 
   return (
     <AuthContext.Provider
