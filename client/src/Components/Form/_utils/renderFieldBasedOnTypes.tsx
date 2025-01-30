@@ -1,5 +1,5 @@
-import {BasicInput, SelectInput} from '@/Components';
-import {Field} from '@/types/form';
+import { BasicInput, SelectInput, ArrayInput } from '@/Components';
+import { Field } from '@/types/form';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const renderFieldBasedOnType = (formik: any, field: Field) => {
@@ -27,5 +27,9 @@ export const renderFieldBasedOnType = (formik: any, field: Field) => {
           isMultipleSelect={field.isMultipleSelect}
         />
       );
+      case "steps":
+      return (
+        <ArrayInput formik={formik} />
+      );
   }
-};
+  }

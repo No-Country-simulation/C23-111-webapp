@@ -75,7 +75,7 @@ export const LogInForm: React.FC = () => {
                         Nos alegra tenerte de vuelta.
                     </Typography>
                 </>
-                <Form fields={logInfields} formik={formik}>
+                <Form sx={{width: '60%'}} fields={logInfields} formik={formik}>
                     <CommonButton
                         text="Iniciar sesión"
                         buttonSize="medium"

@@ -64,4 +64,14 @@ export type recipeWithRates = {
     
 }
 
+export type createRecipe = {
+    name: string,
+    description: string,
+    steps: string[],
+    userId: string,
+    category: string[],
+    ingredients: string[],
+    file: string
+}
+
 
