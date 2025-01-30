@@ -89,7 +89,7 @@ const customTypography = {
     },
   },
   caption:{
-    fontSize: pxToRem(11),
+    fontSize: pxToRem(12),
     color: "gray",
     fontWeight: 500,
     [theme.breakpoints.up("md")]: {
