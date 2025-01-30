@@ -8,10 +8,10 @@ import {
     Typography,
 } from "@mui/material";
 import StarRoundedIcon from "@mui/icons-material/StarRounded";
-import {  useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import { recipeWithRates } from "@/types/recipes";
-import { addRateById } from "@/services/rates";;
+import { addRateById } from "@/services/rates";
 import { Form, CommonButton } from "@/Components";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
@@ -64,13 +64,14 @@ export const SidebarRecipeContent: React.FC<{
         const year = date.getUTCFullYear(); // Año
         return `${day}-${month}-${year}`;
     };
+    const { user } = useAuth();
     const addRate = async (comment: string) => {
         try {
             setLoading(true);
             const response = await addRateById(prop._id, {
                 comment,
                 rating: rating,
-                reviewer: prop.userId || "678723786f7706dac0c7ebf0",
+                reviewer: user?._id,
                 recipe: prop._id,
             });
             const data = response.data.result;
