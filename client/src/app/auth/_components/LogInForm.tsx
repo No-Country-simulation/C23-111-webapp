@@ -1,6 +1,6 @@
 import Grid from "@mui/material/Grid2";
 import { styled, Typography, Box, Divider } from "@mui/material";
-import { Form, CommonButton } from "@/components";
+import { Form, CommonButton } from "@/Components";
 import { useFormik } from "formik";
 import { logInSchema, logInfields } from "../_utils";
 import Image from "next/image";

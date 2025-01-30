@@ -5,7 +5,7 @@ import {
     Box,
     TextField,
 } from "@mui/material";
-import { CommonButton, Form } from "@/components";
+import { CommonButton, Form } from "@/Components";
 import { useState } from "react";
 import { useRecipeFields } from "./_utils/fields";
 import { useFormik } from "formik";

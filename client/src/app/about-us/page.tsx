@@ -7,7 +7,7 @@ import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import { useRouter } from "next/navigation";
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
-import { CommonButton } from "@/components";
+import { CommonButton } from "@/Components";
 
 export default function AboutUs() {
     const router = useRouter();

@@ -1,4 +1,4 @@
-import { BasicInput, SelectInput, ArrayInput } from "@/components";
+import { BasicInput, SelectInput, ArrayInput } from "@/Components";
 import { Field } from "@/types/form";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
