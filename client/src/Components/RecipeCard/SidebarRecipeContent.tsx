@@ -12,7 +12,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { recipeWithRates } from "@/types/recipes";
 import { addRateById } from "@/services/rates";
-import { Form, CommonButton } from "@/Components";
+import { Form, CommonButton } from "@/components";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -71,7 +71,7 @@ export const SidebarRecipeContent: React.FC<{
             const response = await addRateById(prop._id, {
                 comment,
                 rating: rating,
-                reviewer: user?._id,
+                reviewer: user?._id ?? "",
                 recipe: prop._id,
             });
             const data = response.data.result;
@@ -228,7 +228,7 @@ export const SidebarRecipeContent: React.FC<{
                                         <div className="flex justify-between items-center">
                                             <Typography className="font-xl font-normal">
                                                 {rate.reviewer?.name ||
-                                                    "Anónimo "}
+                                                    "Anónimo"}
                                             </Typography>
                                             <Typography
                                                 variant="caption"
