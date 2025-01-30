@@ -1,6 +1,6 @@
 import { Box, Drawer } from "@mui/material";
 import RestaurantRoundedIcon from "@mui/icons-material/RestaurantRounded";
-import { FilterBox, SearchBar } from "@/components";
+import { FilterBox, SearchBar } from "@/Components";
 import { CategoryRounded } from "@mui/icons-material";
 import { useRecipeContext } from "@/context/recipeContext";
 

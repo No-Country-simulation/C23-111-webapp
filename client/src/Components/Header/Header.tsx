@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { CommonButton, UserAvatar } from "@/components";
+import { CommonButton, UserAvatar } from "@/Components";
 import { styled, Box, Typography } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";

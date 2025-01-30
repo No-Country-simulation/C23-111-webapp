@@ -12,7 +12,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { recipeWithRates } from "@/types/recipes";
 import { addRateById } from "@/services/rates";
-import { Form, CommonButton } from "@/components";
+import { Form, CommonButton } from "@/Components";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
