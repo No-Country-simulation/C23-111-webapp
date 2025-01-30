@@ -32,7 +32,7 @@ export const RecipeList = () => {
 
             if (missingIngredient.length === 0) {
                 acc.fullMatchRecipes.push(recipe);
-            } else if (matchedIngredients.length >= 2) {
+            } else if (matchedIngredients.length >= 1) {
                 acc.partialMatchRecipes.push({
                     ...recipe,
                     missingIngredient,
@@ -92,8 +92,7 @@ export const RecipeList = () => {
             {partialMatchRecipes.length > 0 && (
                 <>
                     <Typography className="py-4" variant="h4">
-                        También puedes intentar con estas recetas (coinciden al
-                        menos 2 ingredientes):
+                        También puedes intentar con estas recetas (contiene alguno de los ingredientes seleccionados):
                     </Typography>
                     {partialMatchRecipes.map((recipe) => (
                         <motion.div

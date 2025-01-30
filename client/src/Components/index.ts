@@ -15,6 +15,7 @@ import { UserAvatar } from "./UserAvatar/UserAvatar";
 import { SelectInput } from "./SelectInput/SelectInput";
 import { AddRecipeModal } from "./AddRecipeModal/AddRecipe.Modal";
 import { ArrayInput } from "./ArrayInput/ArrayInput";
+import {ProgressBar} from './Progressbar/Progressbar'
 
 
 
@@ -35,5 +36,6 @@ export {
   UserAvatar,
   SelectInput,
   AddRecipeModal,
-  ArrayInput
+  ArrayInput,
+  ProgressBar
 };

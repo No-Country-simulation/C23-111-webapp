@@ -3,12 +3,14 @@ import { ThemeProvider } from "@mui/material/styles";
 import { RecipeProvider } from "@/context/recipeContext";
 import { AuthProvider } from "@/context/authContext";
 import { CircularProgress, CssBaseline } from "@mui/material";
-import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
 import { ScreenSizeWarning } from "@/Components";
 import theme from "@/theme/theme";
 import "@/styles/globals.css";
 import { ToastContainer } from "react-toastify";
 import { Suspense } from "react";
+import { ProgressBar } from "@/Components";
+
+
 export default function RootLayout({
   children,
 }: {
@@ -31,13 +33,8 @@ export default function RootLayout({
               }
             >
               <AuthProvider>
+                <ProgressBar />
                 {children}
-                <ProgressBar
-                  height="4px"
-                  color="#fffd00"
-                  options={{ showSpinner: true }}
-                  shallowRouting
-                />
                 <ScreenSizeWarning />
               </AuthProvider>
               <ToastContainer />

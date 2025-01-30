@@ -1,6 +1,6 @@
 // import { recipesResponseData } from "@/types/recipes";
 // import { get } from "node:http";
-import { publicInstance } from "../axios";
+import { privateInstance, publicInstance } from "../axios";
 
 export const getRatesById = async (id: string) => {
     try {
@@ -23,7 +23,7 @@ type RateData = {
 
 export const addRateById = async (id: string,data: RateData) => {
     try {
-        const response = await publicInstance.post(`/rates/`,{...data,recipe:id})
+        const response = await privateInstance.post(`/rates/`,{...data,recipe:id})
         return response;
     } catch (error) {
         throw error;
