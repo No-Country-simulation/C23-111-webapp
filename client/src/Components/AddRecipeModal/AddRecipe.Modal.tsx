@@ -2,7 +2,6 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
-  Button,
   Box,
   TextField,
 } from "@mui/material";
@@ -10,23 +9,26 @@ import { CommonButton, Form } from "@/Components";
 import { useState } from "react";
 import { useRecipeFields } from "./_utils/fields";
 import { useFormik } from "formik";
+import { useAuth } from "@/context/authContext";
+import { addRecipe } from "@/services/recipes";
+import { createRecipe } from "@/types/recipes";
 
 export const AddRecipeModal = () => {
   const [open, setOpen] = useState(false);
-  const [image, setImage] = useState<string | null>(null); // Estado para la imagen
+  const [file, setImage] = useState<string>('');
+  const { user } = useAuth();
   const fields = useRecipeFields();
 
   const handleClick = () => {
     setOpen(!open);
   };
 
-  // Función para manejar el cambio de la imagen
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
       const reader = new FileReader();
       reader.onloadend = () => {
-        setImage(reader.result as string); // Establecer la imagen como base64
+        setImage(reader.result as string);
       };
       reader.readAsDataURL(file);
     }
@@ -34,44 +36,58 @@ export const AddRecipeModal = () => {
 
   const formik = useFormik({
     initialValues: {
-      name: '',
-      description: '',
+      name: "",
+      userId: user?._id,
+      description: "",
       category: [],
       ingredients: [],
       steps: [],
-      image: '' // Campo para la imagen
+      file: "",
     },
     validateOnChange: false,
     validateOnBlur: false,
-    onSubmit: (values) => {
-      // Incluir la imagen en los datos antes de enviarlos
-      const dataToSend = { ...values, image };
-      console.log(dataToSend); // Aquí puedes hacer la petición a la API
-    }
+    onSubmit: async (values) => {
+      //@ts-expect-error no error
+      const dataToSend: createRecipe  = { ...values, file };
+      try {
+        const response = await addRecipe(dataToSend);
+        const data = response.data;
+        console.log('AddRecipe', data)
+      } catch(error) {
+        console.log(error)
+      }
+      console.log(dataToSend);
+    },
   });
 
   return (
     <>
-      <Button onClick={handleClick}>Open dialog</Button>
+      <CommonButton text="Subir receta" variant="contained" buttonSize="small" clickHandler={handleClick} />
       <Dialog
         open={open}
         onClose={handleClick}
-        maxWidth='md'
-        sx={{ gap: '15px' }}
+        maxWidth="md"
+        sx={{ gap: "15px" }}
       >
-        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
-          <DialogTitle variant="h1">
-            Sube tu propia receta!
-          </DialogTitle>
-          <DialogContent sx={{ display: 'flex', justifyContent: 'center' }}>
-            <Form sx={{ width: '70%' }} formik={formik} fields={fields}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            width: "100%",
+          }}
+        >
+          <DialogTitle variant="h1">Sube tu propia receta!</DialogTitle>
+          <DialogContent sx={{ display: "flex", justifyContent: "center" }}>
+            <Form sx={{ width: "70%" }} formik={formik} fields={fields}>
               <TextField
+                name="file"
                 type="file"
                 onChange={handleImageChange}
                 fullWidth
                 variant="outlined"
                 label="Sube una imagen"
-                sx={{ marginBottom: '16px' }}
+                sx={{ marginBottom: "16px" }}
               />
               <CommonButton
                 type="submit"

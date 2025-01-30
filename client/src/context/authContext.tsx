@@ -34,7 +34,7 @@ const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
-  const [role, setRole] = useState<'user' | 'admin'>()
+  const [role, setRole] = useState<'user' | 'admin'>();
   const router = useRouter();
 
   useEffect(() => {
@@ -62,7 +62,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       Cookies.set('user', JSON.stringify(user), { expires: 7 });
 
       setUser(user);
-
       router.push('/');
     } catch (error) {
       console.error('Error during login:', error);
