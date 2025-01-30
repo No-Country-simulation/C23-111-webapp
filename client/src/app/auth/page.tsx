@@ -6,7 +6,7 @@ import { useState } from "react";
 import { LogInForm } from "./_components/LogInForm";
 import { SignUpForm } from "./_components/SignUpForm";
 import theme from "@/theme/theme";
-import { CommonButton } from "@/components";
+import { CommonButton } from "@/Components";
 import { useRouter } from "next/navigation";
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 
