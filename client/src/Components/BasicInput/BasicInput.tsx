@@ -26,7 +26,7 @@ export const BasicInput: React.FC<BasicInputProps> = ({
     const smUp = useMediaQuery<Theme>(() => theme.breakpoints.up("sm"));
     const touchedAndError = formik.touched[name] && formik.errors[name];
     return (
-        <FormControl sx={{ minWidth: "60%" }}>
+        <FormControl sx={{ width: "100%" }}>
             <TextField
                 label={label}
                 error={!!touchedAndError}
@@ -34,7 +34,7 @@ export const BasicInput: React.FC<BasicInputProps> = ({
                 name={name}
                 type={type}
                 multiline={multiline && smUp ? true : false}
-                rows={multiline && smUp ? 6 : 1}
+                rows={6}
                 placeholder={placeholder}
                 fullWidth
                 disabled={disabled}

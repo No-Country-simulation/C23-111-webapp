@@ -1,5 +1,6 @@
 import { Container, styled, Typography } from "@mui/material";
 import Image from "next/image";
+import { AddRecipeModal } from "@/Components";
 
 const StyledContainer = styled(Container)({
     display: "flex",
@@ -20,6 +21,7 @@ export const EmptyRecipesContainer = () => {
             <Typography variant="h3" sx={{ color: "gray", mt: "20px" }}>
                 No hay resultados.
             </Typography>
+            <AddRecipeModal />
         </StyledContainer>
     );
 };

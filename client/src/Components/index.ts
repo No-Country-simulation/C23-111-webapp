@@ -13,6 +13,9 @@ import { Footer } from "./Footer/Footer";
 import { MainLoader } from "./MainLoader/MainLoader";
 import { UserAvatar } from "./UserAvatar/UserAvatar";
 import { SelectInput } from "./SelectInput/SelectInput";
+import { AddRecipeModal } from "./AddRecipeModal/AddRecipe.Modal";
+import { ArrayInput } from "./ArrayInput/ArrayInput";
+
 
 
 export {
@@ -30,5 +33,7 @@ export {
   ScreenSizeWarning,
   MainLoader,
   UserAvatar,
-  SelectInput
+  SelectInput,
+  AddRecipeModal,
+  ArrayInput
 };
