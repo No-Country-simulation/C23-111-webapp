@@ -1,25 +1,21 @@
 import {
     Avatar,
     Box,
-    Button,
     Divider,
     List,
     ListItem,
     Rating,
-    TextField,
     Typography,
 } from "@mui/material";
 import StarRoundedIcon from "@mui/icons-material/StarRounded";
-import { FormEvent, useState } from "react";
+import {  useState } from "react";
 import Image from "next/image";
 import { recipeWithRates } from "@/types/recipes";
-import { addRateById } from "@/services/rates";
-// import { publicInstance } from "@/services/axios/index";
-import { Form, CommonButton } from "@/components";
+import { addRateById } from "@/services/rates";;
+import { Form, CommonButton } from "@/Components";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { logInfields, signUpSchema } from "@/app/auth/_utils";
 import { rateSchema } from "@/app/auth/_utils/validation/validation";
 import { commentFields } from "@/app/auth/_utils/fields/fields";
 import { useAuth } from "@/context/authContext";
@@ -213,29 +209,6 @@ export const SidebarRecipeContent: React.FC<{
                                 </Form>
                             </>
                         )}
-
-                        {/* <TextField
-                            aria-hidden={false}
-                            multiline
-                            rows={3} // Número de líneas iniciales
-                            variant="outlined"
-                            placeholder="Queremos saber más detalles..."
-                            fullWidth
-                            required
-                            onChange={(
-                                event: React.ChangeEvent<HTMLInputElement>
-                            ) => {
-                                setComment(event.target.value);
-                            }}
-                            value={comment}
-                            className="border border-gray-500 rounded p-1 resize-none focus:border-primary focus:outline-none"
-                        ></TextField>
-                        <Button
-                            className="bg-primary font-bold my-2 text-white rounded p-2"
-                            onClick={addRate}
-                        >
-                            Enviar
-                        </Button> */}
                     </Box>
 
                     <Typography className="font-semibold">
@@ -278,37 +251,6 @@ export const SidebarRecipeContent: React.FC<{
                             </Box>
                         );
                     })}
-
-                    {/* <Box className="display flex pb-5">
-                        <Avatar className="bg-lime-500">NS</Avatar>
-                        <Box className="flex flex-col gap-y-2 ml-3">
-                            <Box>
-                                <div className="flex justify-between items-center">
-                                    <Typography className="font-xl font-normal">
-                                        Nubia Sánchez
-                                    </Typography>
-                                    <Typography
-                                        variant="caption"
-                                        className="text-primary font-semibold"
-                                    >
-                                        10 Sep 2021
-                                    </Typography>
-                                </div>
-                                <Rating
-                                    name="read-only"
-                                    value={4}
-                                    readOnly
-                                    size="small"
-                                />
-                            </Box>
-
-                            <Typography className="text-gray-500 text-sm">
-                                Lorem ipsum dolor sit amet consectetur
-                                adipisicing elit. Sapiente corporis cupiditate
-                                dolorem, aliquid expedita hic.
-                            </Typography>
-                        </Box>
-                    </Box> */}
                 </Box>
             </Box>
         </>

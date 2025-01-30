@@ -1,7 +1,8 @@
 import React, { ReactNode } from "react";
 import { Field } from "@/types/form";
 import Grid from "@mui/material/Grid2";
-import { BasicInput } from "@/components";
+import { renderFieldBasedOnType } from "./_utils/renderFieldBasedOnTypes";
+
 
 type FormProps = {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -14,10 +15,9 @@ type FormProps = {
 
 export const Form: React.FC<FormProps> = ({
     formik,
-    fields,
     children,
+    fields,
     sx,
-    disabled,
 }) => {
     return (
         <form
@@ -40,15 +40,7 @@ export const Form: React.FC<FormProps> = ({
                         size={field.columns}
                         key={field.name}
                     >
-                        <BasicInput
-                            name={field.name}
-                            label={field.label}
-                            type={field.type}
-                            multiline={field.multiline}
-                            placeholder={field.placeholder}
-                            formik={formik}
-                            disabled={disabled}
-                        />
+                        {renderFieldBasedOnType(formik, field)}
                     </Grid>
                 ))}
                 {children && (

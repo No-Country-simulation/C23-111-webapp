@@ -13,7 +13,6 @@ type RecipeCardProps = recipe;
 import { useState } from "react";
 import { SidebarRecipeContent } from "./SidebarRecipeContent";
 import { getRatesById, getRecipeById } from "@/services/recipes";
-import { addRateById } from "@/services/rates";
 
 const StyledCardContent = styled(CardContent)({
     display: "flex",
@@ -89,7 +88,6 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({
                     image={image}
                     alt="imagen ilustrativa"
                 />
-
                 <Box
                     sx={{
                         display: "flex",

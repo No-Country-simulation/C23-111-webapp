@@ -1,5 +1,5 @@
 "use client";
-import { RecipeList, SideBar, Header } from "@/components";
+import { RecipeList, SideBar, Header } from "@/Components";
 import { styled, Typography, Box } from "@mui/material";
 import { getAllRecipes } from "@/services/recipes";
 import { useEffect } from "react";
@@ -23,23 +23,21 @@ export default function Home() {
                 const cachedIngredients = localStorage.getItem("ingredients");
                 const cachedCategory = localStorage.getItem("category");
                 const cachedRecipes = localStorage.getItem("recipes");
-
-                if (cachedIngredients && cachedCategory && cachedRecipes) {
-                    setIngredients(JSON.parse(cachedIngredients));
-                    setCategories(JSON.parse(cachedCategory));
-                    setRecipes(JSON.parse(cachedRecipes));
-                    return;
-                }
-                const response = await getAllRecipes();
-                const data = await response.data.result;
-                loadRecipes(data);
-            } catch (error) {
-                console.log(error);
-            }
-        };
-        fetchRecipes();
-    }, [loadRecipes, setIngredients, setCategories, setRecipes]);
-
+        if (cachedIngredients && cachedCategory && cachedRecipes) {
+          setIngredients(JSON.parse(cachedIngredients));
+          setCategories(JSON.parse(cachedCategory));
+          setRecipes(JSON.parse(cachedRecipes))
+          return;
+        }
+        const response = await getAllRecipes();
+        const data = await response.data.result;
+        loadRecipes(data);
+      } catch (error) {
+        alert(error);
+      }
+    };
+    fetchRecipes();
+  }, [loadRecipes, setIngredients, setCategories, setRecipes]);
     return (
         <>
             <PageContainer
