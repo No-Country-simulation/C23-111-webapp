@@ -16,7 +16,6 @@ import { getRatesById, getRecipeById } from "@/services/recipes";
 
 const StyledCardContent = styled(CardContent)({
     display: "flex",
-    alignItems: "center",
     gap: "15px",
     padding: "5px 12px",
 });
@@ -26,7 +25,7 @@ const StyledCard = styled(Card)({
     alignItems: "space-between",
     backgroundColor: "#ffffff",
     minHeight: "200px",
-    margin: "5% 0",
+    margin: "5%",
     cursor: "pointer",
     transition:
         "transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1)",
@@ -97,8 +96,8 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({
                         padding: "10px",
                     }}
                 >
-                    {/* <StyledCardContent className="flex justify-between"> */}
-                    <>
+                    <StyledCardContent className="flex flex-col">
+                    <Box className='flex  justify-between'>
                         <Typography variant="h4">{name}</Typography>
                         {missingIngredient?.length &&
                             missingIngredient.length > 0 && (
@@ -110,7 +109,11 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({
                                     ingredientes
                                 </Typography>
                             )}
-                    </>
+                            <Box className='flex gap-2'>
+                                <Rating readOnly value={rateAverage} precision={0.5} />
+                                {totalRates === 0 ? 'Sin calificar' : rateAverage}
+                            </Box>
+                    </Box>
                     <StyledCardContent sx={{ padding: "0" }}>
                         <Typography variant="caption">
                             📋 {totalSteps} pasos
@@ -122,6 +125,7 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({
                     <CardContent sx={{ padding: "10px 0" }}>
                         <Typography variant="body1">{description}</Typography>
                     </CardContent>
+                    </StyledCardContent>
                 </Box>
             </StyledCard>
             <Drawer
