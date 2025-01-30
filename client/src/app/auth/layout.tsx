@@ -6,30 +6,29 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 const StyledDiv = styled("div")({
-  backgroundImage: `url('/food.jpg')`,
-  backgroundRepeat: "no-repeat",
-  backgroundSize: "cover",
-  overflow: "hidden",
+    backgroundImage: `url('/food.jpg')`,
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "cover",
+    overflow: "hidden",
 });
 
 export default function AuthLayout({
-  children,
+    children,
 }: {
-  children: React.ReactNode;
+    children: React.ReactNode;
 }) {
-  const { isAuthenticated } = useAuth();
-  const router = useRouter();
+    const { isAuthenticated } = useAuth();
+    const router = useRouter();
 
-  useEffect(() => {
+    useEffect(() => {
+        if (isAuthenticated) {
+            router.push("/");
+        }
+    }, [isAuthenticated, router]);
+
     if (isAuthenticated) {
-      router.push("/");
+        return null;
     }
-  }, [isAuthenticated, router]);
 
-  if (isAuthenticated) {
-    return null;
-  }
-
-  return <StyledDiv>{children}</StyledDiv>;
+    return <StyledDiv>{children}</StyledDiv>;
 }
-

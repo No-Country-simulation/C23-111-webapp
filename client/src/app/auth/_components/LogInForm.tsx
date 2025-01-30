@@ -1,6 +1,6 @@
 import Grid from "@mui/material/Grid2";
 import { styled, Typography, Box, Divider } from "@mui/material";
-import { Form, CommonButton } from "@/Components";
+import { Form, CommonButton } from "@/components";
 import { useFormik } from "formik";
 import { logInSchema, logInfields } from "../_utils";
 import Image from "next/image";
@@ -75,7 +75,11 @@ export const LogInForm: React.FC = () => {
                         Nos alegra tenerte de vuelta.
                     </Typography>
                 </>
-                <Form sx={{width: '60%'}} fields={logInfields} formik={formik}>
+                <Form
+                    sx={{ width: "60%" }}
+                    fields={logInfields}
+                    formik={formik}
+                >
                     <CommonButton
                         text="Iniciar sesión"
                         buttonSize="medium"
