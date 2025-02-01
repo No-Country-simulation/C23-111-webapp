@@ -1,6 +1,7 @@
 import { Container, styled, Typography } from "@mui/material";
 import Image from "next/image";
-
+import { AddRecipeModal } from "@/Components";
+import { useAuth } from "@/context/authContext";
 
 const StyledContainer = styled(Container)({
   display: "flex",
@@ -10,6 +11,7 @@ const StyledContainer = styled(Container)({
   alignItems: "center",
 });
 export const EmptyRecipesContainer = () => {
+  const { isAuthenticated } = useAuth();
 
   return (
     <StyledContainer>
@@ -22,15 +24,16 @@ export const EmptyRecipesContainer = () => {
       <Typography variant="h3" sx={{ color: "gray", mt: "20px" }}>
         No hay resultados.
       </Typography>
-      {/* {isAuthenticated && (
+
+      {isAuthenticated && (
         <>
           <Typography variant="h4">o</Typography>
-          <Typography variant="h3" sx={{ color: "gray", mb: '25px'}}>
+          <Typography variant="h3" sx={{ color: "gray", mb: "25px" }}>
             Puedes subir tu propia receta
           </Typography>
           <AddRecipeModal />
         </>
-      )} */}
+      )}
     </StyledContainer>
   );
 };
