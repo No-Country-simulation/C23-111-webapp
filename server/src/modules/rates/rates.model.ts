@@ -12,7 +12,7 @@ const RateSchema = new Schema({
     // required: [true, 'Es obligatorio comentar la receta'], 
     maxlength: [100, 'El comentario no puede superar los 100 caracteres'] 
 },
-  reviewer: { type: Schema.Types.ObjectId, ref: 'Users', required: true },
+  reviewer: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   recipe: { type: Schema.Types.ObjectId, ref: 'Recipe', required: true }
 
 },

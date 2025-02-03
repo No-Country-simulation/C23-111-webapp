@@ -17,20 +17,46 @@ const createCategory = async (req: Request, res: Response): Promise<void> => {
   }
 }
 
-// const deleteRate = async (req: Request, res: Response): Promise<void> => {  
-//   try {
+const getAllCategories = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const categories = await CategoryModel.find();
+    res.status(200).json(categories);
+  } catch (error) {
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+
+}
+
+const updateCategory = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const category = await CategoryModel.findByIdAndUpdate(req.params.id, req.body, { new: true })  
+    res.status(200).json(category); 
+  } catch (error) { 
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+}
+
+const deleteAllCategories = async (req: Request, res: Response): Promise<void> => {
+  try {
+    await CategoryModel.deleteMany();
+    res.status(200).json({ message: "All categories deleted" });
+  } catch (error) {
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+}
+
+const loadCategories = async (req: Request, res: Response, next: any): Promise<void> => {
+  try {
+
+    const insertedCategories = await CategoryModel.insertMany(req.body);
+
+    if (insertedCategories) {
+      res.status(201).json(insertedCategories);
+    }
     
-//     const deletedRate = await CategoryModel.findByIdAndDelete(req.params.id);
+  } catch (error) {
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+}
 
-//     if (!deletedRate) {
-//       res.status(404).json({ message: "Reseña no encontrada" });      
-//     }
-
-//     res.status(200).json(deletedRate);
-//   } catch (error) {
-//     res.status(500).json({ message: "Internal Server Error" });
-//   }
-// }
-
-// export default {createRate, deleteRate};
-export default {createCategory};
+export default {createCategory, getAllCategories, updateCategory, deleteAllCategories, loadCategories};

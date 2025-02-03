@@ -14,7 +14,8 @@ export const categorySchema = z.object({
         invalid_type_error: "El campo 'description' debe ser texto.",
         required_error: "Es obligatoria la descripcion de la categoria."
     })
-    .max(100, { message: "El comentario no puede tener más de 100 caracteres." }),
+    .min(10, { message: "La descripcion tiene que tener al menos 10 caracteres" })
+    .max(50, { message: "La descripcion no puede tener más de 50 caracteres." }),
   
     author: z.string({
       invalid_type_error: "El campo 'author' debe ser un ID.",

@@ -8,7 +8,6 @@ export interface User {
   rol: "user" | "admin";
   image?: string;
   favouritesRecipes: IRecipeSchema[];
-  myRecipes: IRecipeSchema[];
 }
 
 const UserSchema = new Schema({
@@ -18,7 +17,6 @@ const UserSchema = new Schema({
   rol: { type: String, enum: ['user', 'admin'], default: 'user' },
   image: {type: String },
   favouritesRecipes: {type: [RecipeSchema], required: true},
-  myRecipes: {type: [RecipeSchema], required: true},
   createdAt: { type: Date, default: Date.now }
 });
 
