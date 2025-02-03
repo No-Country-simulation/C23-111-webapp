@@ -61,7 +61,6 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({
         const response = await getRatesById(id);
         const data = response.data.result;
         setRatesData(data);
-        console.log(data);
     };
     const handleClick = async (id: string) => {
         try {

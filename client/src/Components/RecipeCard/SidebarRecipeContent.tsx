@@ -44,7 +44,6 @@ export const SidebarRecipeContent: React.FC<{
         validationSchema: rateSchema,
         onSubmit: async (values) => {
             try {
-                console.log(values);
                 //  await register(values);
                 await addRate(values.comment);
             } catch (error) {
@@ -82,7 +81,6 @@ export const SidebarRecipeContent: React.FC<{
 
             toast.success("¡Gracias por tu opinión!");
         } catch (error) {
-            console.log(error);
             if (error) {
                 toast.error(`${error}`);
             }

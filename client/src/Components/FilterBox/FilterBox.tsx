@@ -76,7 +76,6 @@ export const FilterBox: React.FC<FilterBoxProps> = ({
     };
     const isIngredient = title.toLocaleLowerCase().includes("ingredient");
     const clear = () => {
-        console.log("clear", title);
         if (isIngredient) {
             setSelectedIngredients([]);
         } else {

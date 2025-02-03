@@ -76,8 +76,6 @@ export const AddRecipeForm = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-        // const result = await response.json();
-        console.log(response);
         if (response.ok) {
           toast.success("Receta subida exitosamente!");
           resetForm()
@@ -105,7 +103,6 @@ export const AddRecipeForm = () => {
       if (!selectedIngredients.includes(newIngredient)) {
         setSelectedIngredients([...selectedIngredients, newIngredient]);
       }
-      console.log(selectedIngredients);
       e.target.value = "";
     }
   };
@@ -113,7 +110,6 @@ export const AddRecipeForm = () => {
     setSelectedIngredients(
       selectedIngredients.filter((ing) => ing !== ingredient)
     );
-    console.log(selectedIngredients);
   };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
