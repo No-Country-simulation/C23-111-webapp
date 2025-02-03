@@ -61,7 +61,26 @@ const getAll = async (req: Request, res: Response): Promise<void> => {
     res.status(500).json({ message: "Error interno del servidor." });
     return
   }
-}
+};
+
+const getAllpending = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const result = await recipeService.getAllpending();
+
+    if (!result) {
+      res.status(400).json({ message: `Error al obtener las recetas.` });
+      return
+    }
+
+    res.status(200).json({
+      message: "Recetas obtenidas exitosamente",
+      result,
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Error interno del servidor." });
+    return
+  }
+};
 
 const getById = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -92,7 +111,60 @@ const getById = async (req: Request, res: Response): Promise<void> => {
     res.status(500).json({ message: "Error interno del servidor." });
     return
   }
-}
+};
+
+const getUserRecipes = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { userId } = req.params
+
+    if (!userId) {
+      res.status(400).json({ message: "El ID es requerido." });
+      return
+    }
+
+    const result = await recipeService.getUserRecipes(userId);
+
+    if (!result) {
+      res.status(404).json({ message: `No se encontraron las receta del usuario con el ID: ${userId}` });
+      return;
+    }
+
+    res.status(201).json({
+      message: "Recetas obtenidas exitosamente",
+      result,
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Error interno del servidor." });
+    return
+  }
+};
+
+const editStatusById = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+
+    if (!id) {
+      res.status(400).json({ message: "El ID es requerido." });
+      return
+    }
+
+    const result = await recipeService.editStatusById(id, status);
+
+    if (!result) {
+      res.status(400).json({ message: `Error al obtener la receta con el id ${id}.` });
+      return
+    }
+
+    res.status(201).json({
+      message: "Receta editada exitosamente",
+      result,
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Error interno del servidor." });
+    return
+  }
+};
 
 const deleteById = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -128,7 +200,10 @@ const deleteById = async (req: Request, res: Response): Promise<void> => {
 const recipesController = {
   createRecipe,
   getAll,
+  getAllpending,
   getById,
+  getUserRecipes,
+  editStatusById,
   deleteById
 };
 

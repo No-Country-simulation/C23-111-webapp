@@ -50,10 +50,14 @@ export const recipeSchema = z.object({
     .min(1, { message: "Debe haber al menos un paso." })
     .max(30, { message: "No se pueden tener más de 30 pasos." }),
 
-    userId: z.string({
-      invalid_type_error: "El campo 'userId' debe ser de tipo string.",
-      required_error: "El campo 'userId' es requerido.",
-    })
-      .nonempty({ message: "El userId no debe estar vacío." })
-      .regex(objectIdRegex, { message: "El userId debe ser un ObjectId válido."})  
+  userId: z.string({
+    invalid_type_error: "El campo 'userId' debe ser de tipo string.",
+    required_error: "El campo 'userId' es requerido.",
+  })
+    .nonempty({ message: "El userId no debe estar vacío." })
+    .regex(objectIdRegex, { message: "El userId debe ser un ObjectId válido." })
+}).strict();
+
+export const statusStatusSchema = z.object({
+  status: z.enum(["pending", "approved", "rejected"])
 }).strict();
