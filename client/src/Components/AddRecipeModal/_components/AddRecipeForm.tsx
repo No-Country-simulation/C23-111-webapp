@@ -8,9 +8,11 @@ import {
   Chip,
   MenuItem,
   IconButton,
-  styled
+  styled,
+  FormControl,
+  FormHelperText,
 } from "@mui/material";
-import { AddRecipeSchema } from "../_utils/validations";
+// import { AddRecipeSchema } from "../_utils/validations";
 import { useAuth } from "@/context/authContext";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
@@ -19,12 +21,12 @@ import WarningIcon from "@mui/icons-material/Warning";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useRecipeContext } from "@/context/recipeContext";
 
-const SectionContainer = styled(Box) ({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '20px',
-  minHeight: 400
-})
+const SectionContainer = styled(Box)({
+  display: "flex",
+  flexDirection: "column",
+  gap: "20px",
+  minHeight: 400,
+});
 
 export const AddRecipeForm = () => {
   const [visible, setVisible] = useState<"section1" | "section2" | "section3">(
@@ -48,11 +50,11 @@ export const AddRecipeForm = () => {
       userId: user?._id,
       steps: [],
       ingredients: [],
-      categories: [],
-      file: null
+      category: [],
+      file: null,
     },
-    validationSchema: AddRecipeSchema,
-    onSubmit: async (values) => {
+    // validationSchema: AddRecipeSchema,
+    onSubmit: async (values, {resetForm}) => {
       const formData = new FormData();
       formData.append("name", values.name);
       formData.append("description", values.description);
@@ -74,9 +76,13 @@ export const AddRecipeForm = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-        const result = await response.json();
-        if (result.ok) {
+        if (response.ok) {
           toast.success("Receta subida exitosamente!");
+          resetForm()
+          setSelectedCategories([])
+          setSelectedIngredients([])
+          setImage(null)
+          setSteps([])
         }
       } catch (error) {
         toast.error(`Error al subir la receta ${error}`);
@@ -84,8 +90,7 @@ export const AddRecipeForm = () => {
         setLoading(false);
       }
     },
-  });
-
+  })
   const handleRemoveCategory = (category: string) => {
     setSelectedCategories(selectedCategories.filter((cat) => cat !== category));
   };
@@ -148,7 +153,9 @@ export const AddRecipeForm = () => {
           {/* Sección 1 */}
           {visible === "section1" && (
             <SectionContainer>
-              <Typography variant="h3" sx={{color: '#f48e28'}}>Nombre y una breve descripcion de tu receta</Typography>
+              <Typography variant="h3" sx={{ color: "#f48e28" }}>
+                Nombre y una breve descripcion de tu receta
+              </Typography>
               <Typography variant="body2">
                 Nombre <span style={{ color: "red" }}>*</span>
               </Typography>
@@ -157,11 +164,12 @@ export const AddRecipeForm = () => {
                 value={formik.values.name}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                error={!!touchedAndError}
+                error={formik.touched.name && Boolean(formik.errors.name)}
                 required
                 fullWidth
                 helperText={
-                  touchedAndError ? (
+                  formik.touched.name &&
+                  formik.errors.name && (
                     <>
                       <WarningIcon
                         sx={{
@@ -175,7 +183,7 @@ export const AddRecipeForm = () => {
                         {formik.errors[name]}
                       </span>
                     </>
-                  ) : null
+                  )
                 }
               />
               <Typography variant="body2">
@@ -188,10 +196,14 @@ export const AddRecipeForm = () => {
                 value={formik.values.description}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                error={!!touchedAndError}
+                error={
+                  formik.touched.description &&
+                  Boolean(formik.errors.description)
+                }
                 fullWidth
                 helperText={
-                  touchedAndError ? (
+                  formik.touched.description &&
+                  formik.errors.description && (
                     <>
                       <WarningIcon
                         sx={{
@@ -205,7 +217,7 @@ export const AddRecipeForm = () => {
                         {formik.errors[name]}
                       </span>
                     </>
-                  ) : null
+                  )
                 }
               />
             </SectionContainer>
@@ -214,40 +226,71 @@ export const AddRecipeForm = () => {
           {/* Sección 2 */}
           {visible === "section2" && (
             <SectionContainer>
-              <Typography variant="h3" sx={{color: '#f48e28'}}>Categorias e Ingredientes necesarios.</Typography>
+              <Typography variant="h3" sx={{ color: "#f48e28" }}>
+                Categorias e Ingredientes necesarios.
+              </Typography>
+
               <Typography variant="body2">
                 Categoría <span style={{ color: "red" }}>*</span>
               </Typography>
-              <Select
-                multiple
-                value={selectedCategories}
-                //@ts-expect-error no error
-                onChange={(e) => setSelectedCategories(e.target.value)}
-                renderValue={(selected) => (
-                  <div>
-                    {selected.map((value) => (
-                      <Chip
-                        key={value}
-                        label={value}
-                        onDelete={() => handleRemoveCategory(value)}
-                        deleteIcon={<DeleteIcon />}
-                      />
-                    ))}
-                  </div>
-                )}
+
+              <FormControl
                 fullWidth
+                error={
+                  formik.touched.category && Boolean(formik.errors.category)
+                }
               >
-                {categories.map((cat) => (
-                  <MenuItem key={cat} value={cat}>
-                    {cat}
-                  </MenuItem>
-                ))}
-              </Select>
+                <Select
+                  labelId="categories-label"
+                  multiple
+                  name="category"
+                  value={selectedCategories}
+                  onChange={(event) => {
+                    setSelectedCategories(event.target.value as string[]);
+                    formik.setFieldValue('category', event.target.value)
+                  }}
+                  onBlur={() => formik.setFieldTouched("categories", true)}
+                  renderValue={() => null}
+                >
+                  {categories.map((cat) => (
+                    <MenuItem key={cat} value={cat}>
+                      {cat}
+                    </MenuItem>
+                  ))}
+                </Select>
+
+                {/* Mostrar categorías seleccionadas abajo */}
+                <div>
+                  {selectedCategories.map((value) => (
+                    <Chip
+                      key={value}
+                      label={value}
+                      onDelete={() => handleRemoveCategory(value)}
+                      deleteIcon={<DeleteIcon />}
+                    />
+                  ))}
+                </div>
+
+                {formik.touched.category && formik.errors.category && (
+                  <FormHelperText>
+                    <WarningIcon
+                      sx={{
+                        verticalAlign: "middle",
+                        marginRight: "5px",
+                        fontSize: "15px",
+                      }}
+                    />
+                    {formik.errors.category}
+                  </FormHelperText>
+                )}
+              </FormControl>
+
               <Typography variant="body2">
                 Ingredientes <span style={{ color: "red" }}>*</span>
               </Typography>
+
               <TextField
-                label="Escribe tus ingredietes o seleccionalos"
+                label="Escribe tus ingredientes o seleccionalos"
                 onKeyDown={handleAddIngredient}
                 fullWidth
                 onBlur={formik.handleBlur}
@@ -270,23 +313,13 @@ export const AddRecipeForm = () => {
                   ) : null
                 }
               />
+
               <Select
                 multiple
                 value={selectedIngredients}
                 //@ts-expect-error no error
                 onChange={(e) => setSelectedIngredients(e.target.value)}
-                renderValue={(selected) => (
-                  <div>
-                    {selected.map((value) => (
-                      <Chip
-                        key={value}
-                        label={value}
-                        onDelete={() => handleRemoveIngredient(value)}
-                        deleteIcon={<DeleteIcon />}
-                      />
-                    ))}
-                  </div>
-                )}
+                renderValue={() => null}
                 fullWidth
               >
                 {ingredients.map((ingredient) => (
@@ -295,13 +328,27 @@ export const AddRecipeForm = () => {
                   </MenuItem>
                 ))}
               </Select>
+
+              {/* Mostrar ingredientes seleccionados abajo */}
+              <div>
+                {selectedIngredients.map((value) => (
+                  <Chip
+                    key={value}
+                    label={value}
+                    onDelete={() => handleRemoveIngredient(value)}
+                    deleteIcon={<DeleteIcon />}
+                  />
+                ))}
+              </div>
             </SectionContainer>
           )}
 
           {/* Sección 3 */}
           {visible === "section3" && (
             <SectionContainer>
-              <Typography variant="h3" sx={{color: '#f48e28'}}>Detalla los pasos a seguir y sube una imagen de ejemplo</Typography>
+              <Typography variant="h3" sx={{ color: "#f48e28" }}>
+                Detalla los pasos a seguir y sube una imagen de ejemplo
+              </Typography>
               <Typography variant="body2">
                 Pasos a seguir <span style={{ color: "red" }}>*</span>
               </Typography>
