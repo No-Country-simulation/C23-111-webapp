@@ -8,14 +8,18 @@ import {
     IconButton,
 } from "@mui/material";
 import ListItemIcon from "@mui/material/ListItemIcon";
+import RamenDiningIcon from "@mui/icons-material/RamenDining";
 import Logout from "@mui/icons-material/Logout";
 import { useState } from "react";
 import { useAuth } from "@/context/authContext";
+import { useRouter } from "next/navigation";
 
 export const UserAvatar = () => {
     const { signOut } = useAuth();
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
+    const router = useRouter();
+
     const handleClick = (e: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(e.currentTarget);
     };
@@ -76,6 +80,12 @@ export const UserAvatar = () => {
                 transformOrigin={{ horizontal: "right", vertical: "top" }}
                 anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
             >
+                <MenuItem onClick={() => router.push("/user/my-recipes")}>
+                    <ListItemIcon>
+                        <RamenDiningIcon fontSize="small" />
+                    </ListItemIcon>
+                    Mis Recetas
+                </MenuItem>
                 <MenuItem onClick={signOut}>
                     <ListItemIcon>
                         <Logout fontSize="small" />

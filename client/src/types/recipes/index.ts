@@ -16,6 +16,7 @@ export type recipesResponseData = {
 
 export type recipe = {
     'id': string,
+    "_id": string,
     'name': string,
     'description': string,
     'category'?: string[],
@@ -26,6 +27,7 @@ export type recipe = {
     'totalRates': number,
     'createdAt'?: string
     missingIngredient?:  string[]
+    status?: string
 }
 
 type rates = {

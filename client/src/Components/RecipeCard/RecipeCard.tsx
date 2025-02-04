@@ -9,11 +9,18 @@ import {
     styled,
     Drawer,
 } from "@mui/material";
-import { recipe, recipeWithRates } from "@/types/recipes";
-type RecipeCardProps = recipe;
 import { useState } from "react";
 import { SidebarRecipeContent } from "./SidebarRecipeContent";
 import { getRatesById, getRecipeById } from "@/services/recipes";
+import { recipe, recipeWithRates } from "@/types/recipes";
+import { usePathname } from "next/navigation";
+
+type RecipeCardProps = {
+    recipe: recipe;
+    sx?: object;
+    status?: string;
+    _id?: string;
+};
 
 const StyledCardContent = styled(CardContent)({
     display: "flex",
@@ -36,11 +43,17 @@ const StyledCard = styled(Card)({
     },
 });
 
-export const RecipeCard: React.FC<{
-    prop: RecipeCardProps & {
-        isAdmin?: boolean;
-    };
-}> = ({ prop }) => {
+export const RecipeCard: React.FC<RecipeCardProps> = ({
+    recipe,
+    sx,
+    status,
+}) => {
+    const [open, setOpen] = useState(false);
+    const [recipeData, setRecipeData] = useState<recipeWithRates>();
+    const [ratesData, setRatesData] = useState([]);
+    const openDrawer = () => setOpen(true);
+    const closeDrawer = () => setOpen(false);
+    const pathname = usePathname();
     const {
         id,
         name,
@@ -51,20 +64,31 @@ export const RecipeCard: React.FC<{
         ingredients,
         image,
         missingIngredient,
-        isAdmin,
-    } = prop;
-    const [open, setOpen] = useState(false);
-    const [recipeData, setRecipeData] = useState<recipeWithRates>();
-    const [ratesData, setRatesData] = useState([]);
-    const openDrawer = () => setOpen(true);
-    const closeDrawer = () => setOpen(false);
+    } = recipe;
 
-    const getRecipeData = async (id: string) => {
+    const backColor = (status: string | undefined) => {
+        switch (status) {
+            case "approved": {
+                return "#7bd76b";
+                break;
+            }
+            case "pending": {
+                return "#F48E28";
+                break;
+            }
+            case "rejected": {
+                return "#red";
+                break;
+            }
+        }
+    };
+
+    const getRecipeData = async (id: string | undefined) => {
         const response = await getRecipeById(id);
         const data = response.data.result.recipeWithRates;
         setRecipeData(data);
     };
-    const getRatesData = async (id: string) => {
+    const getRatesData = async (id: string | undefined) => {
         const response = await getRatesById(id);
         const data = response.data.result;
         setRatesData(data);
@@ -82,13 +106,20 @@ export const RecipeCard: React.FC<{
     return (
         <>
             <StyledCard
-                onClick={() => handleClick(id)}
+                onClick={() => {
+                    if (pathname === "/user/my-recipes") {
+                        alert(status);
+                    } else {
+                        handleClick(id);
+                    }
+                }}
                 sx={{
                     maxWidth: "100%",
+                    ...sx,
                 }}
             >
                 <CardMedia
-                    sx={{ width: "300px", height: "300px", objectFit: "cover" }}
+                    sx={{ width: "300px", height: "auto" }}
                     component="img"
                     image={image}
                     alt="imagen ilustrativa"
@@ -115,16 +146,33 @@ export const RecipeCard: React.FC<{
                                         ingredientes
                                     </Typography>
                                 )}
-                            <Box className="flex gap-2">
-                                <Rating
-                                    readOnly
-                                    value={rateAverage}
-                                    precision={0.5}
-                                />
-                                {totalRates === 0
-                                    ? "Sin calificar"
-                                    : rateAverage}
-                            </Box>
+                            {pathname === "/user/my-recipes" ? (
+                                <Box
+                                    sx={{
+                                        backgroundColor: backColor(status),
+                                        borderRadius: "10px",
+                                        padding: "2px",
+                                    }}
+                                >
+                                    <Typography
+                                        variant="body2"
+                                        sx={{ color: "white" }}
+                                    >
+                                        {status}
+                                    </Typography>
+                                </Box>
+                            ) : (
+                                <Box className="flex gap-2">
+                                    <Rating
+                                        readOnly
+                                        value={rateAverage}
+                                        precision={0.5}
+                                    />
+                                    {totalRates === 0
+                                        ? "Sin calificar"
+                                        : rateAverage}
+                                </Box>
+                            )}
                         </Box>
                         <StyledCardContent sx={{ padding: "0" }}>
                             <Typography variant="caption">
@@ -162,7 +210,6 @@ export const RecipeCard: React.FC<{
                             ...recipeData,
                             rates: ratesData,
                             updateRates: getRatesData,
-                            isAdmin,
                         }}
                     />
                 )}

@@ -20,6 +20,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { rateSchema } from "@/app/auth/_utils/validation/validation";
 import { commentFields } from "@/app/auth/_utils/fields/fields";
 import { useAuth } from "@/context/authContext";
+import { usePathname } from "next/navigation";
 
 type RecipeCardProps = recipeWithRates;
 
@@ -38,10 +39,11 @@ export const SidebarRecipeContent: React.FC<{
         rates,
         rateAverage,
         updateRates,
-        isAdmin,
+        status,
     } = prop;
     const { isAuthenticated } = useAuth();
     const [rating, setRating] = useState(rateAverage);
+    const pathname = usePathname();
     const formik = useFormik({
         initialValues: {
             comment: "",
@@ -170,19 +172,8 @@ export const SidebarRecipeContent: React.FC<{
                     </Box>
                     <Divider />
                     {/* formulario */}
-                    {isAdmin ? (
-                        <>
-                            <Button color="success" variant="contained">
-                                Aceptar
-                            </Button>
-                            <Button
-                                color="error"
-                                variant="contained"
-                                className="mb-5"
-                            >
-                                Rechazar
-                            </Button>
-                        </>
+                    {pathname === "/user/my-recipes" ? (
+                        <Typography variant="h1">{status}</Typography>
                     ) : (
                         <>
                             <Box
@@ -278,6 +269,91 @@ export const SidebarRecipeContent: React.FC<{
                             })}
                         </>
                     )}
+                    {/* <Box
+                        component="div"
+                        className="flex flex-col gap-y-2"
+                        // onSubmit={saveReview}
+                    >
+                        <Typography className="font-semibold text-center">
+                            ¿Qué opinas de esta receta?
+                        </Typography>
+                        {!isAuthenticated ? (
+                            <Typography className="font-semibold text-center text-red-500">
+                                Necesitas iniciar sesión para dejar tu opinión
+                            </Typography>
+                        ) : (
+                            <>
+                                <Box className="flex justify-center mb-3">
+                                    <Rating
+                                        sx={{}}
+                                        name="simple-controlled"
+                                        value={rating}
+                                        disabled={!isAuthenticated}
+                                        onChange={(event, newValue) => {
+                                            setRating(Number(newValue));
+                                        }}
+                                    />
+                                </Box>
+
+                                <Form
+                                    fields={commentFields}
+                                    formik={formik}
+                                    disabled={!isAuthenticated}
+                                >
+                                    <CommonButton
+                                        text="Enviar"
+                                        buttonSize="medium"
+                                        variant="contained"
+                                        fontWeight={600}
+                                        type="submit"
+                                        loading={loading}
+                                        disabled={!isAuthenticated}
+                                    />
+                                </Form>
+                            </>
+                        )}
+                    </Box>
+
+                    <Typography className="font-semibold">
+                        Comentarios
+                    </Typography>
+
+                    {rates.map((rate) => {
+                        return (
+                            <Box className="display flex pb-5" key={rate._id}>
+                                <Avatar
+                                    alt={rate.reviewer?.name}
+                                    src="/static/images/avatar/1.jpg"
+                                />
+                                <Box className="flex flex-col gap-y-2 ml-3 w-full">
+                                    <Box>
+                                        <div className="flex justify-between items-center">
+                                            <Typography className="font-xl font-normal">
+                                                {rate.reviewer?.name ||
+                                                    "Anónimo"}
+                                            </Typography>
+                                            <Typography
+                                                variant="caption"
+                                                className="text-primary font-semibold"
+                                            >
+                                                {convertToDate(rate.createdAt)}
+                                            </Typography>
+                                        </div>
+                                        <Rating
+                                            name="read-only"
+                                            value={rate.rating}
+                                            readOnly
+                                            size="small"
+                                        />
+                                    </Box>
+
+                                    <Typography className="text-gray-500 text-sm">
+                                        {rate.comment}
+                                    </Typography>
+                                </Box>
+                            </Box>
+                        );
+                    })} */}
                 </Box>
             </Box>
         </>
