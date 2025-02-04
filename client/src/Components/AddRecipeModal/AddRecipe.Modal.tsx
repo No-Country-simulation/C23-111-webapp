@@ -1,13 +1,8 @@
-import {
-    Dialog,
-    DialogContent,
-    DialogTitle,
-    Box,
-} from "@mui/material";
+"use client";
+import { Dialog, DialogContent, DialogTitle, Box } from "@mui/material";
 import { CommonButton } from "@/Components";
 import { useState } from "react";
 import { AddRecipeForm } from "./_components/AddRecipeForm";
-
 
 export const AddRecipeModal = () => {
     const [open, setOpen] = useState(false);
@@ -15,7 +10,6 @@ export const AddRecipeModal = () => {
     const handleClick = () => {
         setOpen(!open);
     };
-
 
     return (
         <>
@@ -28,8 +22,8 @@ export const AddRecipeModal = () => {
             <Dialog
                 open={open}
                 onClose={handleClick}
-                maxWidth='lg'
-                sx={{ gap: "15px", '& .MuiPaper-root': {minWidth: '60%'}}}
+                maxWidth="lg"
+                sx={{ gap: "15px", "& .MuiPaper-root": { minWidth: "60%" } }}
             >
                 <Box
                     sx={{
@@ -43,9 +37,10 @@ export const AddRecipeModal = () => {
                         Sube tu propia receta!
                     </DialogTitle>
                     <DialogTitle variant="h4">
-                        Completa los campos y aportar a nuestra gran selección de recetas
+                        Completa los campos y aportar a nuestra gran selección
+                        de recetas
                     </DialogTitle>
-                    <DialogContent sx={{width: '80%'}}>
+                    <DialogContent sx={{ width: "80%" }}>
                         <AddRecipeForm />
                     </DialogContent>
                 </Box>
