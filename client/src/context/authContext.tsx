@@ -40,7 +40,7 @@ const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
-  const [role, setRole] = useState<"user" | "admin">();
+  const [role, setRole] = useState<"user" | "admin" | undefined>(undefined);
   const router = useRouter();
 
   useEffect(() => {
@@ -51,6 +51,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       try {
         const parsedUser = JSON.parse(userData);
         setUser(parsedUser);
+        console.log(parsedUser)
         setRole(parsedUser.rol);
       } catch (error) {
         console.error("Error parsing user data from cookies:", error);
@@ -65,6 +66,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
       Cookies.set("token", token, { expires: 7 });
       Cookies.set("user", JSON.stringify(user), { expires: 7 });
+      //@ts-expect-error no error
+      Cookies.set('rol', role, {expires: 7})
 
       setUser(user);
       router.push("/");
@@ -77,6 +80,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const signOut = () => {
     Cookies.remove("token");
     Cookies.remove("user");
+    Cookies.remove('rol')
     setUser(null);
     router.push("/");
   };
