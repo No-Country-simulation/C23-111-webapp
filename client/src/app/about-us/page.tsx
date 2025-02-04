@@ -5,12 +5,9 @@ import juanImg from "../../../public/img/juan-ramirez.jpg";
 import leandroImg from "../../../public/img/leandro-schugurensky.jpg";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import GitHubIcon from "@mui/icons-material/GitHub";
-import { useRouter } from "next/navigation";
-import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
-import { CommonButton } from "@/Components";
+import { BackButton } from "@/Components/BackButton/BackButton";
 
 export default function AboutUs() {
-    const router = useRouter();
     const compañeros = [
         {
             nombre: "Antonio Navarro",
@@ -54,16 +51,8 @@ export default function AboutUs() {
     return (
         <>
             <div className="w-full min-h-screen p-10 xl:p-15 bg-fondo bg-no-repeat bg-cover">
-                <CommonButton
-                    text="Inicio"
-                    buttonSize="small"
-                    variant="contained"
-                    startIcon={<ArrowBackRoundedIcon />}
-                    clickHandler={() => router.push("/")}
-                    sx={{
-                        mb: "12px",
-                    }}
-                />
+                <BackButton />
+
                 <div className="h-full w-full bg-[#f5f5f5] p-10 rounded-2xl grid grid-cols-1 xl:grid-cols-[700px_1fr]  items-start relative">
                     <div className="xl:sticky top-10 right-0">
                         <h1 className="font-bold text-5xl text-primary">

@@ -1,4 +1,5 @@
 import { RecipeCard } from "@/Components";
+import { BackButton } from "@/Components/BackButton/BackButton";
 import { recipe } from "@/types/recipes";
 import { Box, Typography } from "@mui/material";
 
@@ -137,6 +138,7 @@ export default function AdminPage() {
     return (
         <>
             <Box className="flex flex-col items-center justify-center max-h-full mt-16 w-full px-5">
+                <BackButton />
                 <Typography
                     variant="h1"
                     sx={{
@@ -153,7 +155,6 @@ export default function AdminPage() {
                     Aprueba o rechaza las recetas enviadas por los usuarios.
                     ¡Gracias por mantener nuestra comunidad organizada!
                 </Typography>
-
                 {listRecipes.map((recipe) => {
                     return (
                         <RecipeCard
