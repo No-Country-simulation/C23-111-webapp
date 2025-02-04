@@ -44,11 +44,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     useEffect(() => {
         const token = Cookies.get("token");
         const userData = Cookies.get("user");
-        const userRole = Cookies.get("rol");
-
-        // if (userRole) {
-        //   Cookies.remove("rol");
-        // }
 
         if (token && userData) {
             try {
