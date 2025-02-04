@@ -9,16 +9,18 @@ import {
 } from "@mui/material";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import RamenDiningIcon from "@mui/icons-material/RamenDining";
+import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import Logout from "@mui/icons-material/Logout";
 import { useState } from "react";
 import { useAuth } from "@/context/authContext";
 import { useRouter } from "next/navigation";
 
 export const UserAvatar = () => {
-    const { signOut } = useAuth();
+    const { signOut, user } = useAuth();
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const router = useRouter();
+    const userRol = user?.rol;
 
     const handleClick = (e: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(e.currentTarget);
@@ -80,12 +82,21 @@ export const UserAvatar = () => {
                 transformOrigin={{ horizontal: "right", vertical: "top" }}
                 anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
             >
-                <MenuItem onClick={() => router.push("/user/my-recipes")}>
-                    <ListItemIcon>
-                        <RamenDiningIcon fontSize="small" />
-                    </ListItemIcon>
-                    Mis Recetas
-                </MenuItem>
+                {userRol === "user" ? (
+                    <MenuItem onClick={() => router.push("/user/my-recipes")}>
+                        <ListItemIcon>
+                            <RamenDiningIcon fontSize="small" />
+                        </ListItemIcon>
+                        Mis Recetas
+                    </MenuItem>
+                ) : (
+                    <MenuItem onClick={() => router.push("/admin")}>
+                        <ListItemIcon>
+                            <AdminPanelSettingsIcon fontSize="small" />
+                        </ListItemIcon>
+                        Nuevas recetas
+                    </MenuItem>
+                )}
                 <MenuItem onClick={signOut}>
                     <ListItemIcon>
                         <Logout fontSize="small" />
