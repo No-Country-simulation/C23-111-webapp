@@ -53,6 +53,7 @@ const UserPage = () => {
             <RecipeCard
             key={recipe.id}
             recipe={recipe}
+            _id={recipe._id}
             status={recipe.status}
             sx={{margin: '2% 0'}}
             />

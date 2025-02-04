@@ -47,6 +47,7 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({
     recipe,
     sx,
     status,
+    _id,
 }) => {
     const [open, setOpen] = useState(false);
     const [recipeData, setRecipeData] = useState<recipeWithRates>();
@@ -93,7 +94,7 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({
         const data = response.data.result;
         setRatesData(data);
     };
-    const handleClick = async (id: string) => {
+    const handleClick = async (id: string | undefined) => {
         try {
             await getRecipeData(id);
             await getRatesData(id);
@@ -108,7 +109,7 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({
             <StyledCard
                 onClick={() => {
                     if (pathname === "/user/my-recipes") {
-                        alert(status);
+                        handleClick(_id);
                     } else {
                         handleClick(id);
                     }
