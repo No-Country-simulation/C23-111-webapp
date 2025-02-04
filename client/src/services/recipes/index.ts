@@ -47,3 +47,12 @@ export const getRecipeByUserId = async (id: string) => {
         throw error
     }
 }
+
+export const getRecipesByStatus = async () => {
+    try {
+        const response = await privateInstance.get('/recipes/pending');
+        return response;
+    } catch(error) {
+        throw error;
+    }
+}
