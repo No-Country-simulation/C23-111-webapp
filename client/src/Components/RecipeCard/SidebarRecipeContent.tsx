@@ -21,12 +21,14 @@ import { rateSchema } from "@/app/auth/_utils/validation/validation";
 import { commentFields } from "@/app/auth/_utils/fields/fields";
 import { useAuth } from "@/context/authContext";
 import { usePathname } from "next/navigation";
+import { privateInstance } from "@/services/axios";
 
 type RecipeCardProps = recipeWithRates;
 
 export const SidebarRecipeContent: React.FC<{
     prop: RecipeCardProps & {
         updateRates: (id: string) => void;
+        updateRecipes?: () => void;
         isAdmin?: boolean;
     };
 }> = ({ prop }) => {
@@ -39,8 +41,39 @@ export const SidebarRecipeContent: React.FC<{
         rates,
         rateAverage,
         updateRates,
+        updateRecipes,
         status,
+        _id,
     } = prop;
+    const updateStatusRecipe = async (status: string) => {
+        try {
+            const { data } = await privateInstance(`/recipes/${_id}`, {
+                data: {
+                    status,
+                },
+                method: "patch",
+            });
+            if (updateRecipes) await updateRecipes();
+            toast.success("Receta editada correctamente");
+            console.log(data);
+        } catch (error) {
+            toast.error("Ocurrio un error al editar la receta");
+            console.log(error);
+        }
+    };
+    const deleteRecipe = async () => {
+        try {
+            const { data } = await privateInstance(`/recipes/${_id}`, {
+                method: "delete",
+            });
+            if (updateRecipes) await updateRecipes();
+            console.log(data);
+            toast.success("Receta rechazada");
+        } catch (error) {
+            toast.error("Ocurrio un error al eliminar la receta");
+            console.log(error);
+        }
+    };
     const { isAuthenticated } = useAuth();
     const [rating, setRating] = useState(rateAverage);
     const pathname = usePathname();
@@ -227,13 +260,22 @@ export const SidebarRecipeContent: React.FC<{
 
                             {userRol === "admin" && pathname === "/admin" ? (
                                 <>
-                                    <Button color="success" variant="contained">
+                                    <Button
+                                        color="success"
+                                        variant="contained"
+                                        onClick={() =>
+                                            updateStatusRecipe("approved")
+                                        }
+                                    >
                                         Aceptar
                                     </Button>
                                     <Button
                                         className="mb-5"
                                         color="error"
                                         variant="contained"
+                                        onClick={() =>
+                                            updateStatusRecipe("rejected")
+                                        }
                                     >
                                         Rechazar
                                     </Button>
