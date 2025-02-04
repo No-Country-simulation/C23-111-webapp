@@ -7,14 +7,18 @@ import {
   IconButton,
 } from "@mui/material";
 import ListItemIcon from "@mui/material/ListItemIcon";
-import Logout from '@mui/icons-material/Logout';
+import RamenDiningIcon from "@mui/icons-material/RamenDining";
+import Logout from "@mui/icons-material/Logout";
 import { useState } from "react";
 import { useAuth } from "@/context/authContext";
+import { useRouter } from "next/navigation";
 
 export const UserAvatar = () => {
-    const {signOut} = useAuth()
+  const { signOut } = useAuth();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const router = useRouter()
+
   const handleClick = (e: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(e.currentTarget);
   };
@@ -48,32 +52,39 @@ export const UserAvatar = () => {
           paper: {
             elevation: 0,
             sx: {
-              overflow: 'visible',
-              filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+              overflow: "visible",
+              filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
               mt: 1.5,
-              '& .MuiAvatar-root': {
+              "& .MuiAvatar-root": {
                 width: 32,
                 height: 32,
                 ml: -0.5,
                 mr: 1,
               },
-              '&::before': {
+              "&::before": {
                 content: '""',
-                display: 'block',
-                position: 'absolute',
+                display: "block",
+                position: "absolute",
                 top: 0,
                 right: 14,
                 width: 10,
                 height: 10,
-                bgcolor: 'background.paper',
-                transform: 'translateY(-50%) rotate(45deg)',
+                bgcolor: "background.paper",
+                transform: "translateY(-50%) rotate(45deg)",
                 zIndex: 0,
               },
             },
           },
         }}
-        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}>
+        transformOrigin={{ horizontal: "right", vertical: "top" }}
+        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+      >
+        <MenuItem onClick={() => router.push('/user/my-recipes')}>
+          <ListItemIcon>
+            <RamenDiningIcon fontSize="small" />
+          </ListItemIcon>
+          Mis Recetas
+        </MenuItem>
         <MenuItem onClick={signOut}>
           <ListItemIcon>
             <Logout fontSize="small" />
