@@ -1,3 +1,4 @@
+"use client";
 import { FormControl, TextField, useMediaQuery, Theme } from "@mui/material";
 import WarningIcon from "@mui/icons-material/Warning";
 import theme from "@/theme/theme";

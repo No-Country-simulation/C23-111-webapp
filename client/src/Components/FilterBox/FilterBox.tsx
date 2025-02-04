@@ -1,3 +1,4 @@
+"use client";
 import { Box, Card, Chip, Divider, styled, Typography } from "@mui/material";
 import theme from "@/theme/theme";
 import { useRecipeContext } from "@/context/recipeContext";
