@@ -1,3 +1,4 @@
+"use client";
 import {
     Box,
     Card,
@@ -35,17 +36,23 @@ const StyledCard = styled(Card)({
     },
 });
 
-export const RecipeCard: React.FC<RecipeCardProps> = ({
-    id,
-    name,
-    description,
-    rateAverage,
-    totalRates,
-    totalSteps,
-    ingredients,
-    image,
-    missingIngredient,
-}) => {
+export const RecipeCard: React.FC<{
+    prop: RecipeCardProps & {
+        isAdmin?: boolean;
+    };
+}> = ({ prop }) => {
+    const {
+        id,
+        name,
+        description,
+        rateAverage,
+        totalRates,
+        totalSteps,
+        ingredients,
+        image,
+        missingIngredient,
+        isAdmin,
+    } = prop;
     const [open, setOpen] = useState(false);
     const [recipeData, setRecipeData] = useState<recipeWithRates>();
     const [ratesData, setRatesData] = useState([]);
@@ -81,7 +88,7 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({
                 }}
             >
                 <CardMedia
-                    sx={{ width: "300px", height: "auto" }}
+                    sx={{ width: "300px", height: "300px", objectFit: "cover" }}
                     component="img"
                     image={image}
                     alt="imagen ilustrativa"
@@ -96,34 +103,42 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({
                     }}
                 >
                     <StyledCardContent className="flex flex-col">
-                    <Box className='flex  justify-between'>
-                        <Typography variant="h4">{name}</Typography>
-                        {missingIngredient?.length &&
-                            missingIngredient.length > 0 && (
-                                <Typography
-                                    variant="body2"
-                                    sx={{ color: "red" }}
-                                >
-                                    Te faltan: {missingIngredient?.length}{" "}
-                                    ingredientes
-                                </Typography>
-                            )}
-                            <Box className='flex gap-2'>
-                                <Rating readOnly value={rateAverage} precision={0.5} />
-                                {totalRates === 0 ? 'Sin calificar' : rateAverage}
+                        <Box className="flex  justify-between">
+                            <Typography variant="h4">{name}</Typography>
+                            {missingIngredient?.length &&
+                                missingIngredient.length > 0 && (
+                                    <Typography
+                                        variant="body2"
+                                        sx={{ color: "red" }}
+                                    >
+                                        Te faltan: {missingIngredient?.length}{" "}
+                                        ingredientes
+                                    </Typography>
+                                )}
+                            <Box className="flex gap-2">
+                                <Rating
+                                    readOnly
+                                    value={rateAverage}
+                                    precision={0.5}
+                                />
+                                {totalRates === 0
+                                    ? "Sin calificar"
+                                    : rateAverage}
                             </Box>
-                    </Box>
-                    <StyledCardContent sx={{ padding: "0" }}>
-                        <Typography variant="caption">
-                            📋 {totalSteps} pasos
-                        </Typography>
-                        <Typography variant="caption">
-                            🍴 {ingredients.length} ingredientes
-                        </Typography>
-                    </StyledCardContent>
-                    <CardContent sx={{ padding: "10px 0" }}>
-                        <Typography variant="body1">{description}</Typography>
-                    </CardContent>
+                        </Box>
+                        <StyledCardContent sx={{ padding: "0" }}>
+                            <Typography variant="caption">
+                                📋 {totalSteps} pasos
+                            </Typography>
+                            <Typography variant="caption">
+                                🍴 {ingredients.length} ingredientes
+                            </Typography>
+                        </StyledCardContent>
+                        <CardContent sx={{ padding: "10px 0" }}>
+                            <Typography variant="body1">
+                                {description}
+                            </Typography>
+                        </CardContent>
                     </StyledCardContent>
                 </Box>
             </StyledCard>
@@ -147,6 +162,7 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({
                             ...recipeData,
                             rates: ratesData,
                             updateRates: getRatesData,
+                            isAdmin,
                         }}
                     />
                 )}
