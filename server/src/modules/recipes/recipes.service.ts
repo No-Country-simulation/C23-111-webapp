@@ -89,7 +89,8 @@ const getAllpending = async () => {
       rateAverage: recipe.rateAverage,
       totalRates: recipe.totalRates,
       createdAt: recipe.createdAt,
-      userId: recipe.userId
+      userId: recipe.userId,
+  
     }));
 
     return formattedRecipes;
