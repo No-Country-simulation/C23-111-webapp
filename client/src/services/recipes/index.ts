@@ -12,7 +12,7 @@ export const getAllRecipes = async () =>  {
     }
 }
 
-export const getRecipeById = async (id: string) => {
+export const getRecipeById = async (id: string | undefined) => {
     try {
         const response = await publicInstance.get(`/recipes/${id}`)
         return response;
@@ -20,7 +20,7 @@ export const getRecipeById = async (id: string) => {
         throw error;
     }
 }
-export const getRatesById = async (id: string) => {
+export const getRatesById = async (id: string | undefined) => {
     try {
         const response = await publicInstance.get(`/rates/${id}`)
         return response;
@@ -34,6 +34,15 @@ export const addRecipe = async (recipe: createRecipe) => {
     try {
         const response = await privateInstance.post('/recipes', data);
         return response.data.result;
+    } catch(error) {
+        throw error
+    }
+}
+
+export const getRecipeByUserId = async (id: string) => {
+    try {
+        const response = await privateInstance.get(`/user/${id}`);
+        return response;
     } catch(error) {
         throw error
     }

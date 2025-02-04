@@ -73,14 +73,7 @@ export const RecipeList = () => {
                             exit="exit"
                         >
                             <RecipeCard
-                                id={recipe.id}
-                                description={recipe.description}
-                                name={recipe.name}
-                                totalRates={recipe.totalRates}
-                                rateAverage={recipe.rateAverage}
-                                ingredients={recipe.ingredients}
-                                image={recipe.image}
-                                totalSteps={recipe.totalSteps}
+                            recipe={recipe}
                             />
                         </motion.div>
                     ))}
@@ -103,15 +96,7 @@ export const RecipeList = () => {
                             exit="exit"
                         >
                             <RecipeCard
-                                id={recipe.id}
-                                description={recipe.description}
-                                name={recipe.name}
-                                totalRates={recipe.totalRates}
-                                rateAverage={recipe.rateAverage}
-                                ingredients={recipe.ingredients}
-                                image={recipe.image}
-                                totalSteps={recipe.totalSteps}
-                                missingIngredient={recipe.missingIngredient}
+                            recipe={recipe}
                             />
                         </motion.div>
                     ))}

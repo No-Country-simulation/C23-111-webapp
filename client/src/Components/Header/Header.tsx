@@ -36,11 +36,16 @@ const FrameBox = styled(Box)({
     },
 });
 
-export const Header: React.FC = () => {
+type HeaderProps = {
+    sx?: object
+}
+
+export const Header: React.FC<HeaderProps> = ({sx}) => {
     const router = useRouter();
     const { isAuthenticated, user } = useAuth();
     return (
-        <StyledHeader>
+        <StyledHeader
+        sx={sx}>
             {/* <div></div> */}
             <FrameBox>
                 <Link href="/">
