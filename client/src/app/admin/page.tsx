@@ -1,7 +1,7 @@
-import { RecipeCard } from "@/Components";
-import { BackButton } from "@/Components/BackButton/BackButton";
+import { RecipeCard, Header } from "@/Components";
 import { recipe } from "@/types/recipes";
 import { Box, Typography } from "@mui/material";
+import Grid from '@mui/material/Grid2'
 
 export default function AdminPage() {
     const listRecipes: recipe[] = [
@@ -137,8 +137,8 @@ export default function AdminPage() {
     ];
     return (
         <>
+        <Header />
             <Box className="flex flex-col items-center justify-center max-h-full mt-16 w-full px-5">
-                <BackButton />
                 <Typography
                     variant="h1"
                     sx={{
@@ -155,16 +155,22 @@ export default function AdminPage() {
                     Aprueba o rechaza las recetas enviadas por los usuarios.
                     ¡Gracias por mantener nuestra comunidad organizada!
                 </Typography>
+                <Typography variant="h4" sx={{marginTop: '4%'}}>Hay <span style={{color: '#F48E28'}}>{listRecipes.length}</span> recetas pendiente de aprobación</Typography>
+                <Grid className='flex justify-center mt-15' container spacing={2}>
                 {listRecipes.map((recipe) => {
                     return (
+                        <Grid key={recipe.id} size={{lg: 5, md: 7}}>
                         <RecipeCard
+                        sx={{margin: '2% 0'}}
                             key={recipe.id}
                             recipe={recipe}
                             _id={recipe._id}
-                            // status={recipe.status}
-                        ></RecipeCard>
+                            status={recipe.status}
+                        />
+                        </Grid>
                     );
                 })}
+                </Grid>
             </Box>
         </>
     );
