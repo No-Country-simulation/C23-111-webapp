@@ -28,6 +28,7 @@ const UserPage = () => {
 
     const fetchRecipes = async (id: string) => {
       try {
+        setLoading(true)
         const response = await getRecipeByUserId(id);
         setUserRecipes(response.data.user.myRecipes);
       } catch (error) {
