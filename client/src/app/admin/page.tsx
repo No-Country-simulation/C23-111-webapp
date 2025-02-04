@@ -1,8 +1,9 @@
 import { RecipeCard } from "@/Components";
+import { recipe } from "@/types/recipes";
 import { Box, Typography } from "@mui/material";
 
 export default function AdminPage() {
-    const listRecipes = [
+    const listRecipes: recipe[] = [
         {
             id: "67a0d94402bbe3e9f90e6da7",
             name: "Ensalada de quinoa y vegetales",
@@ -24,7 +25,7 @@ export default function AdminPage() {
             rateAverage: 0,
             totalRates: 0,
             createdAt: "2025-02-03T14:57:08.094Z",
-            userId: "67a0d49ec4b97d540ce9a537",
+            _id: "67a0d49ec4b97d540ce9a537",
         },
         {
             id: "67a0da4d02bbe3e9f90e6dac",
@@ -49,7 +50,7 @@ export default function AdminPage() {
             rateAverage: 0,
             totalRates: 0,
             createdAt: "2025-02-03T15:01:33.667Z",
-            userId: "67a0d49ec4b97d540ce9a537",
+            _id: "67a0d49ec4b97d540ce9a537",
         },
         {
             id: "67a0db6695942dfe6484c3ef",
@@ -72,7 +73,7 @@ export default function AdminPage() {
             rateAverage: 0,
             totalRates: 0,
             createdAt: "2025-02-03T15:06:14.868Z",
-            userId: "67a0d49ec4b97d540ce9a537",
+            _id: "67a0d49ec4b97d540ce9a537",
         },
         {
             id: "67a0dc3b95942dfe6484c3f2",
@@ -86,7 +87,7 @@ export default function AdminPage() {
             rateAverage: 0,
             totalRates: 0,
             createdAt: "2025-02-03T15:09:47.874Z",
-            userId: "67a0d49ec4b97d540ce9a537",
+            _id: "67a0d49ec4b97d540ce9a537",
         },
         {
             id: "67a0dc9b95942dfe6484c3f5",
@@ -107,7 +108,7 @@ export default function AdminPage() {
             rateAverage: 0,
             totalRates: 0,
             createdAt: "2025-02-03T15:11:23.658Z",
-            userId: "67a0d49ec4b97d540ce9a537",
+            _id: "67a0d49ec4b97d540ce9a537",
         },
         {
             id: "67a0dcf995942dfe6484c3f9",
@@ -130,7 +131,7 @@ export default function AdminPage() {
             rateAverage: 0,
             totalRates: 0,
             createdAt: "2025-02-03T15:12:57.912Z",
-            userId: "67a0d49ec4b97d540ce9a537",
+            _id: "67a0d49ec4b97d540ce9a537",
         },
     ];
     return (
@@ -157,7 +158,9 @@ export default function AdminPage() {
                     return (
                         <RecipeCard
                             key={recipe.id}
-                            prop={{ ...recipe, isAdmin: true }}
+                            recipe={recipe}
+                            _id={recipe._id}
+                            // status={recipe.status}
                         ></RecipeCard>
                     );
                 })}

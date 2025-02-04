@@ -55,6 +55,7 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({
     const openDrawer = () => setOpen(true);
     const closeDrawer = () => setOpen(false);
     const pathname = usePathname();
+
     const {
         id,
         name,
