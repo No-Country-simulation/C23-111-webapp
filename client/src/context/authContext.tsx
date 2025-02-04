@@ -29,7 +29,6 @@ interface LogInCredentials {
 
 interface AuthContextProps {
   user: User | null;
-  role: string | undefined;
   isAuthenticated: boolean;
   signIn: (credentials: LogInCredentials) => Promise<void>;
   register: (credentials: signUpCredentials) => Promise<void>;
@@ -40,18 +39,21 @@ const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
-  const [role, setRole] = useState<"user" | "admin">();
   const router = useRouter();
 
   useEffect(() => {
     const token = Cookies.get("token");
     const userData = Cookies.get("user");
+    const userRole = Cookies.get("rol");
+
+    if (userRole) {
+      Cookies.remove("rol");
+    }
 
     if (token && userData) {
       try {
         const parsedUser = JSON.parse(userData);
         setUser(parsedUser);
-        setRole(parsedUser.rol);
       } catch (error) {
         console.error("Error parsing user data from cookies:", error);
       }
@@ -63,8 +65,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       const response = await logIn(credentials);
       const { token, user } = response.data;
 
-      Cookies.set("token", token, { expires: 7 });
-      Cookies.set("user", JSON.stringify(user), { expires: 7 });
+      Cookies.set("token", token, { expires: 1 });
+      Cookies.set("user", JSON.stringify(user), { expires: 1 });
+      Cookies.set("rol", user.rol);
 
       setUser(user);
       router.push("/");
@@ -77,6 +80,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const signOut = () => {
     Cookies.remove("token");
     Cookies.remove("user");
+    Cookies.remove("rol");
     setUser(null);
     router.push("/");
   };
@@ -106,7 +110,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     <AuthContext.Provider
       value={{
         user,
-        role,
         isAuthenticated: !!user,
         signIn,
         register,
