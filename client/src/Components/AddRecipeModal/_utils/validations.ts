@@ -12,23 +12,15 @@ export const AddRecipeSchema = Yup.object().shape({
   .required('Este campo es obligatorio')
 ,
   category: Yup.array()
-    .of(Yup.string())
     .min(1, "Elige al menos una categoría")
     .required("Este campo es obligatorio"),
 
-  ingredients: Yup.string()
-  .min(1, 'Debe tener al menos 1 caracter')
-  .max(15, 'Has alcanzado el limite de caracteres')
+  ingredients: Yup.array()
   .required('Este campo es obligatorio')
 ,
   steps:
-      Yup.string()
-        .min(5, "Cada paso debe tener al menos 5 caracteres")
-        .max(250, "Has excedido el límite de caracteres por paso")
+      Yup.array()
     .required("Este campo es obligatorio"),
-
-  file: Yup.mixed()
-    .required("Este campo es obligatorio")
 });
 
 
