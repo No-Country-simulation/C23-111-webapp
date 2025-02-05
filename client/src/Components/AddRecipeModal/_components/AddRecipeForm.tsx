@@ -12,7 +12,7 @@ import {
   FormControl,
   FormHelperText,
 } from "@mui/material";
-// import { AddRecipeSchema } from "../_utils/validations";
+import { AddRecipeSchema } from "../_utils/validations";
 import { useAuth } from "@/context/authContext";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
@@ -53,7 +53,7 @@ export const AddRecipeForm = () => {
       category: [],
       file: null,
     },
-    // validationSchema: AddRecipeSchema,
+    validationSchema: AddRecipeSchema,
     onSubmit: async (values, {resetForm}) => {
       const formData = new FormData();
       formData.append("name", values.name);
@@ -135,8 +135,6 @@ export const AddRecipeForm = () => {
     if (visible === "section3") setVisible("section2");
     else if (visible === "section2") setVisible("section1");
   };
-  //@ts-expect-error no error
-  const touchedAndError = formik.touched[name] && formik.errors[name];
 
   return (
     <Box sx={{ display: "flex", width: "100%" }}>
@@ -179,8 +177,7 @@ export const AddRecipeForm = () => {
                         }}
                       />
                       <span style={{ verticalAlign: "middle" }}>
-                        {/* @ts-expect-error no error */}
-                        {formik.errors[name]}
+                        {formik.errors.name}
                       </span>
                     </>
                   )
@@ -213,8 +210,7 @@ export const AddRecipeForm = () => {
                         }}
                       />
                       <span style={{ verticalAlign: "middle" }}>
-                        {/* @ts-expect-error no error */}
-                        {formik.errors[name]}
+                        {formik.errors.description}
                       </span>
                     </>
                   )
@@ -294,9 +290,9 @@ export const AddRecipeForm = () => {
                 onKeyDown={handleAddIngredient}
                 fullWidth
                 onBlur={formik.handleBlur}
-                error={!!touchedAndError}
+                error={formik.touched.ingredients && Boolean(formik.errors.ingredients)}
                 helperText={
-                  touchedAndError ? (
+                  formik.touched.ingredients && formik.errors.ingredients && (
                     <>
                       <WarningIcon
                         sx={{
@@ -306,11 +302,10 @@ export const AddRecipeForm = () => {
                         }}
                       />
                       <span style={{ verticalAlign: "middle" }}>
-                        {/* @ts-expect-error no error */}
-                        {formik.errors[name]}
+                        {formik.errors.ingredients}
                       </span>
                     </>
-                  ) : null
+                  )
                 }
               />
 
@@ -358,10 +353,10 @@ export const AddRecipeForm = () => {
                 onChange={(e) => setStepInput(e.target.value)}
                 onKeyDown={handleAddStep}
                 fullWidth
-                error={!!touchedAndError}
+                error={formik.touched.steps && Boolean(formik.errors.steps)}
                 onBlur={formik.handleBlur}
                 helperText={
-                  touchedAndError ? (
+                  formik.touched.steps && formik.errors.steps && (
                     <>
                       <WarningIcon
                         sx={{
@@ -371,11 +366,10 @@ export const AddRecipeForm = () => {
                         }}
                       />
                       <span style={{ verticalAlign: "middle" }}>
-                        {/* @ts-expect-error no error */}
-                        {formik.errors[name]}
+                        {formik.errors.steps}
                       </span>
                     </>
-                  ) : null
+                  )
                 }
               />
               {steps.map((step, index) => (

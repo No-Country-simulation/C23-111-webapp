@@ -57,7 +57,7 @@ export default function Home() {
             }}
           >
             <Header />
-            <Box className="flex flex-col items-center justify-center max-h-full mt-5 w-full px-5">
+            <Box className="flex flex-col items-center justify-center max-h-full mt-20 w-full gap-4 px-5">
               <Typography
                 variant="h1"
                 sx={{
