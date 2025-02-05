@@ -13,9 +13,12 @@ module.exports = {
     extend: {
       colors: {
         primary: "#F48E28"
-      }
+      },
+      backgroundImage: {
+        'fondo': "url('/food.jpg')",
+      },
     },
   },
   plugins: [],
-}
+};
 

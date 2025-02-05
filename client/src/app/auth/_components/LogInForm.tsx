@@ -1,14 +1,17 @@
 import Grid from "@mui/material/Grid2";
-import { styled, Button, Typography, Box, Divider } from "@mui/material";
-import { Form } from "@/Components";
+import { styled, Typography, Box, Divider } from "@mui/material";
+import { Form, CommonButton } from "@/Components";
 import { useFormik } from "formik";
 import { logInSchema, logInfields } from "../_utils";
 import Image from "next/image";
+import { useAuth } from "@/context/authContext";
+import { useState } from "react";
+import { toast } from "react-toastify";
 
 const FormBox = styled(Grid)({
   display: "flex",
   alignItems: "center",
-  justifyContent: 'space-around',
+  justifyContent: "space-around",
   height: "600px",
   backgroundColor: "#ffff",
   borderRadius: "10px",
@@ -28,14 +31,25 @@ const FrameBox = styled(Box)({
 });
 
 export const LogInForm: React.FC = () => {
-  const initialValues = Object.fromEntries(
-    logInfields?.map((field) => [field?.name, ""])
-  );
+  const { signIn } = useAuth();
+  const [loading, setLoading] = useState(false);
   const formik = useFormik({
-    initialValues,
+    initialValues: {
+      email: "",
+      password: "",
+    },
     validationSchema: logInSchema,
-    onSubmit: (values) => {
-      console.log(values);
+    onSubmit: async (values) => {
+      try {
+        setLoading(true);
+        await signIn(values);
+      } catch (error) {
+        if (error) {
+          toast.error(`${error}`);
+        }
+      } finally {
+        setLoading(false);
+      }
     },
   });
   return (
@@ -59,12 +73,15 @@ export const LogInForm: React.FC = () => {
           </Typography>
           <Typography variant="body2">Nos alegra tenerte de vuelta.</Typography>
         </>
-        <Form fields={logInfields} formik={formik}>
-          <Button variant="contained" type="submit">
-            <Typography sx={{ color: "#fff" }} variant="body1">
-              Iniciar sesión
-            </Typography>
-          </Button>
+        <Form sx={{ width: "60%" }} fields={logInfields} formik={formik}>
+          <CommonButton
+            text="Iniciar sesión"
+            buttonSize="medium"
+            variant="contained"
+            fontWeight={600}
+            type="submit"
+            loading={loading}
+          />
         </Form>
       </Grid>
 

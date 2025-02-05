@@ -1,3 +1,4 @@
+"use client";
 import { Box, Card, Chip, Divider, styled, Typography } from "@mui/material";
 import theme from "@/theme/theme";
 import { useRecipeContext } from "@/context/recipeContext";
@@ -76,7 +77,6 @@ export const FilterBox: React.FC<FilterBoxProps> = ({
     };
     const isIngredient = title.toLocaleLowerCase().includes("ingredient");
     const clear = () => {
-        console.log("clear", title);
         if (isIngredient) {
             setSelectedIngredients([]);
         } else {
@@ -94,10 +94,10 @@ export const FilterBox: React.FC<FilterBoxProps> = ({
         <>
             <Card
                 sx={{
-                    maxWidth: "330",
-
+                    display: "flex",
+                    flexDirection: "column",
+                    maxWidth: "90%",
                     py: 1,
-
                     borderRadius: 2,
                     boxShadow: "none",
                 }}
