@@ -157,8 +157,8 @@ const backColor = (status: string | undefined) => {
 
               {pathname === "/" && (
                 <Box className="flex gap-2">
-                  <Rating readOnly value={rateAverage} precision={0.5} />
-                  ({totalRates}){totalRates === 0 ? "Sin calificar" : rateAverage}
+                 ({totalRates}) <Rating readOnly value={rateAverage} precision={0.5} />
+                  {totalRates === 0 ? "Sin calificar" : rateAverage.toFixed(1)}
                 </Box>
               )}
             </Box>

@@ -57,7 +57,7 @@ export const SidebarRecipeContent: React.FC<{
   } = prop;
   const updateStatusRecipe = async (status: string) => {
     try {
-      const { data } = await privateInstance(`/recipes/${_id}`, {
+       await privateInstance(`/recipes/${_id}`, {
         data: {
           status,
         },
@@ -65,10 +65,8 @@ export const SidebarRecipeContent: React.FC<{
       });
       if (updateRecipes) await updateRecipes();
       toast.success("Receta editada correctamente");
-      console.log(data);
     } catch (error) {
-      toast.error("Ocurrio un error al editar la receta");
-      console.log(error);
+      toast.error(`Ocurrio un error al editar la receta ${error}`);
     }
   };
   // const deleteRecipe = async () => {
@@ -116,16 +114,12 @@ export const SidebarRecipeContent: React.FC<{
   const addRate = async (comment: string) => {
     try {
       setLoading(true);
-      const response = await addRateById(prop._id, {
+      await addRateById(prop._id, {
         comment,
         rating: rating,
         reviewer: user?._id ?? "",
         recipe: prop._id,
       });
-      const data = response.data.result;
-
-      console.log("addRate", data);
-
       await updateRates(prop._id);
 
       toast.success("¡Gracias por tu opinión!");

@@ -4,7 +4,6 @@ import { NextRequest } from "next/server";
 export async function middleware(req: NextRequest) {
     const token = req.cookies.get('token');
     const role = req.cookies.get('rol');
-    console.log({token,role})
     const {pathname} = req.nextUrl;
 
     if (token && (pathname === '/auth')) {
